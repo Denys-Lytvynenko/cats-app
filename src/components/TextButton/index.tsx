@@ -1,5 +1,7 @@
 import { FC } from "react";
 
+import { cn } from "@utils/classNames";
+
 import { TextButtonProps } from "./types";
 
 import "./styles.scss";
@@ -9,10 +11,7 @@ const TextButton: FC<TextButtonProps> = ({
     className,
     children,
 }) => (
-    <button
-        type={type}
-        className={`textButton${className ? ` ${className}` : ""}`}
-    >
+    <button type={type} className={cn("textButton", className)}>
         {children}
     </button>
 );

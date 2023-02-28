@@ -1,4 +1,4 @@
-import TextButton from "./components/TextButton";
+import TextButton from "@components/TextButton";
 
 import "./App.scss";
 
