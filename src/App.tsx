@@ -1,11 +1,11 @@
-import "./App.sass";
+import TextButton from "./components/TextButton";
 
-import HomePage from "./pages/home";
+import "./App.scss";
 
 const App = () => {
     return (
         <div className="App">
-            <HomePage />
+            <TextButton>Upload</TextButton>
         </div>
     );
 };
