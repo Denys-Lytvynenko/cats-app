@@ -1,5 +1,13 @@
+import "./App.sass";
+
+import HomePage from "./pages/home";
+
 const App = () => {
-    return <div>hello world</div>;
+    return (
+        <div className="App">
+            <HomePage />
+        </div>
+    );
 };
 
 export default App;
