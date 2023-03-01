@@ -28,7 +28,7 @@
     }
 
     &.text-button {
-        border-radius: 1rem;
+        border-radius: 10px;
         padding: 10px 30px;
     }
 
@@ -39,12 +39,12 @@
 
         &.small {
             padding: 10px;
-            border-radius: 1rem;
+            border-radius: 10px;
         }
 
         &.large {
             padding: 15px;
-            border-radius: 2rem;
+            border-radius: 20px;
         }
 
         path {
@@ -61,11 +61,11 @@
     &.icon-text-button {
         align-items: center;
         background-color: $hoverColor;
-        border-radius: 1rem;
+        border-radius: 10px;
         display: flex;
-        gap: 1rem;
+        gap: 10px;
         justify-content: center;
-        padding: 1.2rem 3rem;
+        padding: 12px 30px;
 
         path {
             fill: $accentColor;
