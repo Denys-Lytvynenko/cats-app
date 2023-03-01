@@ -1,18 +1,14 @@
-import Card from "./components/Card";
-
-import voteTable from "@assets/images/vote-table.png";
+import Select from "./components/Select";
 
 import "./App.scss";
+
+const options = [{ value: "Random" }, { value: "Desc" }, { value: "Asc" }];
 
 const App = () => {
     return (
         <div className="App">
-            <Card
-                name="voting"
-                href="/"
-                image={voteTable}
-                backgroundColor="#B4B7FF"
-            />
+            <Select name="order" label="order" options={options} />
+            <Select name="order" options={options} accentColor="gray" />
         </div>
     );
 };
