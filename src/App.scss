@@ -1,5 +1,9 @@
 @use "./variables" as *;
 
+* {
+    box-sizing: border-box;
+}
+
 html {
     background-color: #f8f8f7;
     font-family: $font-regular;
