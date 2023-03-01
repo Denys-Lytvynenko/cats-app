@@ -1,33 +1,18 @@
-import Button from "@components/Button";
+import Card from "./components/Card";
 
-import { ReactComponent as Arrow } from "@assets/arrow-left.svg";
+import voteTable from "@assets/images/vote-table.png";
 
 import "./App.scss";
 
 const App = () => {
     return (
         <div className="App">
-            <Button>Upload</Button>
-            <hr />
-            <Button
-                buttonStyle="icon-button"
-                size="small"
-                ariaLabel="back button"
-            >
-                <Arrow />
-            </Button>
-            <Button
-                buttonStyle="icon-button"
-                size="large"
-                ariaLabel="back button"
-            >
-                <Arrow />
-            </Button>
-            <hr />
-            <Button buttonStyle="icon-text-button" ariaLabel="upload button">
-                <Arrow />
-                Upload
-            </Button>
+            <Card
+                name="voting"
+                href="/"
+                image={voteTable}
+                backgroundColor="#B4B7FF"
+            />
         </div>
     );
 };

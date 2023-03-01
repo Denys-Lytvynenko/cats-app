@@ -10,6 +10,7 @@
     line-height: 1.6rem;
     outline: none;
     text-align: center;
+    text-decoration: none;
     text-transform: uppercase;
     transition: $transition;
 
@@ -28,7 +29,7 @@
 
     &.text-button {
         border-radius: 1rem;
-        padding: 12px 30px;
+        padding: 10px 30px;
     }
 
     &.icon-button {
