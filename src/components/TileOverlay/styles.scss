@@ -1,0 +1,25 @@
+@use "variables" as *;
+
+.tile-overlay {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    &__background {
+        background-color: $tileOverlayColor;
+        height: 100%;
+        opacity: 0;
+        transition: $transition;
+        visibility: hidden;
+        width: 100%;
+    }
+
+    &:hover {
+        .tile-overlay__background {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}

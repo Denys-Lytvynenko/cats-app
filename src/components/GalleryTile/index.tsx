@@ -1,9 +1,12 @@
 import { FC } from "react";
 
-import { GalleryTileProps } from "./types";
 import { cn } from "../../utils/classNames";
+import { GalleryTileProps } from "./types";
+
+import TileOverlay from "../TileOverlay";
 
 import "./styles.scss";
+import Button from "../Button";
 
 const GalleryTile: FC<GalleryTileProps> = ({
     image,
@@ -14,6 +17,8 @@ const GalleryTile: FC<GalleryTileProps> = ({
     return (
         <figure className={cn("tile", className)}>
             <img src={image} className="tile__image" alt={name} />
+
+            <TileOverlay />
         </figure>
     );
 };
