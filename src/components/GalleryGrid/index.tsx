@@ -9,6 +9,7 @@ import cat from "@assets/images/cat.png";
 import "./styles.scss";
 
 const GalleryGrid: FC<GalleryGridProps> = ({}) => {
+    // add real data
     const tiles = useMemo(() => {
         const data = Array(13);
 
