@@ -26,10 +26,6 @@
     }
 
     &__item {
-        background-color: $gray;
-        border-radius: 20px;
-        overflow: hidden;
-
         &:first-child {
             grid-area: tile1;
         }
@@ -46,14 +42,8 @@
             grid-area: tile4;
         }
 
-        &:last-child {
+        &:nth-child(5) {
             grid-area: tile5;
         }
-    }
-
-    &__image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
     }
 }

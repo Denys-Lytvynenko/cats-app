@@ -1,6 +1,8 @@
-import React, { FC, useMemo } from "react";
+import { FC, useMemo } from "react";
 
 import { GalleryGridProps } from "./types";
+
+import GalleryTile from "../GalleryTile";
 
 import cat from "@assets/images/cat.png";
 
@@ -8,80 +10,44 @@ import "./styles.scss";
 
 const GalleryGrid: FC<GalleryGridProps> = ({}) => {
     const tiles = useMemo(() => {
-        const data = Array(15);
+        const data = Array(13);
 
-        let items = [];
-        let test = [];
+        let rows = [];
+        let row = [];
 
         for (let i = 1; i <= data.length; i++) {
-            test.push(i);
+            row.push(
+                <GalleryTile
+                    key={i}
+                    href="#"
+                    image={cat}
+                    name="cat"
+                    className="gallery__item"
+                />
+            );
 
             if (i % 5 === 0) {
-                items.push(test);
-                test = [];
+                rows.push(
+                    <div key={rows.length} className="gallery__wrapper">
+                        {row}
+                    </div>
+                );
+                row = [];
+            }
+
+            if (i === data.length) {
+                rows.push(
+                    <div key={rows.length} className="gallery__wrapper">
+                        {row}
+                    </div>
+                );
             }
         }
 
-        return items;
+        return rows;
     }, []);
 
-    console.log(tiles);
-
-    return (
-        <div className="gallery">
-            <div className="gallery__wrapper">
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-            </div>
-            <div className="gallery__wrapper">
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-            </div>
-            <div className="gallery__wrapper">
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-                <figure className="gallery__item">
-                    <img src={cat} className="gallery__image" alt="" />
-                </figure>
-            </div>
-        </div>
-    );
+    return <div className="gallery">{tiles}</div>;
 };
 
 export default GalleryGrid;
