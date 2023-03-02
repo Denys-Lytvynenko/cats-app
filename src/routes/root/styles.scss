@@ -1,0 +1,50 @@
+@use "variables" as *;
+
+.app {
+    display: flex;
+    flex-grow: 1;
+
+    .header {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        padding: 30px 0;
+    }
+
+    &__title {
+        margin-top: 50px;
+    }
+
+    &__welcome-text {
+        margin-top: 10px;
+    }
+
+    &__subtitle {
+        margin-top: 60px;
+    }
+
+    &__side-wrapper {
+        display: flex;
+        flex-basis: 50%;
+        justify-content: center;
+    }
+
+    &__navigation {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .cards {
+        display: flex;
+        gap: 16px;
+        margin-top: 20px;
+    }
+
+    .content {
+        display: flex;
+        flex-basis: 50%;
+    }
+}
