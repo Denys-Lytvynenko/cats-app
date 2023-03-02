@@ -10,12 +10,10 @@ const GalleryTile: FC<GalleryTileProps> = ({
     name,
     href,
     className,
-}) => {
-    return (
-        <figure className={cn("tile", className)}>
-            <img src={image} className="tile__image" alt={name} />
-        </figure>
-    );
-};
-
+}) => (
+    <figure className={cn("tile", className)}>
+        <img src={image} className="tile__image" alt={name} />
+    </figure>
+);
+// TODO add hover component
 export default GalleryTile;
