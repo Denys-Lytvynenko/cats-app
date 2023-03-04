@@ -15,6 +15,7 @@ const Button: FC<ButtonProps> = ({
     href,
     className,
     ariaLabel,
+    fill,
     children,
 }) => {
     const onClickHandler = () => {
@@ -23,13 +24,28 @@ const Button: FC<ButtonProps> = ({
     };
 
     return href ? (
-        <Link to={href} className={cn("button", buttonStyle, size, className)}>
+        <Link
+            to={href}
+            className={cn(
+                "button",
+                buttonStyle,
+                size,
+                fill ? "fill" : "",
+                className
+            )}
+        >
             {children}
         </Link>
     ) : (
         <button
             type={type}
-            className={cn("button", buttonStyle, size, className)}
+            className={cn(
+                "button",
+                buttonStyle,
+                size,
+                fill ? "fill" : "",
+                className
+            )}
             aria-label={ariaLabel}
             onClick={onClickHandler}
         >

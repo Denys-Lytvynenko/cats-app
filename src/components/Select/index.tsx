@@ -1,12 +1,13 @@
 import { FC, useMemo } from "react";
 
-import { cn } from "../../utils/classNames";
+import { cn } from "@utils/classNames";
 import { SelectProps } from "./types";
 
 import "./styles.scss";
 
 const Select: FC<SelectProps> = ({
     name,
+    title,
     label,
     options,
     accentColor,
@@ -33,6 +34,7 @@ const Select: FC<SelectProps> = ({
                     name={name}
                     id={name}
                     className={cn("select__input", accentColor)}
+                    title={title}
                 >
                     {optionsList}
                 </select>

@@ -1,0 +1,13 @@
+@use "variables" as *;
+
+.breeds {
+    &__top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    &__type-select {
+        flex-grow: 1;
+    }
+}

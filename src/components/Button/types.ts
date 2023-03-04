@@ -8,5 +8,6 @@ export interface ButtonProps {
     onClick?: () => void;
     className?: string;
     ariaLabel?: string;
+    fill?: boolean;
     children?: ReactNode;
 }
