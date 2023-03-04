@@ -3,4 +3,7 @@ export const routes = {
     voting: "/voting",
     breeds: "/breeds",
     gallery: "/gallery",
+    likes: "/likes",
+    dislikes: "/dislikes",
+    favourites: "/favourites",
 };

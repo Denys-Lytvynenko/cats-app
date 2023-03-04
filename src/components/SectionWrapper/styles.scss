@@ -1,0 +1,11 @@
+@use "variables" as *;
+
+.section-wrapper {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border-radius: $borderRadius20;
+    background-color: $white;
+}
