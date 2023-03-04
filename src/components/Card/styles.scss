@@ -11,7 +11,7 @@
     &__image {
         align-items: center;
         border-color: rgba(255, 255, 255, 0.6);
-        border-radius: 20px;
+        border-radius: $borderRadius20;
         border-style: solid;
         border-width: 4px;
         display: flex;

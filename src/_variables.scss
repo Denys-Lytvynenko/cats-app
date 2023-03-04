@@ -10,5 +10,23 @@ $lightGray: #f8f8f7;
 $tileOverlayColor: rgba(255, 134, 142, 0.6);
 $white: #ffffff;
 
+// border-radius
+$borderRadius10: 10px;
+$borderRadius20: 20px;
+
 // transitions
 $transition: all 0.3s ease;
+
+// @mixins
+@mixin absoluteCenter {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@mixin flexCenter {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
