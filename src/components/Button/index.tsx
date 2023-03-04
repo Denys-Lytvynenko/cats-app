@@ -11,12 +11,18 @@ const Button: FC<ButtonProps> = ({
     type = "button",
     buttonStyle = "text-button",
     size,
+    onClick,
     href,
     className,
     ariaLabel,
     children,
-}) =>
-    href ? (
+}) => {
+    const onClickHandler = () => {
+        if (!onClick) return;
+        onClick();
+    };
+
+    return href ? (
         <Link to={href} className={cn("button", buttonStyle, size, className)}>
             {children}
         </Link>
@@ -25,9 +31,11 @@ const Button: FC<ButtonProps> = ({
             type={type}
             className={cn("button", buttonStyle, size, className)}
             aria-label={ariaLabel}
+            onClick={onClickHandler}
         >
             {children}
         </button>
     );
+};
 
 export default Button;

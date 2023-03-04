@@ -5,6 +5,7 @@ export interface ButtonProps {
     size?: "small" | "large";
     type?: "button" | "reset" | "submit";
     href?: string;
+    onClick?: () => void;
     className?: string;
     ariaLabel?: string;
     children?: ReactNode;

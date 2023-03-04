@@ -1,12 +1,19 @@
 import { FC } from "react";
-import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+import {
+    isRouteErrorResponse,
+    useNavigate,
+    useRouteError,
+} from "react-router-dom";
 
+import Button from "@components/Button";
 import Typography from "@components/Typography";
 
 import "./styles.scss";
 
 const ErrorPage: FC = () => {
     const error = useRouteError();
+    const navigate = useNavigate();
+    const goBack = () => navigate(-1);
 
     return (
         <div className="error-page">
@@ -23,6 +30,8 @@ const ErrorPage: FC = () => {
                     "Unknown error"
                 )}
             </Typography>
+
+            <Button onClick={goBack}>Go back</Button>
         </div>
     );
 };
