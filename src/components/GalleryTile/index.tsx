@@ -18,7 +18,7 @@ const GalleryTile: FC<GalleryTileProps> = ({
         <figure className={cn("tile", className)}>
             <img src={image} className="tile__image" alt={name} />
 
-            <TileOverlay />
+            <TileOverlay></TileOverlay>
         </figure>
     );
 };
