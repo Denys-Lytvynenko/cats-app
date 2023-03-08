@@ -26,6 +26,7 @@ const ContentWrapper: FC<ContentWrapperProps> = ({ className, children }) => (
                 buttonStyle="icon-button"
                 size="large"
                 href={routes.likes}
+                navigation
             >
                 <LikesIcon />
             </Button>
@@ -33,7 +34,8 @@ const ContentWrapper: FC<ContentWrapperProps> = ({ className, children }) => (
                 ariaLabel="likes page"
                 buttonStyle="icon-button"
                 size="large"
-                href={routes.likes}
+                href={routes.favourites}
+                navigation
             >
                 <FavouritesIcon />
             </Button>
@@ -41,7 +43,8 @@ const ContentWrapper: FC<ContentWrapperProps> = ({ className, children }) => (
                 ariaLabel="likes page"
                 buttonStyle="icon-button"
                 size="large"
-                href={routes.likes}
+                href={routes.breeds}
+                navigation
             >
                 <DislikesIcon />
             </Button>

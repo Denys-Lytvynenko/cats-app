@@ -31,7 +31,8 @@
         background-color: $hoverColor;
     }
 
-    &:active {
+    &:active,
+    &.active {
         background-color: $accentColor;
         color: $white;
     }
@@ -53,7 +54,8 @@
             fill: $accentColor;
         }
 
-        &:active {
+        &:active,
+        &.active {
             path {
                 fill: $white;
             }
@@ -73,7 +75,8 @@
             fill: $accentColor;
         }
 
-        &:active {
+        &:active,
+        &.active {
             background-color: $accentColor;
 
             path {
