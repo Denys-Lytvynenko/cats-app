@@ -22,7 +22,7 @@ const Card: FC<CardProps> = ({
             </Link>
 
             <div className="card__button">
-                <Button href={href} buttonStyle="text-button">
+                <Button href={href} navigation buttonStyle="text-button">
                     {name}
                 </Button>
             </div>

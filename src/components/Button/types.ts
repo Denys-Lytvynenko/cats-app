@@ -9,5 +9,7 @@ export interface ButtonProps {
     className?: string;
     ariaLabel?: string;
     fill?: boolean;
+    active?: boolean;
+    navigation?: boolean;
     children?: ReactNode;
 }

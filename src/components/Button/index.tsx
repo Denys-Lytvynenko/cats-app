@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import { cn } from "@utils/classNames";
 
@@ -15,7 +15,9 @@ const Button: FC<ButtonProps> = ({
     href,
     className,
     ariaLabel,
+    navigation,
     fill,
+    active,
     children,
 }) => {
     const onClickHandler = () => {
@@ -23,7 +25,7 @@ const Button: FC<ButtonProps> = ({
         onClick();
     };
 
-    return href ? (
+    return href && !navigation ? (
         <Link
             to={href}
             className={cn(
@@ -31,11 +33,26 @@ const Button: FC<ButtonProps> = ({
                 buttonStyle,
                 size,
                 fill ? "fill" : "",
+                active ? "active" : "",
                 className
             )}
         >
             {children}
         </Link>
+    ) : href && navigation ? (
+        <NavLink
+            to={href}
+            className={cn(
+                "button",
+                buttonStyle,
+                size,
+                fill ? "fill" : "",
+                active ? "active" : "",
+                className
+            )}
+        >
+            {children}
+        </NavLink>
     ) : (
         <button
             type={type}
@@ -44,6 +61,7 @@ const Button: FC<ButtonProps> = ({
                 buttonStyle,
                 size,
                 fill ? "fill" : "",
+                active ? "active" : "",
                 className
             )}
             aria-label={ariaLabel}
