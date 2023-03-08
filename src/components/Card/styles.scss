@@ -24,7 +24,8 @@
             border-color: $white;
         }
 
-        &:active {
+        &:active,
+        &.active {
             border-color: $hoverColor;
         }
     }

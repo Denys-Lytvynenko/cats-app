@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-import { cn } from "../../utils/classNames";
+import { cn } from "@utils/classNames";
 import { CardProps } from "./types";
 
 import Button from "../Button";
@@ -17,9 +17,13 @@ const Card: FC<CardProps> = ({
 }) => {
     return (
         <div className={cn("card", className)}>
-            <Link to={href} className="card__image" style={{ backgroundColor }}>
+            <NavLink
+                to={href}
+                className="card__image"
+                style={{ backgroundColor }}
+            >
                 <img src={image} alt={name} />
-            </Link>
+            </NavLink>
 
             <div className="card__button">
                 <Button href={href} navigation buttonStyle="text-button">
