@@ -1,12 +1,13 @@
 import { FC } from "react";
 
+import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
 import GoBackButton from "@components/GoBackButton";
 import SectionName from "@components/SectionName";
 import SectionWrapper from "@components/SectionWrapper";
 import Select from "@components/Select";
 import SortingButton from "@components/SortingButton";
-import ContentWrapper from "@components/ContentWrapper";
+import BreedsTile from "./BreedsTile";
 
 import { ReactComponent as SortAZIcon } from "@assets/icons/sorting_a-z.svg";
 import { ReactComponent as SortZAIcon } from "@assets/icons/sorting_z-a.svg";
@@ -47,7 +48,7 @@ const Breeds: FC = () => {
                     />
                 </div>
 
-                <GalleryGrid />
+                <GalleryGrid tileComponent={BreedsTile} />
             </SectionWrapper>
         </ContentWrapper>
     );

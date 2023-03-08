@@ -2,12 +2,24 @@
 
 .breeds {
     &__top {
-        display: flex;
         align-items: center;
+        display: flex;
         gap: 10px;
     }
 
     &__type-select {
         flex-grow: 1;
+    }
+
+    &__tile {
+        .tile-overlay__background {
+            align-items: end;
+            display: flex;
+            padding: 10px;
+        }
+
+        &-button {
+            flex-grow: 1;
+        }
     }
 }
