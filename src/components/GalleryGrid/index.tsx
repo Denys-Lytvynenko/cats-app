@@ -1,7 +1,6 @@
 import {
     FC,
     MutableRefObject,
-    RefObject,
     useEffect,
     useLayoutEffect,
     useMemo,
@@ -10,8 +9,6 @@ import {
 } from "react";
 
 import { GalleryGridProps } from "./types";
-
-import GalleryTile from "../GalleryTile";
 
 import cat from "@assets/images/cat.png";
 
@@ -45,7 +42,7 @@ const useGalleryGridHeight = (
     return [ref, height];
 };
 
-const GalleryGrid: FC<GalleryGridProps> = ({}) => {
+const GalleryGrid: FC<GalleryGridProps> = ({ tileComponent: Tile }) => {
     const [galleryRef, height] = useGalleryGridHeight(52);
 
     // add real data
@@ -57,7 +54,7 @@ const GalleryGrid: FC<GalleryGridProps> = ({}) => {
 
         for (let i = 1; i <= data.length; i++) {
             row.push(
-                <GalleryTile
+                <Tile
                     key={i}
                     href="#"
                     image={cat}
