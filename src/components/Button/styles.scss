@@ -25,37 +25,43 @@
         text-align: center;
         text-decoration: none;
         text-transform: uppercase;
-    }
 
-    &:hover {
-        background-color: $hoverColor;
-    }
+        &:hover {
+            background-color: $hoverColor;
+        }
 
-    &:active,
-    &.active {
-        background-color: $accentColor;
-        color: $white;
+        &:active,
+        &.active {
+            background-color: $accentColor;
+            color: $white;
+        }
     }
 
     &.icon-button {
         @include flexCenter;
 
         &.small {
-            padding: 10px;
             border-radius: $borderRadius10;
+            padding: 10px;
         }
 
         &.large {
-            padding: 15px;
             border-radius: $borderRadius20;
+            padding: 15px;
         }
 
         path {
             fill: $accentColor;
         }
 
+        &:hover {
+            background-color: $hoverColor;
+        }
+
         &:active,
         &.active {
+            background-color: $accentColor;
+
             path {
                 fill: $white;
             }

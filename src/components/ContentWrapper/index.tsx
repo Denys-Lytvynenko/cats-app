@@ -43,7 +43,7 @@ const ContentWrapper: FC<ContentWrapperProps> = ({ className, children }) => (
                 ariaLabel="likes page"
                 buttonStyle="icon-button"
                 size="large"
-                href={routes.breeds}
+                href={routes.dislikes}
                 navigation
             >
                 <DislikesIcon />

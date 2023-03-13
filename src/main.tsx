@@ -6,6 +6,7 @@ import { routes } from "./routes/routes";
 
 import ErrorPage from "./pages/ErrorPage";
 import Breeds from "./routes/breeds";
+import Gallery from "./routes/gallery";
 import Home from "./routes/home";
 import Root from "./routes/root";
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
             {
                 path: routes.breeds,
                 element: <Breeds />,
+            },
+            {
+                path: routes.gallery,
+                element: <Gallery />,
             },
         ],
     },
