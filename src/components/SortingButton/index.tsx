@@ -26,7 +26,7 @@ const SortingButton: FC<SortingButtonProps> = ({
             size="small"
             className={cn("sorting-button", active ? "active" : "", className)}
             onClick={handleClick}
-            aria-label={ariaLabel}
+            ariaLabel={ariaLabel}
         >
             {icon}
         </Button>
