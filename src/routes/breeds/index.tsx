@@ -20,6 +20,7 @@ const Breeds: FC = () => {
             <SectionWrapper className="breeds">
                 <div className="breeds__top">
                     <GoBackButton />
+
                     <SectionName />
 
                     <Select
@@ -29,6 +30,7 @@ const Breeds: FC = () => {
                         options={[{ value: "All breeds" }]}
                         className="breeds__type-select"
                     />
+
                     <Select
                         name="limit"
                         title="limit of item per page"
@@ -41,6 +43,7 @@ const Breeds: FC = () => {
                         onClick={() => {}}
                         ariaLabel="sort from z to a"
                     />
+
                     <SortingButton
                         icon={<SortAZIcon />}
                         onClick={() => {}}
