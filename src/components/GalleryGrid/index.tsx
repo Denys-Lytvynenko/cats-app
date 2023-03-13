@@ -53,15 +53,7 @@ const GalleryGrid: FC<GalleryGridProps> = ({ tileComponent: Tile }) => {
         let row = [];
 
         for (let i = 1; i <= data.length; i++) {
-            row.push(
-                <Tile
-                    key={i}
-                    href="#"
-                    image={cat}
-                    name="cat"
-                    className="gallery__item"
-                />
-            );
+            row.push(<Tile key={i} href="#" image={cat} name="cat" />);
 
             if (i % 5 === 0) {
                 rows.push(

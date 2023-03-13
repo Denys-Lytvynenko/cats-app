@@ -1,0 +1,29 @@
+@use "variables" as *;
+
+.gallery {
+    &__top {
+        background: $lightGray;
+        border-radius: $borderRadius20;
+        column-gap: 20px;
+        display: grid;
+        grid-template: min-content min-content / 1fr 1fr;
+        padding: 10px 20px 20px;
+        row-gap: 10px;
+
+        &-group {
+            align-items: flex-end;
+            display: flex;
+            gap: 10px;
+
+            .select {
+                flex-grow: 1;
+            }
+        }
+    }
+
+    &-route__tile {
+        .tile-overlay__background {
+            @include flexCenter;
+        }
+    }
+}
