@@ -1,8 +1,16 @@
 @use "variables" as *;
 
 .voting {
+    &__wrapper {
+        background-color: #fbfbfa;
+    }
+
     &__top {
         display: flex;
         gap: 10px;
+    }
+
+    &__image-wrapper {
+        position: relative;
     }
 }
