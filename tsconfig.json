@@ -20,7 +20,8 @@
             "variables": ["_variables.scss"],
             "@assets/*": ["assets/*"],
             "@components/*": ["components/*"],
-            "@utils/*": ["utils/*"]
+            "@utils/*": ["utils/*"],
+            "@hooks/*": ["hooks/*"]
         }
     },
     "include": ["src"],

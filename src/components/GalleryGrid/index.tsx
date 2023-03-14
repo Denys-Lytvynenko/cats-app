@@ -1,49 +1,14 @@
-import {
-    FC,
-    MutableRefObject,
-    useEffect,
-    useLayoutEffect,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import { FC, useMemo } from "react";
 
+import { useBlockHeight } from "@hooks/useBlockHeight";
 import { GalleryGridProps } from "./types";
 
 import cat from "@assets/images/cat.png";
 
 import "./styles.scss";
 
-const useGalleryGridHeight = (
-    offsetBottom: number
-): [MutableRefObject<HTMLDivElement | null>, number] => {
-    const ref = useRef<HTMLDivElement | null>(null);
-
-    const [height, setHeight] = useState(0);
-
-    useLayoutEffect(() => {
-        setHeight(
-            window.innerHeight - (ref.current?.offsetTop! + offsetBottom)
-        );
-    }, []);
-
-    useEffect(() => {
-        const changeHeight = () => {
-            setHeight(
-                window.innerHeight - (ref.current?.offsetTop! + offsetBottom)
-            );
-        };
-
-        addEventListener("resize", changeHeight);
-
-        return () => removeEventListener("resize", changeHeight);
-    }, []);
-
-    return [ref, height];
-};
-
 const GalleryGrid: FC<GalleryGridProps> = ({ tileComponent: Tile }) => {
-    const [galleryRef, height] = useGalleryGridHeight(52);
+    const [galleryRef, height] = useBlockHeight(52);
 
     // add real data
     const tiles = useMemo(() => {
