@@ -1,10 +1,12 @@
 @use "variables" as *;
 
 .button.sorting-button {
+    background-color: $lightGray;
     border-color: transparent;
     border-style: solid;
     border-width: 2px;
-    background-color: $lightGray;
+    height: 40px;
+    width: 40px;
 
     path {
         fill: $gray !important;

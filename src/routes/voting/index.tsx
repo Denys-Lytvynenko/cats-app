@@ -19,7 +19,7 @@ const Voting: FC = () => {
 
     return (
         <ContentWrapper>
-            <SectionWrapper className="voting__wrapper">
+            <SectionWrapper>
                 <div className="voting__top">
                     <GoBackButton />
 
