@@ -1,17 +1,22 @@
 import { FC } from "react";
 
+import { useBlockHeight } from "@hooks/useBlockHeight";
+
 import ContentWrapper from "@components/ContentWrapper";
-import SectionWrapper from "@components/SectionWrapper";
 import GoBackButton from "@components/GoBackButton";
-import SectionName from "@components/SectionName";
 import Image from "@components/Image";
+import SectionName from "@components/SectionName";
+import SectionWrapper from "@components/SectionWrapper";
+import VotingButtonsGroup from "./VotingButtonsGroup";
+import VotingMessage from "./VotingMessage";
 
 import image from "@assets/images/cat.png";
 
 import "./styles.scss";
-import VotingButtonsGroup from "./VotingButtonsGroup";
 
 const Voting: FC = () => {
+    const [messagesBlockRef, height] = useBlockHeight(52);
+
     return (
         <ContentWrapper>
             <SectionWrapper className="voting__wrapper">
@@ -25,6 +30,33 @@ const Voting: FC = () => {
                     <Image src={image} alt="cat" />
 
                     <VotingButtonsGroup />
+                </div>
+
+                <div
+                    ref={messagesBlockRef}
+                    style={{ height }}
+                    className="voting__messages-wrapper"
+                >
+                    <VotingMessage
+                        time="20:00"
+                        imageId="fQSunHvl8"
+                        reaction="like"
+                    />
+                    <VotingMessage
+                        time="20:00"
+                        imageId="fQSunHvl8"
+                        reaction="dislike"
+                    />
+                    <VotingMessage
+                        time="20:00"
+                        imageId="fQSunHvl8"
+                        reaction="favourite"
+                    />
+                    <VotingMessage
+                        time="20:00"
+                        imageId="fQSunHvl8"
+                        reaction="remove"
+                    />
                 </div>
             </SectionWrapper>
         </ContentWrapper>

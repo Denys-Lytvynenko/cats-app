@@ -13,4 +13,16 @@
     &__image-wrapper {
         position: relative;
     }
+
+    &__messages-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow-y: scroll;
+        padding-top: 35px;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
 }
