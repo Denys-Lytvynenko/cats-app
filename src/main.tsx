@@ -9,6 +9,7 @@ import Breeds from "./routes/breeds";
 import Gallery from "./routes/gallery";
 import Home from "./routes/home";
 import Root from "./routes/root";
+import Voting from "./routes/voting";
 
 import "./index.scss";
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
             {
                 path: routes.gallery,
                 element: <Gallery />,
+            },
+            {
+                path: routes.voting,
+                element: <Voting />,
             },
         ],
     },

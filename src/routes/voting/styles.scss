@@ -1,0 +1,8 @@
+@use "variables" as *;
+
+.voting {
+    &__top {
+        display: flex;
+        gap: 10px;
+    }
+}
