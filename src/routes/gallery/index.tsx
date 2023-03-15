@@ -3,11 +3,14 @@ import { FC } from "react";
 import Button from "@components/Button";
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
+import GoBackButton from "@components/GoBackButton";
+import SectionName from "@components/SectionName";
 import SectionWrapper from "@components/SectionWrapper";
 import Select from "@components/Select";
 import GalleryRouteTile from "./GalleryRouteTile";
 
 import { ReactComponent as RefreshIcon } from "@assets/icons/refresh.svg";
+import { ReactComponent as UploadIcon } from "@assets/icons/upload.svg";
 
 import "./styles.scss";
 
@@ -16,6 +19,20 @@ const Gallery: FC = () => {
         <ContentWrapper>
             <SectionWrapper>
                 <div className="gallery__top">
+                    <GoBackButton />
+
+                    <SectionName />
+
+                    <Button
+                        buttonStyle="icon-text-button"
+                        className="gallery__upload-button"
+                    >
+                        <UploadIcon />
+                        Upload
+                    </Button>
+                </div>
+
+                <div className="gallery__filters">
                     <Select
                         name="order"
                         title="order"
@@ -37,7 +54,7 @@ const Gallery: FC = () => {
                         options={[{ value: "Some value" }]}
                     />
 
-                    <div className="gallery__top-group">
+                    <div className="gallery__filters-group">
                         <Select
                             name="limit"
                             title="limit"
@@ -55,7 +72,6 @@ const Gallery: FC = () => {
                         </Button>
                     </div>
                 </div>
-
                 <GalleryGrid tileComponent={GalleryRouteTile} />
             </SectionWrapper>
         </ContentWrapper>
