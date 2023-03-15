@@ -2,6 +2,16 @@
 
 .gallery {
     &__top {
+        align-items: flex-start;
+        display: flex;
+        gap: 10px;
+    }
+
+    &__upload-button {
+        margin-left: auto;
+    }
+
+    &__filters {
         background: $lightGray;
         border-radius: $borderRadius20;
         column-gap: 20px;
