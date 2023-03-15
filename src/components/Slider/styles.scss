@@ -15,7 +15,9 @@
         flex-direction: row;
         flex-wrap: nowrap;
         gap: 20px;
+        left: 0;
         position: absolute;
+        transition: all 1s cubic-bezier(0.215, 0.61, 0.355, 1);
     }
 
     &__navigation {

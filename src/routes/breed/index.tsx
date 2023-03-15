@@ -10,7 +10,7 @@ import cat from "@assets/images/cat.png";
 
 // import "./styles.scss";
 
-const cats = [cat, cat, cat];
+const cats = [cat, cat, cat, cat, cat, cat];
 
 const Breed: FC = () => {
     return (
