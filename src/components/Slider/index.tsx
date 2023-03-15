@@ -7,12 +7,12 @@ import {
     useState,
 } from "react";
 
+import { cn } from "@utils/classNames";
 import { SliderProps } from "./types";
 
 import Image from "../Image";
 
 import "./styles.scss";
-import { cn } from "../../utils/classNames";
 
 const Slider: FC<SliderProps> = ({ images }) => {
     const sliderRef = useRef<HTMLDivElement>(null);
@@ -20,22 +20,23 @@ const Slider: FC<SliderProps> = ({ images }) => {
 
     const [slideWidth, setSlideWidth] = useState<number | undefined>(0);
     const [sliderHeight, setSliderHeight] = useState<number | undefined>(0);
+    const [sliderContainerWidth, setSliderContainerWidth] = useState<number>(0);
     const [currentSlide, setCurrentSlide] = useState<number>(0);
 
-    useLayoutEffect(() => {
+    // Set slider size
+    const sizeHandler = () => {
         setSlideWidth(prev => sliderRef.current?.offsetWidth);
         setSliderHeight(prev => slidesContainerRef.current?.offsetHeight);
-    }, []);
+        setSliderContainerWidth(
+            prev => slidesContainerRef.current?.offsetWidth!
+        );
+    };
+    useLayoutEffect(sizeHandler, []);
 
     useEffect(() => {
-        const handler = () => {
-            setSlideWidth(prev => sliderRef.current?.offsetWidth);
-            setSliderHeight(prev => slidesContainerRef.current?.offsetHeight);
-        };
+        addEventListener("resize", sizeHandler);
 
-        addEventListener("resize", handler);
-
-        return () => removeEventListener("resize", handler);
+        return () => removeEventListener("resize", sizeHandler);
     }, []);
 
     const slides = useMemo(() => {
@@ -62,7 +63,11 @@ const Slider: FC<SliderProps> = ({ images }) => {
         ));
     }, [currentSlide]);
 
-    console.log(currentSlide);
+    const left = -(
+        ((sliderContainerWidth - 20 * (images.length - 1)) / images.length +
+            20) *
+        currentSlide
+    );
 
     return (
         <div
@@ -74,6 +79,7 @@ const Slider: FC<SliderProps> = ({ images }) => {
                 <div
                     ref={slidesContainerRef}
                     className="slider__slides-container"
+                    style={{ left }}
                 >
                     {slides}
                 </div>
