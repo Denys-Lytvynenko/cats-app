@@ -21,7 +21,7 @@ const Gallery: FC = () => {
                 <div className="gallery__top">
                     <GoBackButton />
 
-                    <SectionName />
+                    <SectionName name />
 
                     <Button
                         buttonStyle="icon-text-button"
