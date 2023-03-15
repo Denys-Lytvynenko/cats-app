@@ -15,11 +15,11 @@
             "tile1 tile2 tile3"
             "tile1 tile5 tile5"
             "tile4 tile5 tile5";
-        grid-template-rows: 140px 140px 140px;
-        grid-template-columns: minmax(auto, 210px) minmax(auto, 210px) minmax(
-                auto,
-                210px
+        grid-template-rows: minmax(140px, auto) minmax(140px, auto) minmax(
+                140px,
+                auto
             );
+        grid-template-columns: 1fr 1fr 1fr;
         gap: 20px;
 
         &:nth-child(even) {
