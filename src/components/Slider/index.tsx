@@ -24,26 +24,19 @@ const Slider: FC<SliderProps> = ({ images }) => {
     const [currentSlide, setCurrentSlide] = useState<number>(0);
 
     // Set slider size
-    useLayoutEffect(() => {
+    const sizeHandler = () => {
         setSlideWidth(prev => sliderRef.current?.offsetWidth);
         setSliderHeight(prev => slidesContainerRef.current?.offsetHeight);
         setSliderContainerWidth(
             prev => slidesContainerRef.current?.offsetWidth!
         );
-    }, []);
+    };
+    useLayoutEffect(sizeHandler, []);
 
     useEffect(() => {
-        const handler = () => {
-            setSlideWidth(prev => sliderRef.current?.offsetWidth);
-            setSliderHeight(prev => slidesContainerRef.current?.offsetHeight);
-            setSliderContainerWidth(
-                prev => slidesContainerRef.current?.offsetWidth!
-            );
-        };
+        addEventListener("resize", sizeHandler);
 
-        addEventListener("resize", handler);
-
-        return () => removeEventListener("resize", handler);
+        return () => removeEventListener("resize", sizeHandler);
     }, []);
 
     const slides = useMemo(() => {
