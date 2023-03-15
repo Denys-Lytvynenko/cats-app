@@ -13,6 +13,7 @@ import { ReactComponent as SortAZIcon } from "@assets/icons/sorting_a-z.svg";
 import { ReactComponent as SortZAIcon } from "@assets/icons/sorting_z-a.svg";
 
 import "./styles.scss";
+import { Outlet } from "react-router-dom";
 
 const Breeds: FC = () => {
     return (
@@ -21,7 +22,7 @@ const Breeds: FC = () => {
                 <div className="breeds__top">
                     <GoBackButton />
 
-                    <SectionName />
+                    <SectionName name />
 
                     <Select
                         name="breeds-type"

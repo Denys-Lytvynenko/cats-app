@@ -12,6 +12,7 @@ import Root from "./routes/root";
 import Voting from "./routes/voting";
 
 import "./index.scss";
+import Breed from "./routes/breed";
 
 const rootElement = document.getElementById("root") as HTMLElement;
 
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
             {
                 path: routes.breeds,
                 element: <Breeds />,
+            },
+            {
+                path: `${routes.breeds}/:breedId`,
+                element: <Breed />,
             },
             {
                 path: routes.gallery,

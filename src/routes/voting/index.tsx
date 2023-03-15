@@ -23,7 +23,7 @@ const Voting: FC = () => {
                 <div className="voting__top">
                     <GoBackButton />
 
-                    <SectionName />
+                    <SectionName name />
                 </div>
 
                 <div className="voting__image-wrapper">

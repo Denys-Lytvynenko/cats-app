@@ -2,11 +2,16 @@
 
 .section-name {
     @include flexCenter;
-    background-color: $accentColor;
+    background-color: $hoverColor;
     border-radius: $borderRadius10;
-    color: $white;
+    color: $accentColor;
     font-size: 2rem;
     line-height: 3rem;
     padding: 5px 30px;
     text-transform: uppercase;
+
+    &.active {
+        background-color: $accentColor;
+        color: $white;
+    }
 }
