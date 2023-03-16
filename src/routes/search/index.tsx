@@ -37,8 +37,6 @@ const Search: FC = () => {
                 </div>
 
                 <GalleryGrid tileComponent={BreedsTile} />
-
-                <ItemNotFound />
             </SectionWrapper>
         </ContentWrapper>
     );
