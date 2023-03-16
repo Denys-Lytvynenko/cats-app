@@ -7,6 +7,7 @@ import { routes } from "@routes/routes";
 import Breeds from "@routes/breeds";
 import Breed from "@routes/breeds/breed";
 import Dislikes from "@routes/dislikes";
+import Favourites from "@routes/favourites";
 import Gallery from "@routes/gallery";
 import Home from "@routes/home";
 import Likes from "@routes/likes";
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
             {
                 path: routes.dislikes,
                 element: <Dislikes />,
+            },
+            {
+                path: routes.favourites,
+                element: <Favourites />,
             },
         ],
     },
