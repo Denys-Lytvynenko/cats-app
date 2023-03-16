@@ -3,8 +3,7 @@ import { FC } from "react";
 import Button from "@components/Button";
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
-import GoBackButton from "@components/GoBackButton";
-import SectionName from "@components/SectionName";
+import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
 import Select from "@components/Select";
 import GalleryRouteTile from "./GalleryRouteTile";
@@ -18,11 +17,7 @@ const Gallery: FC = () => {
     return (
         <ContentWrapper>
             <SectionWrapper>
-                <div className="gallery__top">
-                    <GoBackButton />
-
-                    <SectionName name />
-
+                <SectionTop>
                     <Button
                         buttonStyle="icon-text-button"
                         className="gallery__upload-button"
@@ -30,7 +25,7 @@ const Gallery: FC = () => {
                         <UploadIcon />
                         Upload
                     </Button>
-                </div>
+                </SectionTop>
 
                 <div className="gallery__filters">
                     <Select
