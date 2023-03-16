@@ -3,9 +3,7 @@ import { useParams } from "react-router-dom";
 
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
-import GoBackButton from "@components/GoBackButton";
-import ItemNotFound from "@components/ItemNotFound";
-import SectionName from "@components/SectionName";
+import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
 import Typography from "@components/Typography";
 import BreedsTile from "../breeds/BreedsTile";
@@ -18,11 +16,7 @@ const Search: FC = () => {
     return (
         <ContentWrapper>
             <SectionWrapper>
-                <div className="search__top">
-                    <GoBackButton />
-
-                    <SectionName name />
-                </div>
+                <SectionTop />
 
                 <div className="search__description">
                     <Typography tag="p">Search results for:</Typography>

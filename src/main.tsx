@@ -14,6 +14,7 @@ import Voting from "@routes/voting";
 import ErrorPage from "./pages/ErrorPage";
 
 import "./index.scss";
+import Likes from "./routes/likes";
 
 const rootElement = document.getElementById("root") as HTMLElement;
 
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
             {
                 path: `${routes.search}/:searchId`,
                 element: <Search />,
+            },
+            {
+                path: routes.likes,
+                element: <Likes />,
             },
         ],
     },

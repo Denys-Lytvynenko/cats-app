@@ -1,9 +1,8 @@
 import { FC } from "react";
 
+import SectionTop from "@components/SectionTop";
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
-import GoBackButton from "@components/GoBackButton";
-import SectionName from "@components/SectionName";
 import SectionWrapper from "@components/SectionWrapper";
 import Select from "@components/Select";
 import SortingButton from "@components/SortingButton";
@@ -13,17 +12,12 @@ import { ReactComponent as SortAZIcon } from "@assets/icons/sorting_a-z.svg";
 import { ReactComponent as SortZAIcon } from "@assets/icons/sorting_z-a.svg";
 
 import "./styles.scss";
-import { Outlet } from "react-router-dom";
 
 const Breeds: FC = () => {
     return (
         <ContentWrapper>
             <SectionWrapper className="breeds">
-                <div className="breeds__top">
-                    <GoBackButton />
-
-                    <SectionName name />
-
+                <SectionTop>
                     <Select
                         name="breeds-type"
                         title="breeds type select"
@@ -50,7 +44,7 @@ const Breeds: FC = () => {
                         onClick={() => {}}
                         ariaLabel="sort form a to z"
                     />
-                </div>
+                </SectionTop>
 
                 <GalleryGrid tileComponent={BreedsTile} />
             </SectionWrapper>
