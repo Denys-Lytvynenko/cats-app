@@ -2,10 +2,13 @@ import { FC } from "react";
 import { useParams } from "react-router-dom";
 
 import ContentWrapper from "@components/ContentWrapper";
+import GalleryGrid from "@components/GalleryGrid";
 import GoBackButton from "@components/GoBackButton";
+import ItemNotFound from "@components/ItemNotFound";
 import SectionName from "@components/SectionName";
 import SectionWrapper from "@components/SectionWrapper";
 import Typography from "@components/Typography";
+import BreedsTile from "../breeds/BreedsTile";
 
 import "./styles.scss";
 
@@ -32,6 +35,10 @@ const Search: FC = () => {
                         {searchId}
                     </Typography>
                 </div>
+
+                <GalleryGrid tileComponent={BreedsTile} />
+
+                <ItemNotFound />
             </SectionWrapper>
         </ContentWrapper>
     );

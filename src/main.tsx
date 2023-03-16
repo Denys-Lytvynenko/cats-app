@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { routes } from "@routes/routes";
 
-import Breed from "@routes/breed";
+import Breed from "@routes/breeds/breed";
 import Breeds from "@routes/breeds";
 import Gallery from "@routes/gallery";
 import Home from "@routes/home";
