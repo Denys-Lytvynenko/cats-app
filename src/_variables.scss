@@ -19,6 +19,9 @@ $borderRadius20: 20px;
 // transitions
 $transition: all 0.3s ease;
 
+// distances
+$contentOuterSpace: 30px;
+
 // @mixins
 @mixin absoluteCenter {
     left: 50%;
