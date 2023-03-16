@@ -1,12 +1,6 @@
 @use "variables" as *;
 
 .search {
-    &__top {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
     &__description {
         display: flex;
         gap: 5px;
