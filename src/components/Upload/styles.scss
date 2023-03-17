@@ -1,1 +1,44 @@
 @use "variables" as *;
+
+.file-upload-form {
+    aspect-ratio: 1.77777;
+    width: 100%;
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-top: 40px;
+    }
+
+    &__input {
+        display: none;
+    }
+
+    &__label {
+        @include flexCenter;
+        background-color: $white;
+        background-image: url(@assets/images/upload-file.svg);
+        background-position: center center;
+        background-repeat: no-repeat;
+        border-color: $hoverColor;
+        border-radius: 20px;
+        border-style: dashed;
+        border-width: 2px;
+        cursor: pointer;
+        height: 100%;
+
+        strong {
+            color: black;
+        }
+    }
+
+    &__filename {
+        text-align: center;
+    }
+
+    &__message {
+        width: 100%;
+    }
+}

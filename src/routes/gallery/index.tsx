@@ -18,7 +18,6 @@ const Gallery: FC = () => {
     const [isOpenUploadModal, setIsOpenUploadModal] = useState<boolean>(false);
     const toggleModal = () => setIsOpenUploadModal(prev => !prev);
 
-    console.log(isOpenUploadModal);
     return (
         <ContentWrapper>
             <SectionWrapper>

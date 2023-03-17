@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export interface MessageProps {
+export interface FileUploadMessageProps {
     status: "success" | "failure";
     className?: string;
     children?: ReactNode;
