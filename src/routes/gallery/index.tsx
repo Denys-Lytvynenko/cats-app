@@ -7,12 +7,12 @@ import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
 import Select from "@components/Select";
 import GalleryRouteTile from "./GalleryRouteTile";
+import UploadModal from "./UploadModal/UploadModal";
 
 import { ReactComponent as RefreshIcon } from "@assets/icons/refresh.svg";
 import { ReactComponent as UploadIcon } from "@assets/icons/upload.svg";
 
 import "./styles.scss";
-import Modal from "../../components/Modal";
 
 const Gallery: FC = () => {
     const [isOpenUploadModal, setIsOpenUploadModal] = useState<boolean>(false);
@@ -32,6 +32,7 @@ const Gallery: FC = () => {
                         Upload
                     </Button>
                 </SectionTop>
+
                 <div className="gallery__filters">
                     <Select
                         name="order"
@@ -74,9 +75,9 @@ const Gallery: FC = () => {
                 </div>
                 <GalleryGrid tileComponent={GalleryRouteTile} />
 
-                <Modal isOpen={isOpenUploadModal} onClose={toggleModal}>
+                <UploadModal isOpen={isOpenUploadModal} onClose={toggleModal}>
                     Modal content
-                </Modal>
+                </UploadModal>
             </SectionWrapper>
         </ContentWrapper>
     );
