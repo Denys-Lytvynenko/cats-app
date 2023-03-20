@@ -1,9 +1,11 @@
-import { ChangeEvent, DragEvent, FC, useState } from "react";
+import { ChangeEvent, DragEvent, FC, useEffect, useState } from "react";
 
 import { cn } from "@utils/classNames";
-import { UploadProps } from "./types";
+import { convertToBase64 } from "@utils/convertToBase64";
+import { IMessage, UploadProps } from "./types";
 
 import Button from "../Button";
+import Image from "../Image";
 import FileUploadMessage from "../Message";
 import Typography from "../Typography";
 
@@ -14,6 +16,11 @@ import "./styles.scss";
 const Upload: FC<UploadProps> = () => {
     const [dragActive, setDragActive] = useState<boolean>(false);
     const [file, setFile] = useState<FileList>();
+    const [imagePreview, setImagePreview] = useState<string>("");
+    const [message, setMessage] = useState<IMessage>({
+        status: undefined,
+        text: "",
+    });
 
     const handleDrag = (e: DragEvent) => {
         e.preventDefault();
@@ -44,6 +51,12 @@ const Upload: FC<UploadProps> = () => {
         }
     };
 
+    useEffect(() => {
+        if (!file) return;
+
+        convertToBase64(file[0]).then(file => setImagePreview(file as string));
+    }, [file]);
+
     return (
         <div className="file-upload-form__wrapper">
             <form
@@ -69,12 +82,24 @@ const Upload: FC<UploadProps> = () => {
                         dragActive ? "active" : ""
                     )}
                 >
-                    <UploadIcon />
+                    {imagePreview && file && (
+                        <Image
+                            src={imagePreview}
+                            alt={file[0].name}
+                            className="file-upload-form__image"
+                        />
+                    )}
 
-                    <Typography tag="p">
-                        <strong>Drag</strong> here your file or{" "}
-                        <strong>Click</strong> here to upload
-                    </Typography>
+                    {!imagePreview && (
+                        <>
+                            <UploadIcon />
+
+                            <Typography tag="p">
+                                <strong>Drag</strong> here your file or{" "}
+                                <strong>Click</strong> here to upload
+                            </Typography>
+                        </>
+                    )}
                 </label>
             </form>
 
@@ -84,12 +109,14 @@ const Upload: FC<UploadProps> = () => {
 
             {file && <Button active>Upload photo</Button>}
 
-            <FileUploadMessage
-                status="success"
-                className="file-upload-form__message"
-            >
-                success
-            </FileUploadMessage>
+            {message.status && message.text && (
+                <FileUploadMessage
+                    status={message.status}
+                    className="file-upload-form__message"
+                >
+                    {message.text}
+                </FileUploadMessage>
+            )}
         </div>
     );
 };
