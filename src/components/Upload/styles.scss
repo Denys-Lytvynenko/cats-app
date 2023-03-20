@@ -1,7 +1,7 @@
 @use "variables" as *;
 
 .file-upload-form {
-    aspect-ratio: 1.77777;
+    aspect-ratio: $aspectRatio;
     position: relative;
     width: 100%;
 
@@ -28,6 +28,7 @@
         height: 100%;
         transition: $transition;
         position: relative;
+        padding: 20px 41px;
 
         &.active {
             background-color: $hoverColor;
@@ -60,6 +61,10 @@
         strong {
             color: black;
         }
+    }
+
+    &__image {
+        flex-grow: 1;
     }
 
     &__drag-element {
