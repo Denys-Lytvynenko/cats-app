@@ -6,4 +6,5 @@ export const routes = {
     likes: "/likes",
     dislikes: "/dislikes",
     favourites: "/favourites",
+    search: "/search",
 };

@@ -1,7 +1,7 @@
 import { FC } from "react";
 
+import SectionTop from "@components/SectionTop";
 import ContentWrapper from "@components/ContentWrapper";
-import GoBackButton from "@components/GoBackButton";
 import SectionName from "@components/SectionName";
 import SectionWrapper from "@components/SectionWrapper";
 import Slider from "@components/Slider";
@@ -17,12 +17,9 @@ const Breed: FC = () => {
     return (
         <ContentWrapper>
             <SectionWrapper className="breeds">
-                <div className="breeds__top">
-                    <GoBackButton />
-
-                    <SectionName name />
+                <SectionTop>
                     <SectionName id />
-                </div>
+                </SectionTop>
 
                 <Slider images={cats} />
 
