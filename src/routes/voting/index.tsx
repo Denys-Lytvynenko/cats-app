@@ -1,20 +1,58 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
+import { VotingController } from "@api/votingController";
+import { RandomBreedType } from "@api/votingController/types";
 import { useBlockHeight } from "@hooks/useBlockHeight";
 
-import SectionTop from "@components/SectionTop";
 import ContentWrapper from "@components/ContentWrapper";
 import Image from "@components/Image";
+import Loader from "@components/Loader";
+import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
 import VotingButtonsGroup from "./VotingButtonsGroup";
 import VotingMessage from "./VotingMessage";
-
-import image from "@assets/images/cat.png";
 
 import "./styles.scss";
 
 const Voting: FC = () => {
     const [messagesBlockRef, height] = useBlockHeight(52);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [randomBreed, setRandomBreed] = useState<RandomBreedType[0]>({
+        breeds: [],
+        height: 100,
+        id: "",
+        url: "",
+        width: 100,
+    });
+
+    useEffect(() => {
+        const abortController = new AbortController();
+
+        const getBreed = async () => {
+            try {
+                setLoading(true);
+
+                const data =
+                    await VotingController.getInstance().getRandomBreed(
+                        abortController.signal
+                    );
+
+                setRandomBreed(data[0]);
+                setLoading(false);
+            } catch (error) {
+                if (abortController.signal.aborted) {
+                    console.log("Request rejected by user");
+                } else {
+                    console.error("Random breed error: ", error);
+                    setLoading(false);
+                }
+            }
+        };
+
+        getBreed();
+
+        return () => abortController.abort();
+    }, []);
 
     return (
         <ContentWrapper>
@@ -22,9 +60,15 @@ const Voting: FC = () => {
                 <SectionTop />
 
                 <div className="voting__image-wrapper">
-                    <Image src={image} alt="cat" />
+                    {loading ? (
+                        <Loader />
+                    ) : (
+                        <>
+                            <Image src={randomBreed.url} alt="cat" />
 
-                    <VotingButtonsGroup />
+                            <VotingButtonsGroup />
+                        </>
+                    )}
                 </div>
 
                 <div

@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { BreedType } from "@utils/api/types";
+import { BreedType } from "services/api/types";
 import { GalleryTileProps } from "../GalleryTile/types";
 
 export interface GalleryGridProps {

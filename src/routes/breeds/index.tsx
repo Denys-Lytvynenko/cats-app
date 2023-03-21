@@ -14,7 +14,7 @@ import { ReactComponent as SortAZIcon } from "@assets/icons/sorting_a-z.svg";
 import { ReactComponent as SortZAIcon } from "@assets/icons/sorting_z-a.svg";
 
 import "./styles.scss";
-import { BreedType } from "../../utils/api/types";
+import { BreedType } from "../../services/api/types";
 
 const limitOptions = [
     { name: "Limit: 5", value: "5" },
