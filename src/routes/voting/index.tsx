@@ -24,6 +24,7 @@ const Voting: FC = () => {
         url: "",
         width: 100,
     });
+    const [nextImage, setNextImage] = useState<boolean>(true);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -52,7 +53,21 @@ const Voting: FC = () => {
         getBreed();
 
         return () => abortController.abort();
-    }, []);
+    }, [nextImage]);
+
+    const onLikeClick = async () => {
+        try {
+            const data = await VotingController.getInstance().likeBreed(
+                randomBreed.id
+            );
+
+            if (data.message === "SUCCESS") {
+                setNextImage(prev => !prev);
+            }
+        } catch (error) {
+            console.error("Like breed error: ", error);
+        }
+    };
 
     return (
         <ContentWrapper>
@@ -66,7 +81,12 @@ const Voting: FC = () => {
                         <>
                             <Image src={randomBreed.url} alt="cat" />
 
-                            <VotingButtonsGroup />
+                            <VotingButtonsGroup
+                                isFavourite={false}
+                                onDislikeClick={() => {}}
+                                onFavouriteClick={() => {}}
+                                onLikeClick={onLikeClick}
+                            />
                         </>
                     )}
                 </div>

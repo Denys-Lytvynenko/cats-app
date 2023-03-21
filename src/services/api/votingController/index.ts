@@ -1,5 +1,9 @@
 import { ApiService } from "..";
-import { RandomBreedType } from "./types";
+import {
+    RandomBreedType,
+    VotingBreedDataType,
+    VotingBreedResponseType,
+} from "./types";
 
 export class VotingController {
     private static instance: VotingController;
@@ -22,5 +26,15 @@ export class VotingController {
      */
     public getRandomBreed(signal: AbortSignal): Promise<RandomBreedType> {
         return this.apiService.get<RandomBreedType>("images/search", signal);
+    }
+
+    /**
+     * likeBreed
+     */
+    public likeBreed(image_id: string): Promise<VotingBreedResponseType> {
+        return this.apiService.post<
+            VotingBreedDataType,
+            VotingBreedResponseType
+        >("votes", { value: 10, image_id, sub_id: "cat-super-user-21032023" });
     }
 }
