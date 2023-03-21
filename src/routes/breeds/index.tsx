@@ -1,8 +1,10 @@
 import { FC } from "react";
 
-import SectionTop from "@components/SectionTop";
+import useFetch from "@hooks/useFetch";
+
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
+import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
 import Select from "@components/Select";
 import SortingButton from "@components/SortingButton";
@@ -12,8 +14,13 @@ import { ReactComponent as SortAZIcon } from "@assets/icons/sorting_a-z.svg";
 import { ReactComponent as SortZAIcon } from "@assets/icons/sorting_z-a.svg";
 
 import "./styles.scss";
+import { BreedType } from "../../utils/api/types";
 
 const Breeds: FC = () => {
+    const [loading, breeds, error] = useFetch<BreedType[]>(
+        "https://api.thecatapi.com/v1/breeds?limit=14&page=0"
+    );
+
     return (
         <ContentWrapper>
             <SectionWrapper className="breeds">
@@ -46,7 +53,11 @@ const Breeds: FC = () => {
                     />
                 </SectionTop>
 
-                <GalleryGrid tileComponent={BreedsTile} />
+                <GalleryGrid
+                    tileComponent={BreedsTile}
+                    data={breeds}
+                    loading={loading}
+                />
             </SectionWrapper>
         </ContentWrapper>
     );
