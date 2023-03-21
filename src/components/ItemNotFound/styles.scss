@@ -1,13 +1,14 @@
 @use "variables" as *;
 
 .item-not-found {
-    width: 100%;
-    padding: 18px 20px;
-    border-radius: $borderRadius10;
-    background-color: $lightGray;
-    display: flex;
     align-items: center;
+    background-color: $lightGray;
+    border-radius: $borderRadius10;
+    display: flex;
+    height: min-content;
     justify-content: flex-start;
+    padding: 18px 20px;
+    width: 100%;
 
     p.typography {
         font-size: 1.6rem;

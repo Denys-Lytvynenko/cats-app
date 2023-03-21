@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, forwardRef, useMemo } from "react";
 
 import { cn } from "@utils/classNames";
 import { SelectProps } from "./types";
@@ -11,12 +11,14 @@ const Select: FC<SelectProps> = ({
     label,
     options,
     accentColor,
+    value,
+    onChange,
     className,
 }) => {
     const optionsList = useMemo(() => {
         return options.map(option => (
             <option value={option.value} key={option.value}>
-                {option.value}
+                {option.name}
             </option>
         ));
     }, []);
@@ -35,6 +37,8 @@ const Select: FC<SelectProps> = ({
                     id={name}
                     className={cn("select__input", accentColor)}
                     title={title}
+                    value={value}
+                    onChange={onChange}
                 >
                     {optionsList}
                 </select>
