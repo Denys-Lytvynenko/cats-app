@@ -1,21 +1,38 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import Button from "@components/Button";
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
+import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
 import Select from "@components/Select";
 import GalleryRouteTile from "./GalleryRouteTile";
+import UploadModal from "./UploadModal/UploadModal";
 
 import { ReactComponent as RefreshIcon } from "@assets/icons/refresh.svg";
+import { ReactComponent as UploadIcon } from "@assets/icons/upload.svg";
 
 import "./styles.scss";
 
 const Gallery: FC = () => {
+    const [isOpenUploadModal, setIsOpenUploadModal] = useState<boolean>(false);
+    const toggleModal = () => setIsOpenUploadModal(prev => !prev);
+
     return (
         <ContentWrapper>
             <SectionWrapper>
-                <div className="gallery__top">
+                <SectionTop>
+                    <Button
+                        buttonStyle="icon-text-button"
+                        className="gallery__upload-button"
+                        onClick={toggleModal}
+                    >
+                        <UploadIcon />
+                        Upload
+                    </Button>
+                </SectionTop>
+
+                <div className="gallery__filters">
                     <Select
                         name="order"
                         title="order"
@@ -37,7 +54,7 @@ const Gallery: FC = () => {
                         options={[{ value: "Some value" }]}
                     />
 
-                    <div className="gallery__top-group">
+                    <div className="gallery__filters-group">
                         <Select
                             name="limit"
                             title="limit"
@@ -55,8 +72,11 @@ const Gallery: FC = () => {
                         </Button>
                     </div>
                 </div>
-
                 <GalleryGrid tileComponent={GalleryRouteTile} />
+
+                <UploadModal isOpen={isOpenUploadModal} onClose={toggleModal}>
+                    Modal content
+                </UploadModal>
             </SectionWrapper>
         </ContentWrapper>
     );

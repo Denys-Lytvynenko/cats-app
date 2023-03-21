@@ -1,0 +1,49 @@
+@use "variables" as *;
+
+.breed {
+    &__info-block {
+        border-radius: $borderRadius20;
+        border: 2px solid $hoverColor;
+        margin-top: 30px;
+        padding: 26px 40px 40px;
+        position: relative;
+
+        .breed__name {
+            background-color: $white;
+            left: 50%;
+            line-height: 1;
+            padding: 0 40px;
+            position: absolute;
+            top: 0;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &__description {
+        font-weight: 500;
+        text-align: center;
+    }
+
+    &__info {
+        display: flex;
+        gap: 25px;
+        margin-top: 20px;
+
+        p.typography {
+            font-size: 1.6rem;
+        }
+
+        .breed__row-name {
+            font-weight: 600;
+        }
+    }
+
+    &__info-column {
+        flex-basis: 50%;
+    }
+
+    &__params-row {
+        display: flex;
+        gap: 5px;
+    }
+}

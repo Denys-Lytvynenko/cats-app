@@ -1,0 +1,12 @@
+@use "variables" as *;
+
+.search {
+    &__description {
+        display: flex;
+        gap: 5px;
+    }
+
+    &__keyword {
+        font-weight: 600;
+    }
+}

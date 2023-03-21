@@ -17,9 +17,11 @@ const GalleryTile: FC<GalleryTileProps> = ({
     <figure className={cn("gallery__item", "tile", className)}>
         <img src={image} className="tile__image" alt={name} />
 
-        <TileOverlay>
-            {OverlayButton && <OverlayButton href={href}>{name}</OverlayButton>}
-        </TileOverlay>
+        {OverlayButton && (
+            <TileOverlay>
+                <OverlayButton href={href}>{name}</OverlayButton>
+            </TileOverlay>
+        )}
     </figure>
 );
 

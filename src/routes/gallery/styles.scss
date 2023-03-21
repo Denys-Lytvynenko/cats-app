@@ -1,7 +1,11 @@
 @use "variables" as *;
 
 .gallery {
-    &__top {
+    &__upload-button {
+        margin-left: auto;
+    }
+
+    &__filters {
         background: $lightGray;
         border-radius: $borderRadius20;
         column-gap: 20px;

@@ -2,10 +2,9 @@ import { FC } from "react";
 
 import { useBlockHeight } from "@hooks/useBlockHeight";
 
+import SectionTop from "@components/SectionTop";
 import ContentWrapper from "@components/ContentWrapper";
-import GoBackButton from "@components/GoBackButton";
 import Image from "@components/Image";
-import SectionName from "@components/SectionName";
 import SectionWrapper from "@components/SectionWrapper";
 import VotingButtonsGroup from "./VotingButtonsGroup";
 import VotingMessage from "./VotingMessage";
@@ -20,11 +19,7 @@ const Voting: FC = () => {
     return (
         <ContentWrapper>
             <SectionWrapper>
-                <div className="voting__top">
-                    <GoBackButton />
-
-                    <SectionName />
-                </div>
+                <SectionTop />
 
                 <div className="voting__image-wrapper">
                     <Image src={image} alt="cat" />
