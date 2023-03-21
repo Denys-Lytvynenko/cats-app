@@ -48,9 +48,13 @@ const GalleryGrid: FC<GalleryGridProps> = ({
 
     return (
         <div className="gallery" style={{ height }} ref={galleryRef}>
-            {loading && <Loader />}
-
-            {!tiles && !loading ? <ItemNotFound /> : tiles}
+            {loading ? (
+                <Loader />
+            ) : !tiles && !loading ? (
+                <ItemNotFound />
+            ) : (
+                tiles
+            )}
         </div>
     );
 };
