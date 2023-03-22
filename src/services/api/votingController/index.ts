@@ -37,4 +37,14 @@ export class VotingController {
             VotingBreedResponseType
         >("votes", { value: 10, image_id, sub_id: "cat-super-user-21032023" });
     }
+
+    /**
+     * dislikeBreed
+     */
+    public dislikeBreed(image_id: string): Promise<VotingBreedResponseType> {
+        return this.apiService.post<
+            VotingBreedDataType,
+            VotingBreedResponseType
+        >("votes", { value: 1, image_id, sub_id: "cat-super-user-21032023" });
+    }
 }

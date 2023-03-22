@@ -69,6 +69,20 @@ const Voting: FC = () => {
         }
     };
 
+    const onDislikeClick = async () => {
+        try {
+            const data = await VotingController.getInstance().dislikeBreed(
+                randomBreed.id
+            );
+
+            if (data.message === "SUCCESS") {
+                setNextImage(prev => !prev);
+            }
+        } catch (error) {
+            console.error("Dislike breed error: ", error);
+        }
+    };
+
     return (
         <ContentWrapper>
             <SectionWrapper>
@@ -83,9 +97,9 @@ const Voting: FC = () => {
 
                             <VotingButtonsGroup
                                 isFavourite={false}
-                                onDislikeClick={() => {}}
-                                onFavouriteClick={() => {}}
                                 onLikeClick={onLikeClick}
+                                onFavouriteClick={() => {}}
+                                onDislikeClick={onDislikeClick}
                             />
                         </>
                     )}
