@@ -26,7 +26,7 @@ export class ApiService {
     /**
      * get
      */
-    public get<P>(url: string, signal: AbortSignal): Promise<P> {
+    public get<P>(url: string, signal?: AbortSignal): Promise<P> {
         return new Promise(async (resolve, reject) => {
             try {
                 const response = await fetch(`${this.baseUrl}/${url}`, {

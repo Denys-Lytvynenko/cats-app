@@ -4,6 +4,7 @@ import { FavouritesController } from "@api/favouritesController";
 import { ImagesController } from "@api/imagesController";
 import { RandomImageType } from "@api/imagesController/types";
 import { VotingController } from "@api/votingController";
+import { GetVotesResponseType } from "@api/votingController/types";
 import { useBlockHeight } from "@hooks/useBlockHeight";
 
 import ContentWrapper from "@components/ContentWrapper";
@@ -27,6 +28,9 @@ const Voting: FC = () => {
         width: 100,
     });
     const [nextImage, setNextImage] = useState<boolean>(true);
+    const [isFavourite, setIsFavourite] = useState<string>("");
+    const [updateFavourites, setUpdateFavourites] = useState<boolean>(true);
+    const [actionLog, setActionLog] = useState<GetVotesResponseType[]>();
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -57,9 +61,62 @@ const Voting: FC = () => {
         return () => abortController.abort();
     }, [nextImage]);
 
+    useEffect(() => {
+        const abortController = new AbortController();
+
+        const getFavourites = async (currentBreed: string) => {
+            try {
+                const data =
+                    await FavouritesController.getInstance().getFavourites(
+                        abortController.signal
+                    );
+
+                const isFavourite = data.find(
+                    item => item.image_id === currentBreed
+                );
+
+                if (isFavourite) {
+                    setIsFavourite(isFavourite.id.toString());
+                } else {
+                    setIsFavourite("");
+                }
+            } catch (error) {
+                if (abortController.signal.aborted) {
+                    console.log("Request rejected by user");
+                } else {
+                    console.error("Get favourite error: ", error);
+                }
+            }
+        };
+
+        const getVotes = async (): Promise<void> => {
+            try {
+                const data = await VotingController.getInstance().getVotes(
+                    abortController.signal
+                );
+
+                setActionLog(data);
+            } catch (error) {
+                if (abortController.signal.aborted) {
+                    console.log("Request rejected by user");
+                } else {
+                    console.error("Get votes error: ", error);
+                }
+            }
+        };
+
+        getVotes();
+
+        if (!randomBreed.id) return;
+
+        getFavourites(randomBreed.id);
+
+        return () => abortController.abort();
+    }, [randomBreed.id, updateFavourites]);
+
     const onLikeClick = async (): Promise<void> => {
         try {
-            const data = await VotingController.getInstance().likeBreed(
+            const data = await VotingController.getInstance().like(
                 randomBreed.id
             );
 
@@ -73,7 +130,7 @@ const Voting: FC = () => {
 
     const onDislikeClick = async (): Promise<void> => {
         try {
-            const data = await VotingController.getInstance().dislikeBreed(
+            const data = await VotingController.getInstance().dislike(
                 randomBreed.id
             );
 
@@ -87,13 +144,26 @@ const Voting: FC = () => {
 
     const onFavouriteClick = async (): Promise<void> => {
         try {
-            const data =
-                await FavouritesController.getInstance().setFavouriteBreed(
-                    randomBreed.id
-                );
+            if (!isFavourite) {
+                // Set favourite
+                const data =
+                    await FavouritesController.getInstance().setFavourite(
+                        randomBreed.id
+                    );
 
-            if (data.message === "SUCCESS") {
-                console.log("success");
+                if (data.message === "SUCCESS") {
+                    setUpdateFavourites(prev => !prev);
+                }
+            } else {
+                // Delete favourite
+                const data =
+                    await FavouritesController.getInstance().deleteFavourite(
+                        isFavourite
+                    );
+
+                if (data.message === "SUCCESS") {
+                    setIsFavourite("");
+                }
             }
         } catch (error) {
             console.error("Set favourite error: ", error);
@@ -113,7 +183,7 @@ const Voting: FC = () => {
                             <Image src={randomBreed.url} alt="cat" />
 
                             <VotingButtonsGroup
-                                isFavourite={false}
+                                isFavourite={!!isFavourite}
                                 onLikeClick={onLikeClick}
                                 onFavouriteClick={onFavouriteClick}
                                 onDislikeClick={onDislikeClick}
@@ -127,26 +197,16 @@ const Voting: FC = () => {
                     style={{ height }}
                     className="voting__messages-wrapper"
                 >
-                    <VotingMessage
-                        time="20:00"
-                        imageId="fQSunHvl8"
-                        reaction="like"
-                    />
-                    <VotingMessage
-                        time="20:00"
-                        imageId="fQSunHvl8"
-                        reaction="dislike"
-                    />
-                    <VotingMessage
-                        time="20:00"
-                        imageId="fQSunHvl8"
-                        reaction="favourite"
-                    />
-                    <VotingMessage
-                        time="20:00"
-                        imageId="fQSunHvl8"
-                        reaction="remove"
-                    />
+                    {actionLog
+                        ?.map(({ id, created_at, image_id, value }) => (
+                            <VotingMessage
+                                key={id}
+                                time={created_at}
+                                imageId={image_id}
+                                reaction={value > 1 ? "like" : "dislike"}
+                            />
+                        ))
+                        .reverse()}
                 </div>
             </SectionWrapper>
         </ContentWrapper>

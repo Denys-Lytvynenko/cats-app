@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
 import { VotingButtonsGroupProps } from "./types";
 
@@ -14,51 +14,35 @@ const VotingButtonsGroup: FC<VotingButtonsGroupProps> = ({
     onLikeClick,
     onFavouriteClick,
     onDislikeClick,
-}) => {
-    const [favouriteActive, setFavouriteActive] =
-        useState<boolean>(isFavourite);
+}) => (
+    <div className="voting__button-group">
+        <button
+            type="button"
+            className="voting__button likes"
+            aria-label="likes button"
+            onClick={onLikeClick}
+        >
+            <LikesIcon />
+        </button>
 
-    const handleLikeClick = () => onLikeClick();
-    const handleFavouriteClick = () => {
-        onFavouriteClick();
-        setFavouriteActive(prev => !prev);
-    };
-    const handleDislikeClick = () => onDislikeClick();
+        <button
+            type="button"
+            className="voting__button favourites"
+            aria-label="favourites button"
+            onClick={onFavouriteClick}
+        >
+            {isFavourite ? <FavouritesActiveIcon /> : <FavouritesIcon />}
+        </button>
 
-    return (
-        <div className="voting__button-group">
-            <button
-                type="button"
-                className="voting__button likes"
-                aria-label="likes button"
-                onClick={handleLikeClick}
-            >
-                <LikesIcon />
-            </button>
-
-            <button
-                type="button"
-                className="voting__button favourites"
-                aria-label="favourites button"
-                onClick={handleFavouriteClick}
-            >
-                {favouriteActive ? (
-                    <FavouritesActiveIcon />
-                ) : (
-                    <FavouritesIcon />
-                )}
-            </button>
-
-            <button
-                type="button"
-                className="voting__button dislikes"
-                aria-label="dislikes button"
-                onClick={handleDislikeClick}
-            >
-                <DislikesIcon />
-            </button>
-        </div>
-    );
-};
+        <button
+            type="button"
+            className="voting__button dislikes"
+            aria-label="dislikes button"
+            onClick={onDislikeClick}
+        >
+            <DislikesIcon />
+        </button>
+    </div>
+);
 
 export default VotingButtonsGroup;
