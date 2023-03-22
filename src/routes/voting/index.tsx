@@ -27,6 +27,8 @@ const Voting: FC = () => {
         width: 100,
     });
     const [nextImage, setNextImage] = useState<boolean>(true);
+    const [isFavourite, setIsFavourite] = useState<boolean>(false);
+    const [updateFavourites, setUpdateFavourites] = useState<boolean>(true);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -56,6 +58,41 @@ const Voting: FC = () => {
 
         return () => abortController.abort();
     }, [nextImage]);
+
+    useEffect(() => {
+        const abortController = new AbortController();
+
+        const getFavourite = async () => {
+            try {
+                const data =
+                    await FavouritesController.getInstance().getFavourites(
+                        abortController.signal
+                    );
+
+                const isFavourite = data.find(
+                    item => item.image_id === randomBreed.id
+                );
+
+                if (isFavourite) {
+                    setIsFavourite(true);
+                } else {
+                    setIsFavourite(false);
+                }
+            } catch (error) {
+                if (abortController.signal.aborted) {
+                    console.log("Request rejected by user");
+                } else {
+                    console.error("Get favourite error: ", error);
+                }
+            }
+        };
+
+        if (!randomBreed.id) return;
+
+        getFavourite();
+
+        return () => abortController.abort();
+    }, [randomBreed.id, updateFavourites]);
 
     const onLikeClick = async (): Promise<void> => {
         try {
@@ -87,13 +124,13 @@ const Voting: FC = () => {
 
     const onFavouriteClick = async (): Promise<void> => {
         try {
-            const data =
-                await FavouritesController.getInstance().setFavouriteBreed(
-                    randomBreed.id
-                );
+            const data = await FavouritesController.getInstance().setFavourite(
+                randomBreed.id
+            );
 
             if (data.message === "SUCCESS") {
-                console.log("success");
+                // setIsFavourite(true);
+                setUpdateFavourites(prev => !prev);
             }
         } catch (error) {
             console.error("Set favourite error: ", error);
@@ -113,7 +150,7 @@ const Voting: FC = () => {
                             <Image src={randomBreed.url} alt="cat" />
 
                             <VotingButtonsGroup
-                                isFavourite={false}
+                                isFavourite={isFavourite}
                                 onLikeClick={onLikeClick}
                                 onFavouriteClick={onFavouriteClick}
                                 onDislikeClick={onDislikeClick}

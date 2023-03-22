@@ -20,7 +20,7 @@ export class ImagesController {
     /**
      * getRandomImage
      */
-    public getRandomImage(signal: AbortSignal): Promise<RandomImageType[]> {
+    public getRandomImage(signal?: AbortSignal): Promise<RandomImageType[]> {
         return this.apiService.get<RandomImageType[]>("images/search", signal);
     }
 }
