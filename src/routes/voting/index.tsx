@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from "react";
 
+import { FavouritesController } from "@api/favouritesController";
+import { ImagesController } from "@api/imagesController";
+import { RandomImageType } from "@api/imagesController/types";
 import { VotingController } from "@api/votingController";
-import { RandomBreedType } from "@api/votingController/types";
 import { useBlockHeight } from "@hooks/useBlockHeight";
 
 import ContentWrapper from "@components/ContentWrapper";
@@ -17,7 +19,7 @@ import "./styles.scss";
 const Voting: FC = () => {
     const [messagesBlockRef, height] = useBlockHeight(52);
     const [loading, setLoading] = useState<boolean>(true);
-    const [randomBreed, setRandomBreed] = useState<RandomBreedType[0]>({
+    const [randomBreed, setRandomBreed] = useState<RandomImageType>({
         breeds: [],
         height: 100,
         id: "",
@@ -34,7 +36,7 @@ const Voting: FC = () => {
                 setLoading(true);
 
                 const data =
-                    await VotingController.getInstance().getRandomBreed(
+                    await ImagesController.getInstance().getRandomImage(
                         abortController.signal
                     );
 
@@ -55,7 +57,7 @@ const Voting: FC = () => {
         return () => abortController.abort();
     }, [nextImage]);
 
-    const onLikeClick = async () => {
+    const onLikeClick = async (): Promise<void> => {
         try {
             const data = await VotingController.getInstance().likeBreed(
                 randomBreed.id
@@ -66,6 +68,35 @@ const Voting: FC = () => {
             }
         } catch (error) {
             console.error("Like breed error: ", error);
+        }
+    };
+
+    const onDislikeClick = async (): Promise<void> => {
+        try {
+            const data = await VotingController.getInstance().dislikeBreed(
+                randomBreed.id
+            );
+
+            if (data.message === "SUCCESS") {
+                setNextImage(prev => !prev);
+            }
+        } catch (error) {
+            console.error("Dislike breed error: ", error);
+        }
+    };
+
+    const onFavouriteClick = async (): Promise<void> => {
+        try {
+            const data =
+                await FavouritesController.getInstance().setFavouriteBreed(
+                    randomBreed.id
+                );
+
+            if (data.message === "SUCCESS") {
+                console.log("success");
+            }
+        } catch (error) {
+            console.error("Set favourite error: ", error);
         }
     };
 
@@ -83,9 +114,9 @@ const Voting: FC = () => {
 
                             <VotingButtonsGroup
                                 isFavourite={false}
-                                onDislikeClick={() => {}}
-                                onFavouriteClick={() => {}}
                                 onLikeClick={onLikeClick}
+                                onFavouriteClick={onFavouriteClick}
+                                onDislikeClick={onDislikeClick}
                             />
                         </>
                     )}

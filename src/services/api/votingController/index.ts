@@ -1,9 +1,5 @@
 import { ApiService } from "..";
-import {
-    RandomBreedType,
-    VotingBreedDataType,
-    VotingBreedResponseType,
-} from "./types";
+import { VotingDataType, VotingResponseType } from "./types";
 
 export class VotingController {
     private static instance: VotingController;
@@ -22,19 +18,22 @@ export class VotingController {
     }
 
     /**
-     * getBreeds
+     * likeBreed
      */
-    public getRandomBreed(signal: AbortSignal): Promise<RandomBreedType> {
-        return this.apiService.get<RandomBreedType>("images/search", signal);
+    public likeBreed(image_id: string): Promise<VotingResponseType> {
+        return this.apiService.post<VotingDataType, VotingResponseType>(
+            "votes",
+            { value: 10, image_id, sub_id: "cat-super-user-21032023" }
+        );
     }
 
     /**
-     * likeBreed
+     * dislikeBreed
      */
-    public likeBreed(image_id: string): Promise<VotingBreedResponseType> {
-        return this.apiService.post<
-            VotingBreedDataType,
-            VotingBreedResponseType
-        >("votes", { value: 10, image_id, sub_id: "cat-super-user-21032023" });
+    public dislikeBreed(image_id: string): Promise<VotingResponseType> {
+        return this.apiService.post<VotingDataType, VotingResponseType>(
+            "votes",
+            { value: 1, image_id, sub_id: "cat-super-user-21032023" }
+        );
     }
 }
