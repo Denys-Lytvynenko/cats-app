@@ -1,5 +1,6 @@
 import { ApiService } from "..";
 import {
+    DeleteFavouriteResponse,
     GetFavouritesResponse,
     SetFavouriteDataType,
     SetFavouritesResponseType,
@@ -38,5 +39,16 @@ export class FavouritesController {
      */
     public getFavourites(signal?: AbortSignal): Promise<GetFavouritesResponse> {
         return this.apiService.get<GetFavouritesResponse>(this.baseUrl, signal);
+    }
+
+    /**
+     * deleteFavourite
+     */
+    public deleteFavourite(
+        favourite_id: string
+    ): Promise<DeleteFavouriteResponse> {
+        return this.apiService.delete<DeleteFavouriteResponse>(
+            `${this.baseUrl}/${favourite_id}`
+        );
     }
 }

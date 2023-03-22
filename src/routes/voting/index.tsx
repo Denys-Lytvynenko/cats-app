@@ -27,7 +27,7 @@ const Voting: FC = () => {
         width: 100,
     });
     const [nextImage, setNextImage] = useState<boolean>(true);
-    const [isFavourite, setIsFavourite] = useState<boolean>(false);
+    const [isFavourite, setIsFavourite] = useState<string>("");
     const [updateFavourites, setUpdateFavourites] = useState<boolean>(true);
 
     useEffect(() => {
@@ -74,9 +74,9 @@ const Voting: FC = () => {
                 );
 
                 if (isFavourite) {
-                    setIsFavourite(true);
+                    setIsFavourite(isFavourite.id.toString());
                 } else {
-                    setIsFavourite(false);
+                    setIsFavourite("");
                 }
             } catch (error) {
                 if (abortController.signal.aborted) {
@@ -124,13 +124,26 @@ const Voting: FC = () => {
 
     const onFavouriteClick = async (): Promise<void> => {
         try {
-            const data = await FavouritesController.getInstance().setFavourite(
-                randomBreed.id
-            );
+            if (!isFavourite) {
+                // Set favourite
+                const data =
+                    await FavouritesController.getInstance().setFavourite(
+                        randomBreed.id
+                    );
 
-            if (data.message === "SUCCESS") {
-                // setIsFavourite(true);
-                setUpdateFavourites(prev => !prev);
+                if (data.message === "SUCCESS") {
+                    setUpdateFavourites(prev => !prev);
+                }
+            } else {
+                // Delete favourite
+                const data =
+                    await FavouritesController.getInstance().deleteFavourite(
+                        isFavourite
+                    );
+
+                if (data.message === "SUCCESS") {
+                    setIsFavourite("");
+                }
             }
         } catch (error) {
             console.error("Set favourite error: ", error);
@@ -150,7 +163,7 @@ const Voting: FC = () => {
                             <Image src={randomBreed.url} alt="cat" />
 
                             <VotingButtonsGroup
-                                isFavourite={isFavourite}
+                                isFavourite={!!isFavourite}
                                 onLikeClick={onLikeClick}
                                 onFavouriteClick={onFavouriteClick}
                                 onDislikeClick={onDislikeClick}

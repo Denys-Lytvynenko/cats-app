@@ -45,7 +45,7 @@ const VotingMessage: FC<VotingMessageProps> = ({
             default:
                 return (
                     <div className="voting__message-text">
-                        Image ID: <b>${imageId}</b> was added to Favourites
+                        Image ID: <b>${imageId}</b> was removed from Favourites
                     </div>
                 );
         }

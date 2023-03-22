@@ -3,9 +3,8 @@ export interface SetFavouriteDataType {
     sub_id: string;
 }
 
-export interface SetFavouritesResponseType {
+export interface SetFavouritesResponseType extends DeleteFavouriteResponse {
     id: number;
-    message: "SUCCESS";
 }
 
 export interface FavouritesItem {
@@ -21,3 +20,7 @@ export interface FavouritesItem {
 }
 
 export type GetFavouritesResponse = FavouritesItem[];
+
+export interface DeleteFavouriteResponse {
+    message: "SUCCESS";
+}
