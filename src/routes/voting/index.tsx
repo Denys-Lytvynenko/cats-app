@@ -55,7 +55,7 @@ const Voting: FC = () => {
         return () => abortController.abort();
     }, [nextImage]);
 
-    const onLikeClick = async () => {
+    const onLikeClick = async (): Promise<void> => {
         try {
             const data = await VotingController.getInstance().likeBreed(
                 randomBreed.id
@@ -69,7 +69,7 @@ const Voting: FC = () => {
         }
     };
 
-    const onDislikeClick = async () => {
+    const onDislikeClick = async (): Promise<void> => {
         try {
             const data = await VotingController.getInstance().dislikeBreed(
                 randomBreed.id
@@ -80,6 +80,20 @@ const Voting: FC = () => {
             }
         } catch (error) {
             console.error("Dislike breed error: ", error);
+        }
+    };
+
+    const onFavouriteClick = async (): Promise<void> => {
+        try {
+            const data = await VotingController.getInstance().setFavouriteBreed(
+                randomBreed.id
+            );
+
+            if (data.message === "SUCCESS") {
+                console.log("success");
+            }
+        } catch (error) {
+            console.error("Set favourite error: ", error);
         }
     };
 
@@ -98,7 +112,7 @@ const Voting: FC = () => {
                             <VotingButtonsGroup
                                 isFavourite={false}
                                 onLikeClick={onLikeClick}
-                                onFavouriteClick={() => {}}
+                                onFavouriteClick={onFavouriteClick}
                                 onDislikeClick={onDislikeClick}
                             />
                         </>

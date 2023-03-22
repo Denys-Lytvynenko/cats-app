@@ -1,8 +1,10 @@
 import { ApiService } from "..";
 import {
     RandomBreedType,
-    VotingBreedDataType,
-    VotingBreedResponseType,
+    SetFavouriteDataType,
+    SetFavouritesResponseType,
+    VotingDataType,
+    VotingResponseType,
 } from "./types";
 
 export class VotingController {
@@ -31,20 +33,32 @@ export class VotingController {
     /**
      * likeBreed
      */
-    public likeBreed(image_id: string): Promise<VotingBreedResponseType> {
-        return this.apiService.post<
-            VotingBreedDataType,
-            VotingBreedResponseType
-        >("votes", { value: 10, image_id, sub_id: "cat-super-user-21032023" });
+    public likeBreed(image_id: string): Promise<VotingResponseType> {
+        return this.apiService.post<VotingDataType, VotingResponseType>(
+            "votes",
+            { value: 10, image_id, sub_id: "cat-super-user-21032023" }
+        );
     }
 
     /**
      * dislikeBreed
      */
-    public dislikeBreed(image_id: string): Promise<VotingBreedResponseType> {
+    public dislikeBreed(image_id: string): Promise<VotingResponseType> {
+        return this.apiService.post<VotingDataType, VotingResponseType>(
+            "votes",
+            { value: 1, image_id, sub_id: "cat-super-user-21032023" }
+        );
+    }
+
+    /**
+     * favouriteBreed
+     */
+    public setFavouriteBreed(
+        image_id: string
+    ): Promise<SetFavouritesResponseType> {
         return this.apiService.post<
-            VotingBreedDataType,
-            VotingBreedResponseType
-        >("votes", { value: 1, image_id, sub_id: "cat-super-user-21032023" });
+            SetFavouriteDataType,
+            SetFavouritesResponseType
+        >("favourites", { image_id, sub_id: "cat-super-user-21032023" });
     }
 }

@@ -6,17 +6,23 @@ export type RandomBreedType = {
     height: number;
 }[];
 
-export interface VotingBreedDataType {
-    image_id: string;
-    sub_id: string;
+export interface VotingDataType extends SetFavouriteDataType {
     value: 1 | 10;
 }
 
-export interface VotingBreedResponseType {
-    message: "SUCCESS";
-    id: number;
+export interface VotingResponseType extends SetFavouritesResponseType {
     image_id: string;
     sub_id: string;
     value: number;
     country_code: string;
+}
+
+export interface SetFavouriteDataType {
+    image_id: string;
+    sub_id: string;
+}
+
+export interface SetFavouritesResponseType {
+    message: "SUCCESS";
+    id: number;
 }
