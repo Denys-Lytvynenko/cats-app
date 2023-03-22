@@ -1,11 +1,5 @@
 import { ApiService } from "..";
-import {
-    RandomBreedType,
-    SetFavouriteDataType,
-    SetFavouritesResponseType,
-    VotingDataType,
-    VotingResponseType,
-} from "./types";
+import { VotingDataType, VotingResponseType } from "./types";
 
 export class VotingController {
     private static instance: VotingController;
@@ -21,13 +15,6 @@ export class VotingController {
         }
 
         return VotingController.instance;
-    }
-
-    /**
-     * getBreeds
-     */
-    public getRandomBreed(signal: AbortSignal): Promise<RandomBreedType> {
-        return this.apiService.get<RandomBreedType>("images/search", signal);
     }
 
     /**
@@ -48,17 +35,5 @@ export class VotingController {
             "votes",
             { value: 1, image_id, sub_id: "cat-super-user-21032023" }
         );
-    }
-
-    /**
-     * favouriteBreed
-     */
-    public setFavouriteBreed(
-        image_id: string
-    ): Promise<SetFavouritesResponseType> {
-        return this.apiService.post<
-            SetFavouriteDataType,
-            SetFavouritesResponseType
-        >("favourites", { image_id, sub_id: "cat-super-user-21032023" });
     }
 }

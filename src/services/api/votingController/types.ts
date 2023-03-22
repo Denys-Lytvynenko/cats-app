@@ -1,10 +1,7 @@
-export type RandomBreedType = {
-    breeds: [];
-    id: string;
-    url: string;
-    width: number;
-    height: number;
-}[];
+import {
+    SetFavouriteDataType,
+    SetFavouritesResponseType,
+} from "../favouritesController/types";
 
 export interface VotingDataType extends SetFavouriteDataType {
     value: 1 | 10;
@@ -15,14 +12,4 @@ export interface VotingResponseType extends SetFavouritesResponseType {
     sub_id: string;
     value: number;
     country_code: string;
-}
-
-export interface SetFavouriteDataType {
-    image_id: string;
-    sub_id: string;
-}
-
-export interface SetFavouritesResponseType {
-    message: "SUCCESS";
-    id: number;
 }
