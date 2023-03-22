@@ -1,12 +1,20 @@
 import { ApiService } from "..";
-import { VotingDataType, VotingResponseType } from "./types";
+import {
+    GetVotesResponseType,
+    VotingDataType,
+    VotingResponseType,
+} from "./types";
 
 export class VotingController {
     private static instance: VotingController;
     private readonly apiService: ApiService;
+    private readonly baseUrl: string;
+    private readonly sub_id: string;
 
     constructor() {
         this.apiService = ApiService.getInstance();
+        this.baseUrl = "votes";
+        this.sub_id = import.meta.env.VITE_SUB_ID;
     }
 
     static getInstance(): VotingController {
@@ -20,20 +28,30 @@ export class VotingController {
     /**
      * likeBreed
      */
-    public likeBreed(image_id: string): Promise<VotingResponseType> {
+    public like(image_id: string): Promise<VotingResponseType> {
         return this.apiService.post<VotingDataType, VotingResponseType>(
-            "votes",
-            { value: 10, image_id, sub_id: "cat-super-user-21032023" }
+            this.baseUrl,
+            { value: 10, image_id, sub_id: this.sub_id }
         );
     }
 
     /**
      * dislikeBreed
      */
-    public dislikeBreed(image_id: string): Promise<VotingResponseType> {
+    public dislike(image_id: string): Promise<VotingResponseType> {
         return this.apiService.post<VotingDataType, VotingResponseType>(
-            "votes",
-            { value: 1, image_id, sub_id: "cat-super-user-21032023" }
+            this.baseUrl,
+            { value: 1, image_id, sub_id: this.sub_id }
+        );
+    }
+
+    /**
+     * getVotes
+     */
+    public getVotes(signal?: AbortSignal): Promise<GetVotesResponseType[]> {
+        return this.apiService.get<GetVotesResponseType[]>(
+            `${this.baseUrl}?${this.sub_id}`,
+            signal
         );
     }
 }

@@ -51,9 +51,18 @@ const VotingMessage: FC<VotingMessageProps> = ({
         }
     }, []);
 
+    const formattedTime = useMemo(
+        () =>
+            new Date(time).toLocaleTimeString("uk", {
+                hour: "2-digit",
+                minute: "2-digit",
+            }),
+        []
+    );
+
     return (
         <div className={cn("voting__message", className)}>
-            <div className="voting__message-time">{time}</div>
+            <div className="voting__message-time">{formattedTime}</div>
 
             {message}
 

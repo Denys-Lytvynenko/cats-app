@@ -10,10 +10,11 @@ export class FavouritesController {
     private static instance: FavouritesController;
     private readonly apiService: ApiService;
     private readonly baseUrl: string;
-
+    private readonly sub_id: string;
     constructor() {
         this.apiService = new ApiService();
         this.baseUrl = "favourites";
+        this.sub_id = import.meta.env.VITE_SUB_ID;
     }
 
     static getInstance(): FavouritesController {
@@ -31,7 +32,7 @@ export class FavouritesController {
         return this.apiService.post<
             SetFavouriteDataType,
             SetFavouritesResponseType
-        >(this.baseUrl, { image_id, sub_id: "cat-super-user-21032023" });
+        >(this.baseUrl, { image_id, sub_id: this.sub_id });
     }
 
     /**
