@@ -4,17 +4,19 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { routes } from "@routes/routes";
 
-import Breed from "@routes/breeds/breed";
 import Breeds from "@routes/breeds";
+import Breed from "@routes/breeds/breed";
+import Dislikes from "@routes/dislikes";
+import Favourites from "@routes/favourites";
 import Gallery from "@routes/gallery";
 import Home from "@routes/home";
+import Likes from "@routes/likes";
 import Root from "@routes/root";
 import Search from "@routes/search";
 import Voting from "@routes/voting";
 import ErrorPage from "./pages/ErrorPage";
 
 import "./index.scss";
-import Likes from "./routes/likes";
 
 const rootElement = document.getElementById("root") as HTMLElement;
 
@@ -51,6 +53,14 @@ const router = createBrowserRouter([
             {
                 path: routes.likes,
                 element: <Likes />,
+            },
+            {
+                path: routes.dislikes,
+                element: <Dislikes />,
+            },
+            {
+                path: routes.favourites,
+                element: <Favourites />,
             },
         ],
     },

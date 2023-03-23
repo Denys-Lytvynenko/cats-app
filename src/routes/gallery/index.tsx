@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import Button from "@components/Button";
 import ContentWrapper from "@components/ContentWrapper";
@@ -7,6 +7,7 @@ import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
 import Select from "@components/Select";
 import GalleryRouteTile from "./GalleryRouteTile";
+import UploadModal from "./UploadModal/UploadModal";
 
 import { ReactComponent as RefreshIcon } from "@assets/icons/refresh.svg";
 import { ReactComponent as UploadIcon } from "@assets/icons/upload.svg";
@@ -14,6 +15,9 @@ import { ReactComponent as UploadIcon } from "@assets/icons/upload.svg";
 import "./styles.scss";
 
 const Gallery: FC = () => {
+    const [isOpenUploadModal, setIsOpenUploadModal] = useState<boolean>(false);
+    const toggleModal = () => setIsOpenUploadModal(prev => !prev);
+
     return (
         <ContentWrapper>
             <SectionWrapper>
@@ -21,6 +25,7 @@ const Gallery: FC = () => {
                     <Button
                         buttonStyle="icon-text-button"
                         className="gallery__upload-button"
+                        onClick={toggleModal}
                     >
                         <UploadIcon />
                         Upload
@@ -68,6 +73,10 @@ const Gallery: FC = () => {
                     </div>
                 </div>
                 <GalleryGrid tileComponent={GalleryRouteTile} />
+
+                <UploadModal isOpen={isOpenUploadModal} onClose={toggleModal}>
+                    Modal content
+                </UploadModal>
             </SectionWrapper>
         </ContentWrapper>
     );
