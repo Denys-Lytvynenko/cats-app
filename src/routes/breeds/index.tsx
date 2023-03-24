@@ -1,6 +1,8 @@
-import { ChangeEvent, FC, createRef, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 
-import useFetch from "@hooks/useFetch";
+import { BreedsController } from "@api/breedsController";
+import { useTiles } from "@hooks/useTiles";
+import { UseTilesDataType } from "@hooks/useTiles/types";
 
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
@@ -14,7 +16,6 @@ import { ReactComponent as SortAZIcon } from "@assets/icons/sorting_a-z.svg";
 import { ReactComponent as SortZAIcon } from "@assets/icons/sorting_z-a.svg";
 
 import "./styles.scss";
-import { BreedType } from "../../utils/api/types";
 
 const limitOptions = [
     { name: "Limit: 5", value: "5" },
@@ -32,9 +33,53 @@ const Breeds: FC = () => {
     const changeLimitHandler = (event: ChangeEvent<HTMLSelectElement>) =>
         setLimit(event.target.value);
 
-    const [loading, breeds] = useFetch<BreedType[]>(
-        `https://api.thecatapi.com/v1/breeds?limit=${limit}&page=0`
-    );
+    const [loading, setLoading] = useState<boolean>(true);
+    const [breeds, setBreeds] = useState<UseTilesDataType[] | null>(null);
+
+    useEffect(() => {
+        const abortController = new AbortController();
+
+        const getBreeds = async () => {
+            try {
+                setLoading(true);
+                const data = await BreedsController.getInstance().getBreeds(
+                    limit,
+                    "0",
+                    abortController.signal
+                );
+
+                if (data) {
+                    const actualData: UseTilesDataType[] = data.map(
+                        ({ name, image: { id, url } }) => ({
+                            id,
+                            image: url,
+                            href: id,
+                            name,
+                        })
+                    );
+
+                    setBreeds(actualData);
+                } else {
+                    setBreeds(null);
+                }
+
+                setLoading(false);
+            } catch (error) {
+                if (abortController.signal.aborted) {
+                    console.log("Request aborted by the user");
+                } else {
+                    console.error("Get breeds error: ", error);
+                    setLoading(false);
+                }
+            }
+        };
+
+        getBreeds();
+
+        return () => abortController.abort();
+    }, [limit]);
+
+    const tiles = useTiles({ data: breeds, component: BreedsTile });
 
     return (
         <ContentWrapper>
@@ -72,11 +117,7 @@ const Breeds: FC = () => {
                     />
                 </SectionTop>
 
-                <GalleryGrid
-                    tileComponent={BreedsTile}
-                    data={breeds}
-                    loading={loading}
-                />
+                <GalleryGrid tiles={tiles} loading={loading} />
             </SectionWrapper>
         </ContentWrapper>
     );

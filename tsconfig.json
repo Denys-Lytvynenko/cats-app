@@ -22,7 +22,8 @@
             "@components/*": ["components/*"],
             "@utils/*": ["utils/*"],
             "@hooks/*": ["hooks/*"],
-            "@routes/*": ["routes/*"]
+            "@routes/*": ["routes/*"],
+            "@api/*": ["services/api/*"]
         }
     },
     "include": ["src"],
