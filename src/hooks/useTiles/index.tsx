@@ -1,9 +1,12 @@
-import { FC, useMemo } from "react";
+import { useMemo } from "react";
 
 import WrapperComponent from "./WrapperComponent";
 import { UseTilesProps } from "./types";
 
-const useTiles = ({ data, component }: UseTilesProps): JSX.Element[] | null => {
+export const useTiles = ({
+    data,
+    component,
+}: UseTilesProps): JSX.Element[] | null => {
     const tiles = useMemo(() => {
         if (!data || !data.length) return null;
 
@@ -39,5 +42,3 @@ const useTiles = ({ data, component }: UseTilesProps): JSX.Element[] | null => {
 
     return tiles;
 };
-
-export default useTiles;

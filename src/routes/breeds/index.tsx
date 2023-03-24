@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
 
 import { BreedsController } from "@api/breedsController";
-import useTiles from "@hooks/useTiles";
+import { useTiles } from "@hooks/useTiles";
 import { UseTilesDataType } from "@hooks/useTiles/types";
 
 import ContentWrapper from "@components/ContentWrapper";

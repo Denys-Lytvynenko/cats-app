@@ -8,21 +8,21 @@ export interface VotingDataType extends SetFavouriteDataType {
 }
 
 export interface VotingResponseType extends SetFavouritesResponseType {
+    country_code: string;
     image_id: string;
     sub_id: string;
     value: number;
-    country_code: string;
 }
 
 export interface GetVotesResponseType {
+    country_code: string;
+    created_at: Date;
     id: number;
     image_id: string;
-    sub_id: string;
-    created_at: Date;
-    value: 10;
-    country_code: string;
     image: {
         id: string;
         url: string;
     };
+    sub_id: string;
+    value: 10 | 1;
 }
