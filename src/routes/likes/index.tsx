@@ -1,16 +1,14 @@
 import { FC, useEffect, useState } from "react";
 
 import { VotingController } from "@api/votingController";
-import { GetVotesResponseType } from "@api/votingController/types";
+import { useTiles } from "@hooks/useTiles";
+import { UseTilesDataType } from "@hooks/useTiles/types";
 
 import ContentWrapper from "@components/ContentWrapper";
+import GalleryGrid from "@components/GalleryGrid";
+import GalleryTile from "@components/GalleryTile";
 import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
-import LikesGalleryGrid from "./LikesGalleryGrid";
-import GalleryGrid from "../../components/GalleryGrid";
-import GalleryTile from "../../components/GalleryTile";
-import useTiles from "../../hooks/useTiles";
-import { UseTilesDataType } from "../../hooks/useTiles/types";
 
 const Likes: FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -22,12 +20,13 @@ const Likes: FC = () => {
         const getLikes = async () => {
             try {
                 setLoading(true);
-                const data = await VotingController.getInstance().getVotes(
+
+                const votes = await VotingController.getInstance().getVotes(
                     abortController.signal
                 );
 
-                if (data) {
-                    const likes = data.filter(({ value }) => value === 10);
+                if (votes) {
+                    const likes = votes.filter(({ value }) => value === 10);
 
                     const actualData: UseTilesDataType[] = likes.map(
                         ({ image: { url } }) => ({ image: url })
@@ -61,6 +60,7 @@ const Likes: FC = () => {
         <ContentWrapper>
             <SectionWrapper>
                 <SectionTop />
+
                 <GalleryGrid loading={loading} tiles={tiles} />
             </SectionWrapper>
         </ContentWrapper>
