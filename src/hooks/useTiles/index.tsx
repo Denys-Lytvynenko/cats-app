@@ -1,11 +1,9 @@
 import { FC, useMemo } from "react";
 
-import { LikesGalleryGridProps } from "./types";
+import WrapperComponent from "./WrapperComponent";
+import { UseTilesProps } from "./types";
 
-import GalleryGrid from "@components/GalleryGrid";
-import GalleryTile from "@components/GalleryTile";
-
-const LikesGalleryGrid: FC<LikesGalleryGridProps> = ({ loading, data }) => {
+const useTiles = ({ data, component }: UseTilesProps): JSX.Element[] | null => {
     const tiles = useMemo(() => {
         if (!data || !data.length) return null;
 
@@ -13,12 +11,14 @@ const LikesGalleryGrid: FC<LikesGalleryGridProps> = ({ loading, data }) => {
         let rows = [];
 
         for (let i = 0; i < data.length; i++) {
-            if (data[i].image.url) {
+            if (data[i].image) {
                 row.push(
-                    <GalleryTile
+                    <WrapperComponent
                         key={data[i].id + i.toString()}
-                        image={data[i].image.url}
-                        name={data[i].image_id}
+                        image={data[i].image}
+                        name={data[i].name}
+                        href={data[i].href}
+                        component={component}
                     />
                 );
             }
@@ -37,7 +37,7 @@ const LikesGalleryGrid: FC<LikesGalleryGridProps> = ({ loading, data }) => {
         return rows;
     }, [data]);
 
-    return <GalleryGrid loading={loading} tiles={tiles} />;
+    return tiles;
 };
 
-export default LikesGalleryGrid;
+export default useTiles;

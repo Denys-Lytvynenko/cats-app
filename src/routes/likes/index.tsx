@@ -7,10 +7,14 @@ import ContentWrapper from "@components/ContentWrapper";
 import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
 import LikesGalleryGrid from "./LikesGalleryGrid";
+import GalleryGrid from "../../components/GalleryGrid";
+import GalleryTile from "../../components/GalleryTile";
+import useTiles from "../../hooks/useTiles";
+import { UseTilesDataType } from "../../hooks/useTiles/types";
 
 const Likes: FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
-    const [data, setData] = useState<GetVotesResponseType[] | null>(null);
+    const [data, setData] = useState<UseTilesDataType[] | null>(null);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -22,9 +26,18 @@ const Likes: FC = () => {
                     abortController.signal
                 );
 
-                const likes = data.filter(({ value }) => value === 10);
+                if (data) {
+                    const likes = data.filter(({ value }) => value === 10);
 
-                setData(likes);
+                    const actualData: UseTilesDataType[] = likes.map(
+                        ({ image: { url } }) => ({ image: url })
+                    );
+
+                    setData(actualData);
+                } else {
+                    setData(null);
+                }
+
                 setLoading(false);
             } catch (error) {
                 if (abortController.signal.aborted) {
@@ -42,12 +55,13 @@ const Likes: FC = () => {
         return () => abortController.abort();
     }, []);
 
+    const tiles = useTiles({ data, component: GalleryTile });
+
     return (
         <ContentWrapper>
             <SectionWrapper>
                 <SectionTop />
-
-                <LikesGalleryGrid loading={loading} data={data} />
+                <GalleryGrid loading={loading} tiles={tiles} />
             </SectionWrapper>
         </ContentWrapper>
     );
