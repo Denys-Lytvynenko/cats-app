@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 
 import Button from "@components/Button";
 import ContentWrapper from "@components/ContentWrapper";
@@ -13,10 +13,73 @@ import { ReactComponent as RefreshIcon } from "@assets/icons/refresh.svg";
 import { ReactComponent as UploadIcon } from "@assets/icons/upload.svg";
 
 import "./styles.scss";
+import { UseTilesDataType } from "../../hooks/useTiles/types";
+import { useTiles } from "../../hooks/useTiles";
+import { ImagesController } from "../../services/api/imagesController";
+import { OptionsType } from "../../components/Select/types";
+
+const limitOptions: OptionsType = [
+    { value: "5", name: "5 items per page" },
+    { value: "10", name: "10 items per page" },
+    { value: "15", name: "15 items per page" },
+    { value: "20", name: "20 items per page" },
+];
 
 const Gallery: FC = () => {
+    const [limitValue, setLimitValue] = useState<string>(limitOptions[0].value);
+    const onChangeLimit = (event: ChangeEvent<HTMLSelectElement>) =>
+        setLimitValue(event.target.value);
+
+    const [update, setUpdate] = useState<boolean>(false);
+    const onUpdate = () => setUpdate(prev => !prev);
+
     const [isOpenUploadModal, setIsOpenUploadModal] = useState<boolean>(false);
     const toggleModal = () => setIsOpenUploadModal(prev => !prev);
+
+    const [loading, setLoading] = useState<boolean>(true);
+    const [data, setData] = useState<UseTilesDataType[] | null>(null);
+
+    useEffect(() => {
+        const abortController = new AbortController();
+
+        const getGalleryImages = async () => {
+            try {
+                setLoading(true);
+                const galleryImages =
+                    await ImagesController.getInstance().getImages({
+                        limit: limitValue,
+                        page: "0",
+                        signal: abortController.signal,
+                    });
+
+                if (galleryImages) {
+                    const actualData: UseTilesDataType[] = galleryImages.map(
+                        ({ id, url }) => ({ id, image: url })
+                    );
+
+                    setData(actualData);
+                } else {
+                    setData(null);
+                }
+
+                setLoading(false);
+            } catch (error) {
+                if (abortController.signal.aborted) {
+                    console.log("Request canceled by the user");
+                } else {
+                    console.error("Get gallery images error: ", error);
+                    setData(null);
+                    setLoading(false);
+                }
+            }
+        };
+
+        getGalleryImages();
+
+        return () => abortController.abort();
+    }, [update]);
+
+    const tiles = useTiles({ data, component: GalleryRouteTile });
 
     return (
         <ContentWrapper>
@@ -37,21 +100,27 @@ const Gallery: FC = () => {
                         name="order"
                         title="order"
                         label="order"
-                        options={[{ value: "Some value" }]}
+                        options={[{ value: "Some value", name: "name" }]}
+                        value="name"
+                        onChange={() => {}}
                     />
 
                     <Select
                         name="type"
                         title="type"
                         label="type"
-                        options={[{ value: "Some value" }]}
+                        options={[{ value: "Some value", name: "name" }]}
+                        value="name"
+                        onChange={() => {}}
                     />
 
                     <Select
                         name="breed"
                         title="breed"
                         label="breed"
-                        options={[{ value: "Some value" }]}
+                        options={[{ value: "Some value", name: "name" }]}
+                        value="name"
+                        onChange={() => {}}
                     />
 
                     <div className="gallery__filters-group">
@@ -59,12 +128,14 @@ const Gallery: FC = () => {
                             name="limit"
                             title="limit"
                             label="limit"
-                            options={[{ value: "Some value" }]}
+                            options={limitOptions}
+                            value={limitValue}
+                            onChange={onChangeLimit}
                         />
 
                         <Button
                             buttonStyle="icon-button"
-                            onClick={() => {}}
+                            onClick={onUpdate}
                             size="small"
                             ariaLabel="refresh"
                         >
@@ -72,7 +143,8 @@ const Gallery: FC = () => {
                         </Button>
                     </div>
                 </div>
-                <GalleryGrid tileComponent={GalleryRouteTile} />
+
+                <GalleryGrid loading={loading} tiles={tiles} />
 
                 <UploadModal isOpen={isOpenUploadModal} onClose={toggleModal}>
                     Modal content
