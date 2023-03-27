@@ -21,7 +21,9 @@
             "@assets/*": ["assets/*"],
             "@components/*": ["components/*"],
             "@utils/*": ["utils/*"],
-            "@hooks/*": ["hooks/*"]
+            "@hooks/*": ["hooks/*"],
+            "@routes/*": ["routes/*"],
+            "@api/*": ["services/api/*"]
         }
     },
     "include": ["src"],
