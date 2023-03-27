@@ -3,6 +3,7 @@ import { ChangeEvent, FC, useEffect, useState } from "react";
 import { BreedsController } from "@api/breedsController";
 import { useTiles } from "@hooks/useTiles";
 import { UseTilesDataType } from "@hooks/useTiles/types";
+import { OptionsType } from "@components/Select/types";
 
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
@@ -17,7 +18,7 @@ import { ReactComponent as SortZAIcon } from "@assets/icons/sorting_z-a.svg";
 
 import "./styles.scss";
 
-const limitOptions = [
+const limitOptions: OptionsType = [
     { name: "Limit: 5", value: "5" },
     { name: "Limit: 10", value: "10" },
     { name: "Limit: 15", value: "15" },
