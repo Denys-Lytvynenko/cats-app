@@ -22,7 +22,7 @@ import "./styles.scss";
 
 const initialOptions: OptionsType = [{ name: "None", value: "" }];
 
-const orderOptions: OptionsType = [
+export const orderOptions: OptionsType = [
     { name: "Random", value: "random" },
     { name: "Asc", value: "asc" },
     { name: "Desc", value: "desc" },

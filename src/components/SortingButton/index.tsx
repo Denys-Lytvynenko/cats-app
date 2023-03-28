@@ -1,36 +1,29 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
-import { SortingButtonProps } from "./types";
 import { cn } from "@utils/classNames";
+import { SortingButtonProps } from "./types";
 
 import Button from "../Button";
 
 import "./styles.scss";
 
 const SortingButton: FC<SortingButtonProps> = ({
-    icon,
-    onClick,
-    className,
     ariaLabel,
-}) => {
-    const [active, setActive] = useState(false);
-    const handleClick = () => {
-        setActive(prev => !prev);
-        onClick();
-    };
-
-    return (
-        <Button
-            type="button"
-            buttonStyle="icon-button"
-            size="small"
-            className={cn("sorting-button", active ? "active" : "", className)}
-            onClick={handleClick}
-            ariaLabel={ariaLabel}
-        >
-            {icon}
-        </Button>
-    );
-};
+    className,
+    icon,
+    isActive,
+    onClick,
+}) => (
+    <Button
+        type="button"
+        buttonStyle="icon-button"
+        size="small"
+        className={cn("sorting-button", isActive ? "active" : "", className)}
+        onClick={onClick}
+        ariaLabel={ariaLabel}
+    >
+        {icon}
+    </Button>
+);
 
 export default SortingButton;
