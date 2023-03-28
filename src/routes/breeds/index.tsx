@@ -1,9 +1,9 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
 
 import { BreedsController } from "@api/breedsController";
+import { OptionsType } from "@components/Select/types";
 import { useTiles } from "@hooks/useTiles";
 import { UseTilesDataType } from "@hooks/useTiles/types";
-import { OptionsType } from "@components/Select/types";
 
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
@@ -30,7 +30,7 @@ const Breeds: FC = () => {
     const changeBreedsTypeHandler = (event: ChangeEvent<HTMLSelectElement>) =>
         setBreedsType(event.target.value);
 
-    const [limit, setLimit] = useState<string>("5");
+    const [limit, setLimit] = useState<string>(limitOptions[0].value);
     const changeLimitHandler = (event: ChangeEvent<HTMLSelectElement>) =>
         setLimit(event.target.value);
 
