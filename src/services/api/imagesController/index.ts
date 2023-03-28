@@ -1,5 +1,5 @@
 import { ApiService } from "..";
-import { BaseImageType, RandomImageType } from "./types";
+import { BaseImageType, GetImagesProps, RandomImageType } from "./types";
 
 export class ImagesController {
     private static instance: ImagesController;
@@ -51,6 +51,21 @@ export class ImagesController {
     ): Promise<BaseImageType[]> {
         return this.apiService.get<BaseImageType[]>(
             `${this.baseUrl}/search?breed_ids=${breed_id}&limit=${limit}`,
+            signal
+        );
+    }
+
+    /**
+     * getImages
+     */
+    public getImages({
+        limit,
+        page,
+        queryParams,
+        signal,
+    }: GetImagesProps): Promise<RandomImageType[]> {
+        return this.apiService.get<RandomImageType[]>(
+            `${this.baseUrl}/search?limit=${limit}&page=${page}${queryParams}`,
             signal
         );
     }

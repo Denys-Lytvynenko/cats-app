@@ -1,4 +1,4 @@
-import { FC, forwardRef, useMemo } from "react";
+import { FC, useMemo } from "react";
 
 import { cn } from "@utils/classNames";
 import { SelectProps } from "./types";
@@ -21,7 +21,7 @@ const Select: FC<SelectProps> = ({
                 {option.name}
             </option>
         ));
-    }, []);
+    }, [options]);
 
     return (
         <div className={cn("select", className)}>

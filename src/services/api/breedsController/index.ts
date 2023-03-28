@@ -27,8 +27,17 @@ export class BreedsController {
         page?: string,
         signal?: AbortSignal
     ): Promise<BreedType[]> {
+        const queryParams =
+            limit && page
+                ? `?limit=${limit}&page=${page}`
+                : !limit && page
+                ? `?page=${page}`
+                : limit && !page
+                ? `?limit=${limit}`
+                : "";
+
         return this.apiService.get<BreedType[]>(
-            `${this.baseUrl}?limit=${limit}&page=${page}`,
+            `${this.baseUrl}${queryParams}`,
             signal
         );
     }

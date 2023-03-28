@@ -10,3 +10,10 @@ export interface BaseImageType {
 export interface RandomImageType extends BaseImageType {
     breeds: BreedType[];
 }
+
+export interface GetImagesProps {
+    limit: string;
+    page: string;
+    queryParams?: string;
+    signal?: AbortSignal;
+}
