@@ -1,9 +1,10 @@
 @use "variables" as *;
 
 .image {
-    aspect-ratio: 1.77777;
+    aspect-ratio: $aspectRatio;
     border-radius: $borderRadius20;
     overflow: hidden;
+    @include flexCenter;
 
     img {
         height: 100%;

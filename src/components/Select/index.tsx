@@ -11,15 +11,17 @@ const Select: FC<SelectProps> = ({
     label,
     options,
     accentColor,
+    value,
+    onChange,
     className,
 }) => {
     const optionsList = useMemo(() => {
         return options.map(option => (
             <option value={option.value} key={option.value}>
-                {option.value}
+                {option.name}
             </option>
         ));
-    }, []);
+    }, [options]);
 
     return (
         <div className={cn("select", className)}>
@@ -35,6 +37,8 @@ const Select: FC<SelectProps> = ({
                     id={name}
                     className={cn("select__input", accentColor)}
                     title={title}
+                    value={value}
+                    onChange={onChange}
                 >
                     {optionsList}
                 </select>

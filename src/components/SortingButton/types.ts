@@ -1,8 +1,9 @@
 import { ReactElement } from "react";
 
 export interface SortingButtonProps {
-    icon: ReactElement;
-    onClick: () => void;
     ariaLabel: string;
+    icon: ReactElement;
+    isActive: boolean;
+    onClick: () => void;
     className?: string;
 }

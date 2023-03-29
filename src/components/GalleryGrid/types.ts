@@ -1,7 +1,4 @@
-import { FC } from "react";
-
-import { GalleryTileProps } from "../GalleryTile/types";
-
 export interface GalleryGridProps {
-    tileComponent: FC<GalleryTileProps>;
+    tiles: JSX.Element[] | null;
+    loading: boolean;
 }

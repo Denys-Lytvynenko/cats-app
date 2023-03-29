@@ -31,7 +31,7 @@ const Slider: FC<SliderProps> = ({ images }) => {
             prev => slidesContainerRef.current?.offsetWidth!
         );
     };
-    useLayoutEffect(sizeHandler, []);
+    useLayoutEffect(sizeHandler, [slideWidth]);
 
     useEffect(() => {
         addEventListener("resize", sizeHandler);
@@ -48,7 +48,7 @@ const Slider: FC<SliderProps> = ({ images }) => {
                 style={{ width: slideWidth }}
             />
         ));
-    }, [slideWidth]);
+    }, [images, slideWidth]);
 
     const controls = useMemo(() => {
         return images.map((img, index) => (
