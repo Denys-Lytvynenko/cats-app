@@ -45,15 +45,24 @@ const VotingMessage: FC<VotingMessageProps> = ({
             default:
                 return (
                     <div className="voting__message-text">
-                        Image ID: <b>${imageId}</b> was added to Favourites
+                        Image ID: <b>${imageId}</b> was removed from Favourites
                     </div>
                 );
         }
     }, []);
 
+    const formattedTime = useMemo(
+        () =>
+            new Date(time).toLocaleTimeString("uk", {
+                hour: "2-digit",
+                minute: "2-digit",
+            }),
+        []
+    );
+
     return (
         <div className={cn("voting__message", className)}>
-            <div className="voting__message-time">{time}</div>
+            <div className="voting__message-time">{formattedTime}</div>
 
             {message}
 
