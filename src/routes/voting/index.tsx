@@ -4,8 +4,8 @@ import { FavouritesController } from "@api/favouritesController";
 import { ImagesController } from "@api/imagesController";
 import { RandomImageType } from "@api/imagesController/types";
 import { VotingController } from "@api/votingController";
-import { GetVotesResponseType } from "@api/votingController/types";
 import { useBlockHeight } from "@hooks/useBlockHeight";
+import { LogMessageDataType } from "./types";
 
 import ContentWrapper from "@components/ContentWrapper";
 import Image from "@components/Image";
@@ -31,7 +31,9 @@ const Voting: FC = () => {
     const [nextImage, setNextImage] = useState<boolean>(true);
     const [isFavourite, setIsFavourite] = useState<string>("");
     const [updateFavourites, setUpdateFavourites] = useState<boolean>(true);
-    const [actionLog, setActionLog] = useState<GetVotesResponseType[]>();
+    const [actionLog, setActionLog] = useState<LogMessageDataType[] | null>(
+        null
+    );
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -69,20 +71,53 @@ const Voting: FC = () => {
             try {
                 setMessageLoading(true);
 
-                const data =
+                const favourites =
                     await FavouritesController.getInstance().getFavourites(
                         abortController.signal
                     );
 
-                const isFavourite = data.find(
-                    item => item.image_id === currentBreed
+                const votes = await VotingController.getInstance().getVotes(
+                    abortController.signal
                 );
 
-                if (isFavourite) {
-                    setIsFavourite(isFavourite.id.toString());
+                if (favourites && votes) {
+                    const convertFavourites: LogMessageDataType[] =
+                        favourites.map(({ id, created_at, image_id }) => ({
+                            id,
+                            created_at,
+                            image_id,
+                            value: 5,
+                        }));
+                    const convertVotes: LogMessageDataType[] = votes.map(
+                        ({ id, created_at, image_id, value }) => ({
+                            id,
+                            created_at,
+                            image_id,
+                            value,
+                        })
+                    );
+
+                    const concatenated: LogMessageDataType[] =
+                        convertFavourites.concat(convertVotes);
+
+                    const sortedByData = concatenated.sort(
+                        (a, b) =>
+                            new Date(b.created_at).getTime() -
+                            new Date(a.created_at).getTime()
+                    );
+                    setActionLog(sortedByData);
+
+                    const isFavourite = favourites.find(
+                        item => item.image_id === currentBreed
+                    );
+
+                    if (isFavourite) {
+                        setIsFavourite(isFavourite.id.toString());
+                    }
                 } else {
                     setIsFavourite("");
                 }
+
                 setMessageLoading(false);
             } catch (error) {
                 if (abortController.signal.aborted) {
@@ -95,24 +130,6 @@ const Voting: FC = () => {
             }
         };
 
-        const getVotes = async (): Promise<void> => {
-            try {
-                const data = await VotingController.getInstance().getVotes(
-                    abortController.signal
-                );
-
-                setActionLog(data);
-            } catch (error) {
-                if (abortController.signal.aborted) {
-                    console.log("Request rejected by user");
-                } else {
-                    console.error("Get votes error: ", error);
-                }
-            }
-        };
-
-        getVotes();
-
         if (!randomBreed.id) return;
 
         getFavourites(randomBreed.id);
@@ -122,6 +139,8 @@ const Voting: FC = () => {
 
     const onLikeClick = async (): Promise<void> => {
         try {
+            setImageLoading(true);
+
             const data = await VotingController.getInstance().like(
                 randomBreed.id
             );
@@ -136,6 +155,8 @@ const Voting: FC = () => {
 
     const onDislikeClick = async (): Promise<void> => {
         try {
+            setImageLoading(true);
+
             const data = await VotingController.getInstance().dislike(
                 randomBreed.id
             );
@@ -150,6 +171,8 @@ const Voting: FC = () => {
 
     const onFavouriteClick = async (): Promise<void> => {
         try {
+            setMessageLoading(true);
+
             if (!isFavourite) {
                 // Set favourite
                 const data =
@@ -169,6 +192,7 @@ const Voting: FC = () => {
 
                 if (data.message === "SUCCESS") {
                     setIsFavourite("");
+                    setMessageLoading(false);
                 }
             }
         } catch (error) {
@@ -185,17 +209,15 @@ const Voting: FC = () => {
                     {imageLoading ? (
                         <Loader />
                     ) : (
-                        <>
-                            <Image src={randomBreed.url} alt="cat" />
-
-                            <VotingButtonsGroup
-                                isFavourite={!!isFavourite}
-                                onLikeClick={onLikeClick}
-                                onFavouriteClick={onFavouriteClick}
-                                onDislikeClick={onDislikeClick}
-                            />
-                        </>
+                        <Image src={randomBreed.url} alt="cat" />
                     )}
+                    <VotingButtonsGroup
+                        disabled={imageLoading || messageLoading}
+                        isFavourite={!!isFavourite}
+                        onLikeClick={onLikeClick}
+                        onFavouriteClick={onFavouriteClick}
+                        onDislikeClick={onDislikeClick}
+                    />
                 </div>
 
                 <div
@@ -206,16 +228,22 @@ const Voting: FC = () => {
                     {messageLoading ? (
                         <Loader />
                     ) : (
-                        actionLog
-                            ?.map(({ id, created_at, image_id, value }) => (
+                        actionLog?.map(
+                            ({ id, created_at, image_id, value }) => (
                                 <VotingMessage
                                     key={id}
                                     time={created_at}
                                     imageId={image_id}
-                                    reaction={value > 1 ? "like" : "dislike"}
+                                    reaction={
+                                        value === 10
+                                            ? "like"
+                                            : value === 1
+                                            ? "dislike"
+                                            : "favourite"
+                                    }
                                 />
-                            ))
-                            .reverse()
+                            )
+                        )
                     )}
                 </div>
             </SectionWrapper>

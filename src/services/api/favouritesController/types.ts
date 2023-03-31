@@ -8,7 +8,7 @@ export interface SetFavouritesResponseType extends DeleteFavouriteResponse {
 }
 
 export interface FavouritesItem {
-    created_at: string;
+    created_at: Date;
     id: number;
     image: {
         id: string;
