@@ -19,7 +19,8 @@ import "./styles.scss";
 
 const Voting: FC = () => {
     const [messagesBlockRef, height] = useBlockHeight(52);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [imageLoading, setImageLoading] = useState<boolean>(true);
+    const [messageLoading, setMessageLoading] = useState<boolean>(true);
     const [randomBreed, setRandomBreed] = useState<RandomImageType>({
         breeds: [],
         height: 100,
@@ -37,7 +38,7 @@ const Voting: FC = () => {
 
         const getBreed = async () => {
             try {
-                setLoading(true);
+                setImageLoading(true);
 
                 const data =
                     await ImagesController.getInstance().getRandomImage(
@@ -45,13 +46,13 @@ const Voting: FC = () => {
                     );
 
                 setRandomBreed(data[0]);
-                setLoading(false);
+                setImageLoading(false);
             } catch (error) {
                 if (abortController.signal.aborted) {
                     console.log("Request rejected by user");
                 } else {
                     console.error("Random breed error: ", error);
-                    setLoading(false);
+                    setImageLoading(false);
                 }
             }
         };
@@ -66,6 +67,8 @@ const Voting: FC = () => {
 
         const getFavourites = async (currentBreed: string) => {
             try {
+                setMessageLoading(true);
+
                 const data =
                     await FavouritesController.getInstance().getFavourites(
                         abortController.signal
@@ -80,11 +83,14 @@ const Voting: FC = () => {
                 } else {
                     setIsFavourite("");
                 }
+                setMessageLoading(false);
             } catch (error) {
                 if (abortController.signal.aborted) {
                     console.log("Request rejected by user");
                 } else {
                     console.error("Get favourite error: ", error);
+                    setIsFavourite("");
+                    setMessageLoading(false);
                 }
             }
         };
@@ -176,7 +182,7 @@ const Voting: FC = () => {
                 <SectionTop />
 
                 <div className="voting__image-wrapper">
-                    {loading ? (
+                    {imageLoading ? (
                         <Loader />
                     ) : (
                         <>
@@ -197,16 +203,20 @@ const Voting: FC = () => {
                     style={{ height }}
                     className="voting__messages-wrapper"
                 >
-                    {actionLog
-                        ?.map(({ id, created_at, image_id, value }) => (
-                            <VotingMessage
-                                key={id}
-                                time={created_at}
-                                imageId={image_id}
-                                reaction={value > 1 ? "like" : "dislike"}
-                            />
-                        ))
-                        .reverse()}
+                    {messageLoading ? (
+                        <Loader />
+                    ) : (
+                        actionLog
+                            ?.map(({ id, created_at, image_id, value }) => (
+                                <VotingMessage
+                                    key={id}
+                                    time={created_at}
+                                    imageId={image_id}
+                                    reaction={value > 1 ? "like" : "dislike"}
+                                />
+                            ))
+                            .reverse()
+                    )}
                 </div>
             </SectionWrapper>
         </ContentWrapper>
