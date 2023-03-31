@@ -81,6 +81,7 @@ const Voting: FC = () => {
                 );
 
                 if (favourites && votes) {
+                    // Get action log
                     const convertFavourites: LogMessageDataType[] =
                         favourites.map(({ id, created_at, image_id }) => ({
                             id,
@@ -88,6 +89,7 @@ const Voting: FC = () => {
                             image_id,
                             value: 5,
                         }));
+
                     const convertVotes: LogMessageDataType[] = votes.map(
                         ({ id, created_at, image_id, value }) => ({
                             id,
@@ -105,8 +107,10 @@ const Voting: FC = () => {
                             new Date(b.created_at).getTime() -
                             new Date(a.created_at).getTime()
                     );
+
                     setActionLog(sortedByData);
 
+                    // Check if current image is in favourite
                     const isFavourite = favourites.find(
                         item => item.image_id === currentBreed
                     );
@@ -115,6 +119,7 @@ const Voting: FC = () => {
                         setIsFavourite(isFavourite.id.toString());
                     }
                 } else {
+                    setActionLog(null);
                     setIsFavourite("");
                 }
 
@@ -124,6 +129,7 @@ const Voting: FC = () => {
                     console.log("Request rejected by user");
                 } else {
                     console.error("Get favourite error: ", error);
+                    setActionLog(null);
                     setIsFavourite("");
                     setMessageLoading(false);
                 }
