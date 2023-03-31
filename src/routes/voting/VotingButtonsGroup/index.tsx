@@ -10,10 +10,11 @@ import { ReactComponent as LikesIcon } from "@assets/icons/likes.svg";
 import "./styles.scss";
 
 const VotingButtonsGroup: FC<VotingButtonsGroupProps> = ({
+    disabled,
     isFavourite,
-    onLikeClick,
-    onFavouriteClick,
     onDislikeClick,
+    onFavouriteClick,
+    onLikeClick,
 }) => (
     <div className="voting__button-group">
         <button
@@ -21,6 +22,7 @@ const VotingButtonsGroup: FC<VotingButtonsGroupProps> = ({
             className="voting__button likes"
             aria-label="likes button"
             onClick={onLikeClick}
+            disabled={disabled}
         >
             <LikesIcon />
         </button>
@@ -30,6 +32,7 @@ const VotingButtonsGroup: FC<VotingButtonsGroupProps> = ({
             className="voting__button favourites"
             aria-label="favourites button"
             onClick={onFavouriteClick}
+            disabled={disabled}
         >
             {isFavourite ? <FavouritesActiveIcon /> : <FavouritesIcon />}
         </button>
@@ -39,6 +42,7 @@ const VotingButtonsGroup: FC<VotingButtonsGroupProps> = ({
             className="voting__button dislikes"
             aria-label="dislikes button"
             onClick={onDislikeClick}
+            disabled={disabled}
         >
             <DislikesIcon />
         </button>
