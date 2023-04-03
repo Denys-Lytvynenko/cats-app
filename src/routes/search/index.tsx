@@ -5,6 +5,7 @@ import { BreedsController } from "@api/breedsController";
 import { ImagesController } from "@api/imagesController";
 import { useTiles } from "@hooks/useTiles";
 import { UseTilesDataType } from "@hooks/useTiles/types";
+import { routes } from "../routes";
 
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
@@ -59,7 +60,7 @@ const Search: FC = () => {
                             id,
                             image: url,
                             name: breeds[0].name,
-                            href: id,
+                            href: `${routes.breeds}/${id}`,
                         })
                     );
 
