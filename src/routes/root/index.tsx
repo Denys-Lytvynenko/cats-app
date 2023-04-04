@@ -19,7 +19,11 @@ const Root: FC = () => {
             <div className="app__side-wrapper">
                 <div className="app__navigation">
                     <header className="header">
-                        <Link to={routes.home} className="header__logo">
+                        <Link
+                            to={routes.home}
+                            className="header__logo"
+                            title="logo"
+                        >
                             <Logo />
                         </Link>
                         {/* TODO add dark mode button */}
