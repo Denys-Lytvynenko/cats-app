@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { UseTilesDataType } from "../../../../hooks/useTiles/types";
-import { ImagesController } from "../../../api/imagesController";
-import { BreedsController } from "../../../api/breedsController";
-import { OptionsType } from "../../../../components/Select/types";
+
+import { BreedsController } from "@api/breedsController";
+import { ImagesController } from "@api/imagesController";
+import { OptionsType } from "@components/Select/types";
+import { UseTilesDataType } from "@hooks/useTiles/types";
 
 type InitialState = {
     breedsImages: UseTilesDataType | null;

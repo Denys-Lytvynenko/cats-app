@@ -1,8 +1,8 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { BreedType } from "@api/breedsController/types";
-import { ImagesController } from "@api/imagesController";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { fetchImages } from "@store/slices/breedSlice";
 
 import ContentWrapper from "@components/ContentWrapper";
 import Loader from "@components/Loader";
@@ -18,60 +18,19 @@ import "./styles.scss";
 
 const Breed: FC = () => {
     const { breedId } = useParams();
-    const [loading, setLoading] = useState<boolean>(true);
-    const [descriptionBlockData, setDescriptionBlockData] =
-        useState<BreedType | null>(null);
-    const [sliderImages, setSliderImages] = useState<string[] | null>(null);
+
+    const { loading, description, sliderImages } = useAppSelector(
+        state => state.breed
+    );
+
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const abortController = new AbortController();
-
-        const getImages = async (imageId: string) => {
-            try {
-                setLoading(true);
-
-                const image = await ImagesController.getInstance().getImage(
-                    imageId,
-                    abortController.signal
-                );
-
-                if (image) {
-                    setDescriptionBlockData(image.breeds[0]);
-
-                    const images =
-                        await ImagesController.getInstance().getSimilarImages(
-                            image.breeds[0].id,
-                            "10",
-                            abortController.signal
-                        );
-
-                    if (images) {
-                        const actualData = images.map(({ url }) => url);
-
-                        setSliderImages(actualData);
-                    } else {
-                        setSliderImages(null);
-                    }
-                } else {
-                    setDescriptionBlockData(null);
-                }
-
-                setLoading(false);
-            } catch (error) {
-                if (abortController.signal.aborted) {
-                    console.log("Request canceled by the user");
-                } else {
-                    console.error("Get images error: ", error);
-                    setLoading(false);
-                    setDescriptionBlockData(null);
-                }
-            }
-        };
-
         if (!breedId) return;
-        getImages(breedId);
 
-        return () => abortController.abort();
+        const signal = dispatch(fetchImages(breedId));
+
+        return () => signal.abort("Abort fetchImages");
     }, [breedId]);
 
     return (
@@ -89,11 +48,11 @@ const Breed: FC = () => {
 
                         <div className="breed__info-block">
                             <Typography tag="h2" className="breed__name">
-                                {descriptionBlockData?.name}
+                                {description?.name}
                             </Typography>
 
                             <Typography tag="p" className="breed__description">
-                                {descriptionBlockData?.description}
+                                {description?.description}
                             </Typography>
 
                             <div className="breed__info">
@@ -107,7 +66,7 @@ const Breed: FC = () => {
                                     </Typography>
 
                                     <Typography tag="p">
-                                        {descriptionBlockData?.temperament}
+                                        {description?.temperament}
                                     </Typography>
                                 </div>
 
@@ -122,7 +81,7 @@ const Breed: FC = () => {
                                         </Typography>
 
                                         <Typography tag="p">
-                                            {descriptionBlockData?.origin}
+                                            {description?.origin}
                                         </Typography>
                                     </div>
 
@@ -135,10 +94,7 @@ const Breed: FC = () => {
                                             Weight:
                                         </Typography>
                                         <Typography tag="p">
-                                            {
-                                                descriptionBlockData?.weight
-                                                    .metric
-                                            }
+                                            {description?.weight.metric}
                                         </Typography>
                                     </div>
 
@@ -151,7 +107,7 @@ const Breed: FC = () => {
                                             Life span:
                                         </Typography>
                                         <Typography tag="p">
-                                            {descriptionBlockData?.life_span}
+                                            {description?.life_span}
                                         </Typography>
                                     </div>
                                 </div>
