@@ -6,6 +6,7 @@
     flex-direction: column;
     justify-content: center;
     row-gap: 10px;
+    width: -moz-fit-content;
     width: fit-content;
 
     &__image {
