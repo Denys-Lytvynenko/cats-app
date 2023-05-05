@@ -161,11 +161,13 @@ const votesSlice = createSlice({
         });
 
         builder.addCase(fetchActionLogMessages.rejected, (state, action) => {
-            state.actionLogMessages.messagesLoading = false;
-            state.actionLogMessages.messages = null;
-            state.isFavourite = "";
-            state.actionLogMessages.messagesError =
-                action.error.message || "Something went wrong";
+            if (action.error.message !== "Abort fetchActionLogMessages") {
+                state.actionLogMessages.messagesLoading = false;
+                state.actionLogMessages.messages = null;
+                state.isFavourite = "";
+                state.actionLogMessages.messagesError =
+                    action.error.message || "Something went wrong";
+            }
         });
 
         // fetchRandomImage
@@ -180,16 +182,18 @@ const votesSlice = createSlice({
         });
 
         builder.addCase(fetchRandomImage.rejected, (state, action) => {
-            state.randomBreedImage.randomBreedImageLoading = false;
-            state.randomBreedImage.randomBreedImage = {
-                breeds: [],
-                height: 100,
-                id: "",
-                url: "",
-                width: 100,
-            };
-            state.randomBreedImage.randomBreedImageError =
-                action.error.message || "Something went wrong";
+            if (action.error.message !== "fetchRandomImage") {
+                state.randomBreedImage.randomBreedImageLoading = false;
+                state.randomBreedImage.randomBreedImage = {
+                    breeds: [],
+                    height: 100,
+                    id: "",
+                    url: "",
+                    width: 100,
+                };
+                state.randomBreedImage.randomBreedImageError =
+                    action.error.message || "Something went wrong";
+            }
         });
 
         // likeBreed

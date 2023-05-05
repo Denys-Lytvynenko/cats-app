@@ -37,7 +37,7 @@ const Voting: FC = () => {
     useEffect(() => {
         const signal = dispatch(fetchRandomImage());
 
-        return () => signal.abort();
+        return () => signal.abort("Abort fetchRandomImage");
     }, [nextImage]);
 
     useEffect(() => {
@@ -45,7 +45,7 @@ const Voting: FC = () => {
 
         const signal = dispatch(fetchActionLogMessages(randomBreedImage!.id));
 
-        return () => signal.abort();
+        return () => signal.abort("Abort fetchActionLogMessages");
     }, [randomBreedImage.id, updateFavourites]);
 
     const onLikeClick = () => dispatch(likeBreed(randomBreedImage.id));

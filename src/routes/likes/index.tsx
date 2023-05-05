@@ -12,7 +12,7 @@ import SectionWrapper from "@components/SectionWrapper";
 
 const Likes: FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
-    const [data, setData] = useState<UseTilesDataType[] | null>(null);
+    const [data, setData] = useState<UseTilesDataType | null>(null);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -28,7 +28,7 @@ const Likes: FC = () => {
                 if (votes) {
                     const likes = votes.filter(({ value }) => value === 10);
 
-                    const actualData: UseTilesDataType[] = likes.map(
+                    const actualData: UseTilesDataType = likes.map(
                         ({ image: { url } }) => ({ image: url })
                     );
 

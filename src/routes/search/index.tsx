@@ -19,7 +19,7 @@ import "./styles.scss";
 const Search: FC = () => {
     const { searchId } = useParams();
     const [loading, setLoading] = useState<boolean>(true);
-    const [data, setData] = useState<UseTilesDataType[] | null>(null);
+    const [data, setData] = useState<UseTilesDataType | null>(null);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -56,7 +56,7 @@ const Search: FC = () => {
                                 signal: abortController.signal,
                             });
 
-                        const searchData: UseTilesDataType[] = images.map(
+                        const searchData: UseTilesDataType = images.map(
                             ({ breeds, id, url }) => ({
                                 id,
                                 image: url,
