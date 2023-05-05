@@ -12,7 +12,7 @@ import GalleryRouteTile from "../gallery/GalleryRouteTile";
 
 const Favourites: FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [data, setData] = useState<UseTilesDataType[] | null>(null);
+    const [data, setData] = useState<UseTilesDataType | null>(null);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -27,7 +27,7 @@ const Favourites: FC = () => {
                     );
 
                 if (favourites) {
-                    const actualData: UseTilesDataType[] = favourites.map(
+                    const actualData: UseTilesDataType = favourites.map(
                         ({ image: { id, url } }) => ({ id, image: url })
                     );
 
