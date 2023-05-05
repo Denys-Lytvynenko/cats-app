@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import breedSlice from "./slices/breedSlice";
 import breedsSlice from "./slices/breedsSlice";
+import gallerySlice from "./slices/gallerySlice";
 import votesReducer from "./slices/votesSlice";
 
 const store = configureStore({
@@ -9,6 +10,7 @@ const store = configureStore({
         votes: votesReducer,
         breeds: breedsSlice,
         breed: breedSlice,
+        gallery: gallerySlice,
     },
 });
 

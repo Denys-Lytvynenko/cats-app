@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
 
-import { BreedsController } from "@api/breedsController";
-import { ImagesController } from "@api/imagesController";
 import { OptionsType } from "@components/Select/types";
 import { useTiles } from "@hooks/useTiles";
-import { UseTilesDataType } from "@hooks/useTiles/types";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { fetchBreedsOptions } from "@store/slices/breedsSlice";
+import { fetchGalleryImages } from "@store/slices/gallerySlice";
 
 import Button from "@components/Button";
 import ContentWrapper from "@components/ContentWrapper";
@@ -19,8 +19,6 @@ import { ReactComponent as RefreshIcon } from "@assets/icons/refresh.svg";
 import { ReactComponent as UploadIcon } from "@assets/icons/upload.svg";
 
 import "./styles.scss";
-
-const initialOptions: OptionsType = [{ name: "None", value: "" }];
 
 export const orderOptions: OptionsType = [
     { name: "Random", value: "random" },
@@ -42,6 +40,11 @@ const limitOptions: OptionsType = [
 ];
 
 const Gallery: FC = () => {
+    const { loading, data } = useAppSelector(state => state.gallery);
+    const { breedsOptions } = useAppSelector(state => state.breeds);
+
+    const dispatch = useAppDispatch();
+
     const [orderValue, setOrderValue] = useState<string>(orderOptions[0].value);
     const onOrderChange = (event: ChangeEvent<HTMLSelectElement>) =>
         setOrderValue(event.target.value);
@@ -50,8 +53,6 @@ const Gallery: FC = () => {
     const onTypeChange = (event: ChangeEvent<HTMLSelectElement>) =>
         setTypeValue(event.target.value);
 
-    const [breedsOptions, setBreedsOptions] =
-        useState<OptionsType>(initialOptions);
     const [breedsValue, setBreedsValue] = useState<string>(
         breedsOptions[0].value
     );
@@ -68,108 +69,23 @@ const Gallery: FC = () => {
     const [isOpenUploadModal, setIsOpenUploadModal] = useState<boolean>(false);
     const toggleModal = () => setIsOpenUploadModal(prev => !prev);
 
-    const [loading, setLoading] = useState<boolean>(true);
-    const [data, setData] = useState<UseTilesDataType | null>(null);
-
     useEffect(() => {
-        const abortController = new AbortController();
+        const signal = dispatch(
+            fetchGalleryImages({
+                breedsValue,
+                limitValue,
+                orderValue,
+                typeValue,
+            })
+        );
 
-        // Fetch gallery images depending on query parameters
-        const getGalleryImages = async () => {
-            try {
-                setLoading(true);
-
-                const queryParams = new String().concat(
-                    `&order=${orderValue}`,
-                    `&mime_types=${typeValue}`,
-                    breedsValue ? `&breed_ids=${breedsValue}` : ""
-                );
-
-                const galleryImages =
-                    await ImagesController.getInstance().getImages({
-                        limit: limitValue,
-                        page: "0",
-                        queryParams,
-                        signal: abortController.signal,
-                    });
-
-                if (galleryImages) {
-                    const actualData: UseTilesDataType = galleryImages.map(
-                        ({ id, url }) => ({
-                            id,
-                            image: url,
-                        })
-                    );
-
-                    setData(actualData);
-                } else {
-                    setData(null);
-                }
-
-                setLoading(false);
-            } catch (error) {
-                if (abortController.signal.aborted) {
-                    console.log("Request canceled by the user");
-                } else {
-                    console.error("Get gallery images error: ", error);
-                    setData(null);
-                    setLoading(false);
-                }
-            }
-        };
-
-        getGalleryImages();
-
-        return () => abortController.abort();
+        return () => signal.abort("Abort fetchGalleryImages");
     }, [update]);
 
     useEffect(() => {
-        const abortController = new AbortController();
+        const signal = dispatch(fetchBreedsOptions());
 
-        // Fetch breeds select options from the API
-        const getBreedsOptions = async () => {
-            try {
-                const allBreeds =
-                    await BreedsController.getInstance().getBreeds();
-
-                if (allBreeds) {
-                    const breedsOpt = allBreeds
-                        .map(({ id, name }) => ({
-                            name,
-                            value: id,
-                        }))
-                        .filter(item => item.name && item.value);
-
-                    breedsOpt.unshift(initialOptions[0]);
-
-                    // Remove duplicated options
-                    const filteredOpt = breedsOpt.filter(
-                        (item, index, self) =>
-                            index ===
-                            self.findIndex(
-                                t =>
-                                    t?.value === item?.value &&
-                                    t?.name === item?.name
-                            )
-                    );
-
-                    setBreedsOptions(filteredOpt);
-                } else {
-                    setBreedsOptions(initialOptions);
-                }
-            } catch (error) {
-                if (abortController.signal.aborted) {
-                    console.log("Request canceled by the user");
-                } else {
-                    console.error("Get breeds options error: ", error);
-                    setBreedsOptions(initialOptions);
-                }
-            }
-        };
-
-        getBreedsOptions();
-
-        return () => abortController.abort();
+        return () => signal.abort("Abort fetchBreedsOptions");
     }, []);
 
     const tiles = useTiles({ data, component: GalleryRouteTile });

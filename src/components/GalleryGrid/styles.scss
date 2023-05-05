@@ -15,9 +15,9 @@
             "tile1 tile2 tile3"
             "tile1 tile5 tile5"
             "tile4 tile5 tile5";
-        grid-template-rows: minmax(140px, auto) minmax(140px, auto) minmax(
+        grid-template-rows: minmax(140px, 200px) minmax(140px, 200px) minmax(
                 140px,
-                auto
+                200px
             );
         grid-template-columns: 1fr 1fr 1fr;
         gap: 20px;
