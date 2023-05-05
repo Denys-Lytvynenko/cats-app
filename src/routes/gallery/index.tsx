@@ -69,7 +69,7 @@ const Gallery: FC = () => {
     const toggleModal = () => setIsOpenUploadModal(prev => !prev);
 
     const [loading, setLoading] = useState<boolean>(true);
-    const [data, setData] = useState<UseTilesDataType[] | null>(null);
+    const [data, setData] = useState<UseTilesDataType | null>(null);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -94,7 +94,7 @@ const Gallery: FC = () => {
                     });
 
                 if (galleryImages) {
-                    const actualData: UseTilesDataType[] = galleryImages.map(
+                    const actualData: UseTilesDataType = galleryImages.map(
                         ({ id, url }) => ({
                             id,
                             image: url,

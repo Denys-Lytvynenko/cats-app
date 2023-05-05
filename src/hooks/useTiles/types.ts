@@ -1,13 +1,13 @@
 import { FC } from "react";
 
-export interface UseTilesDataType {
+export type UseTilesDataType = {
+    href?: string;
     id?: string;
     image?: string;
-    href?: string;
     name?: string;
-}
+}[];
 
 export interface UseTilesProps {
-    data: UseTilesDataType[] | null;
     component: FC;
+    data: UseTilesDataType | null;
 }
