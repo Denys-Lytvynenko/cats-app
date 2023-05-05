@@ -12,6 +12,8 @@ import { SliderProps } from "./types";
 
 import Image from "../Image";
 
+import { ReactComponent as ArrowLeft } from "@assets/icons/arrow-left.svg";
+
 import "./styles.scss";
 
 const Slider: FC<SliderProps> = ({ images }) => {
@@ -31,7 +33,7 @@ const Slider: FC<SliderProps> = ({ images }) => {
             prev => slidesContainerRef.current?.offsetWidth!
         );
     };
-    useLayoutEffect(sizeHandler, []);
+    useLayoutEffect(sizeHandler, [slideWidth]);
 
     useEffect(() => {
         addEventListener("resize", sizeHandler);
@@ -48,7 +50,7 @@ const Slider: FC<SliderProps> = ({ images }) => {
                 style={{ width: slideWidth }}
             />
         ));
-    }, [slideWidth]);
+    }, [images, slideWidth]);
 
     const controls = useMemo(() => {
         return images.map((img, index) => (
@@ -69,20 +71,46 @@ const Slider: FC<SliderProps> = ({ images }) => {
         currentSlide
     );
 
+    const ifFirstSlide = currentSlide === 0;
+    const isLastSlide = currentSlide === images.length - 1;
+
+    const goPrev = () => !ifFirstSlide && setCurrentSlide(prev => prev - 1);
+    const goNext = () => !isLastSlide && setCurrentSlide(prev => prev + 1);
+
     return (
         <div
-            ref={sliderRef}
             className="slider"
+            ref={sliderRef}
             style={{ height: sliderHeight }}
         >
             <div className="slider__wrapper">
+                {!ifFirstSlide && (
+                    <button
+                        className="slider__navigation-button prev"
+                        onClick={goPrev}
+                        title="prev slide button"
+                    >
+                        <ArrowLeft />
+                    </button>
+                )}
+
                 <div
-                    ref={slidesContainerRef}
                     className="slider__slides-container"
+                    ref={slidesContainerRef}
                     style={{ left }}
                 >
                     {slides}
                 </div>
+
+                {!isLastSlide && (
+                    <button
+                        className="slider__navigation-button next"
+                        onClick={goNext}
+                        title="next slide button"
+                    >
+                        <ArrowLeft />
+                    </button>
+                )}
             </div>
 
             <div className="slider__navigation">{controls}</div>

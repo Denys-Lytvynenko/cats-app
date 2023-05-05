@@ -1,4 +1,10 @@
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+
+import { OptionsType } from "@components/Select/types";
+import { useTiles } from "@hooks/useTiles";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { fetchBreedsOptions } from "@store/slices/breedsSlice";
+import { fetchGalleryImages } from "@store/slices/gallerySlice";
 
 import Button from "@components/Button";
 import ContentWrapper from "@components/ContentWrapper";
@@ -14,9 +20,75 @@ import { ReactComponent as UploadIcon } from "@assets/icons/upload.svg";
 
 import "./styles.scss";
 
+export const orderOptions: OptionsType = [
+    { name: "Random", value: "random" },
+    { name: "Asc", value: "asc" },
+    { name: "Desc", value: "desc" },
+];
+
+const typeOptions: OptionsType = [
+    { name: "All", value: "jpg,png,gif" },
+    { name: "Static", value: "jpg,png" },
+    { name: "Animated", value: "gif" },
+];
+
+const limitOptions: OptionsType = [
+    { name: "5 items per page", value: "5" },
+    { name: "10 items per page", value: "10" },
+    { name: "15 items per page", value: "15" },
+    { name: "20 items per page", value: "20" },
+];
+
 const Gallery: FC = () => {
+    const { loading, data } = useAppSelector(state => state.gallery);
+    const { breedsOptions } = useAppSelector(state => state.breeds);
+
+    const dispatch = useAppDispatch();
+
+    const [orderValue, setOrderValue] = useState<string>(orderOptions[0].value);
+    const onOrderChange = (event: ChangeEvent<HTMLSelectElement>) =>
+        setOrderValue(event.target.value);
+
+    const [typeValue, setTypeValue] = useState<string>(typeOptions[0].value);
+    const onTypeChange = (event: ChangeEvent<HTMLSelectElement>) =>
+        setTypeValue(event.target.value);
+
+    const [breedsValue, setBreedsValue] = useState<string>(
+        breedsOptions[0].value
+    );
+    const onBreedChange = (event: ChangeEvent<HTMLSelectElement>) =>
+        setBreedsValue(event.target.value);
+
+    const [limitValue, setLimitValue] = useState<string>(limitOptions[0].value);
+    const onLimitChange = (event: ChangeEvent<HTMLSelectElement>) =>
+        setLimitValue(event.target.value);
+
+    const [update, setUpdate] = useState<boolean>(false);
+    const onUpdate = () => setUpdate(prev => !prev);
+
     const [isOpenUploadModal, setIsOpenUploadModal] = useState<boolean>(false);
     const toggleModal = () => setIsOpenUploadModal(prev => !prev);
+
+    useEffect(() => {
+        const signal = dispatch(
+            fetchGalleryImages({
+                breedsValue,
+                limitValue,
+                orderValue,
+                typeValue,
+            })
+        );
+
+        return () => signal.abort("Abort fetchGalleryImages");
+    }, [update]);
+
+    useEffect(() => {
+        const signal = dispatch(fetchBreedsOptions());
+
+        return () => signal.abort("Abort fetchBreedsOptions");
+    }, []);
+
+    const tiles = useTiles({ data, component: GalleryRouteTile });
 
     return (
         <ContentWrapper>
@@ -37,21 +109,27 @@ const Gallery: FC = () => {
                         name="order"
                         title="order"
                         label="order"
-                        options={[{ value: "Some value" }]}
+                        options={orderOptions}
+                        value={orderValue}
+                        onChange={onOrderChange}
                     />
 
                     <Select
                         name="type"
                         title="type"
                         label="type"
-                        options={[{ value: "Some value" }]}
+                        options={typeOptions}
+                        value={typeValue}
+                        onChange={onTypeChange}
                     />
 
                     <Select
                         name="breed"
                         title="breed"
                         label="breed"
-                        options={[{ value: "Some value" }]}
+                        options={breedsOptions}
+                        value={breedsValue}
+                        onChange={onBreedChange}
                     />
 
                     <div className="gallery__filters-group">
@@ -59,12 +137,14 @@ const Gallery: FC = () => {
                             name="limit"
                             title="limit"
                             label="limit"
-                            options={[{ value: "Some value" }]}
+                            options={limitOptions}
+                            value={limitValue}
+                            onChange={onLimitChange}
                         />
 
                         <Button
                             buttonStyle="icon-button"
-                            onClick={() => {}}
+                            onClick={onUpdate}
                             size="small"
                             ariaLabel="refresh"
                         >
@@ -72,7 +152,8 @@ const Gallery: FC = () => {
                         </Button>
                     </div>
                 </div>
-                <GalleryGrid tileComponent={GalleryRouteTile} />
+
+                <GalleryGrid loading={loading} tiles={tiles} />
 
                 <UploadModal isOpen={isOpenUploadModal} onClose={toggleModal}>
                     Modal content

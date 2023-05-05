@@ -27,24 +27,29 @@ const ContentWrapper: FC<ContentWrapperProps> = ({ className, children }) => (
                 size="large"
                 href={routes.likes}
                 navigation
+                title="likes page"
             >
                 <LikesIcon />
             </Button>
+
             <Button
-                ariaLabel="likes page"
+                ariaLabel="favourites page"
                 buttonStyle="icon-button"
                 size="large"
                 href={routes.favourites}
                 navigation
+                title="favourites page"
             >
                 <FavouritesIcon />
             </Button>
+
             <Button
-                ariaLabel="likes page"
+                ariaLabel="dislikes page"
                 buttonStyle="icon-button"
                 size="large"
                 href={routes.dislikes}
                 navigation
+                title="dislikes page"
             >
                 <DislikesIcon />
             </Button>

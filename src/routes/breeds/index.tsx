@@ -1,8 +1,13 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
 
-import { BreedsController } from "@api/breedsController";
+import { OptionsType } from "@components/Select/types";
 import { useTiles } from "@hooks/useTiles";
-import { UseTilesDataType } from "@hooks/useTiles/types";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import {
+    fetchBreedsImages,
+    fetchBreedsOptions,
+} from "@store/slices/breedsSlice";
+import { orderOptions } from "../gallery";
 
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
@@ -17,7 +22,7 @@ import { ReactComponent as SortZAIcon } from "@assets/icons/sorting_z-a.svg";
 
 import "./styles.scss";
 
-const limitOptions = [
+const limitOptions: OptionsType = [
     { name: "Limit: 5", value: "5" },
     { name: "Limit: 10", value: "10" },
     { name: "Limit: 15", value: "15" },
@@ -25,61 +30,41 @@ const limitOptions = [
 ];
 
 const Breeds: FC = () => {
-    const [breedsType, setBreedsType] = useState<string>("");
-    const changeBreedsTypeHandler = (event: ChangeEvent<HTMLSelectElement>) =>
-        setBreedsType(event.target.value);
+    const { breedsImages, breedsImagesLoading, breedsOptions } = useAppSelector(
+        state => state.breeds
+    );
 
-    const [limit, setLimit] = useState<string>("5");
-    const changeLimitHandler = (event: ChangeEvent<HTMLSelectElement>) =>
-        setLimit(event.target.value);
+    const dispatch = useAppDispatch();
 
-    const [loading, setLoading] = useState<boolean>(true);
-    const [breeds, setBreeds] = useState<UseTilesDataType[] | null>(null);
+    const [breedsValue, setBreedsValue] = useState<string>(
+        breedsOptions[0].value
+    );
+    const onBreedsChange = (event: ChangeEvent<HTMLSelectElement>) =>
+        setBreedsValue(event.target.value);
+
+    const [limitValue, setLimitValue] = useState<string>(limitOptions[0].value);
+    const onLimitChange = (event: ChangeEvent<HTMLSelectElement>) =>
+        setLimitValue(event.target.value);
+
+    const [orderValue, setOrderValue] = useState<string>(orderOptions[0].value);
+    const onChangeOrder = (order: "asc" | "desc") => {
+        orderValue === order ? setOrderValue("random") : setOrderValue(order);
+    };
 
     useEffect(() => {
-        const abortController = new AbortController();
+        const signal = dispatch(
+            fetchBreedsImages({ orderValue, breedsValue, limitValue })
+        );
+        return () => signal.abort("Abort fetchBreedsImages");
+    }, [limitValue, orderValue, breedsValue]);
 
-        const getBreeds = async () => {
-            try {
-                setLoading(true);
-                const data = await BreedsController.getInstance().getBreeds(
-                    limit,
-                    "0",
-                    abortController.signal
-                );
+    useEffect(() => {
+        const signal = dispatch(fetchBreedsOptions());
 
-                if (data) {
-                    const actualData: UseTilesDataType[] = data.map(
-                        ({ name, image: { id, url } }) => ({
-                            id,
-                            image: url,
-                            href: id,
-                            name,
-                        })
-                    );
+        return () => signal.abort("Abort fetchBreedsOptions");
+    }, []);
 
-                    setBreeds(actualData);
-                } else {
-                    setBreeds(null);
-                }
-
-                setLoading(false);
-            } catch (error) {
-                if (abortController.signal.aborted) {
-                    console.log("Request aborted by the user");
-                } else {
-                    console.error("Get breeds error: ", error);
-                    setLoading(false);
-                }
-            }
-        };
-
-        getBreeds();
-
-        return () => abortController.abort();
-    }, [limit]);
-
-    const tiles = useTiles({ data: breeds, component: BreedsTile });
+    const tiles = useTiles({ data: breedsImages, component: BreedsTile });
 
     return (
         <ContentWrapper>
@@ -89,9 +74,9 @@ const Breeds: FC = () => {
                         name="breeds-type"
                         title="breeds type select"
                         accentColor="gray"
-                        options={[{ name: "All breeds", value: "All breeds" }]}
-                        value={breedsType}
-                        onChange={changeBreedsTypeHandler}
+                        options={breedsOptions}
+                        value={breedsValue}
+                        onChange={onBreedsChange}
                         className="breeds__type-select"
                     />
 
@@ -99,25 +84,27 @@ const Breeds: FC = () => {
                         name="limit"
                         title="limit of item per page"
                         accentColor="gray"
-                        value={limit}
-                        onChange={changeLimitHandler}
+                        value={limitValue}
+                        onChange={onLimitChange}
                         options={limitOptions}
                     />
 
                     <SortingButton
                         icon={<SortZAIcon />}
-                        onClick={() => {}}
+                        isActive={orderValue === "desc"}
+                        onClick={() => onChangeOrder("desc")}
                         ariaLabel="sort from z to a"
                     />
 
                     <SortingButton
                         icon={<SortAZIcon />}
-                        onClick={() => {}}
+                        isActive={orderValue === "asc"}
+                        onClick={() => onChangeOrder("asc")}
                         ariaLabel="sort form a to z"
                     />
                 </SectionTop>
 
-                <GalleryGrid tiles={tiles} loading={loading} />
+                <GalleryGrid tiles={tiles} loading={breedsImagesLoading} />
             </SectionWrapper>
         </ContentWrapper>
     );

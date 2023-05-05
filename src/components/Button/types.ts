@@ -12,4 +12,5 @@ export interface ButtonProps {
     active?: boolean;
     navigation?: boolean;
     children?: ReactNode;
+    title?: string;
 }

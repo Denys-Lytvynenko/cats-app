@@ -1,12 +1,13 @@
 import { ApiService } from "..";
-import { RandomImageType } from "./types";
+import { BaseImageType, GetImagesProps, RandomImageType } from "./types";
 
 export class ImagesController {
     private static instance: ImagesController;
     private readonly apiService: ApiService;
-
+    private readonly baseUrl: string;
     constructor() {
         this.apiService = new ApiService();
+        this.baseUrl = "images";
     }
 
     static getInstance(): ImagesController {
@@ -21,6 +22,51 @@ export class ImagesController {
      * getRandomImage
      */
     public getRandomImage(signal?: AbortSignal): Promise<RandomImageType[]> {
-        return this.apiService.get<RandomImageType[]>("images/search", signal);
+        return this.apiService.get<RandomImageType[]>(
+            `${this.baseUrl}/search`,
+            signal
+        );
+    }
+
+    /**
+     * getImage
+     */
+    public getImage(
+        image_id: string,
+        signal?: AbortSignal
+    ): Promise<RandomImageType> {
+        return this.apiService.get<RandomImageType>(
+            `${this.baseUrl}/${image_id}`,
+            signal
+        );
+    }
+
+    /**
+     * getSimilarImages
+     */
+    public getSimilarImages(
+        breed_id: string,
+        limit: string,
+        signal?: AbortSignal
+    ): Promise<BaseImageType[]> {
+        return this.apiService.get<BaseImageType[]>(
+            `${this.baseUrl}/search?breed_ids=${breed_id}&limit=${limit}`,
+            signal
+        );
+    }
+
+    /**
+     * getImages
+     */
+    public getImages({
+        limit,
+        page,
+        queryParams,
+        signal,
+    }: GetImagesProps): Promise<RandomImageType[]> {
+        return this.apiService.get<RandomImageType[]>(
+            `${this.baseUrl}/search?limit=${limit}&page=${page}${queryParams}`,
+            signal
+        );
     }
 }

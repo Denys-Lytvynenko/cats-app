@@ -3,4 +3,5 @@ export interface VotingButtonsGroupProps {
     onLikeClick: () => void;
     onFavouriteClick: () => void;
     onDislikeClick: () => void;
+    disabled: boolean;
 }
