@@ -1,11 +1,9 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { BreedsController } from "@api/breedsController";
-import { ImagesController } from "@api/imagesController";
 import { useTiles } from "@hooks/useTiles";
-import { UseTilesDataType } from "@hooks/useTiles/types";
-import { routes } from "../routes";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { findBreed } from "@store/slices/searchSlice";
 
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
@@ -18,79 +16,17 @@ import "./styles.scss";
 
 const Search: FC = () => {
     const { searchId } = useParams();
-    const [loading, setLoading] = useState<boolean>(true);
-    const [data, setData] = useState<UseTilesDataType | null>(null);
+
+    const { searchLoading, searchData } = useAppSelector(state => state.search);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const abortController = new AbortController();
+        const signal = dispatch(findBreed(searchId!));
 
-        const getSearchImages = async () => {
-            try {
-                setLoading(true);
-
-                const breeds = await BreedsController.getInstance().getBreeds(
-                    "",
-                    "0",
-                    abortController.signal
-                );
-
-                if (breeds && searchId) {
-                    const filteredData = breeds.filter(({ name }) =>
-                        name
-                            .toLowerCase()
-                            .includes(searchId.toLocaleLowerCase())
-                    );
-
-                    if (filteredData[0]) {
-                        const queryParams = new String().concat(
-                            filteredData[0]?.id
-                                ? `&breed_ids=${filteredData[0].id}`
-                                : ""
-                        );
-
-                        const images =
-                            await ImagesController.getInstance().getImages({
-                                limit: "100",
-                                page: "0",
-                                queryParams,
-                                signal: abortController.signal,
-                            });
-
-                        const searchData: UseTilesDataType = images.map(
-                            ({ breeds, id, url }) => ({
-                                id,
-                                image: url,
-                                name: breeds[0].name,
-                                href: `${routes.breeds}/${id}`,
-                            })
-                        );
-
-                        setData(searchData);
-                    } else {
-                        setData(null);
-                    }
-                } else {
-                    setData(null);
-                }
-
-                setLoading(false);
-            } catch (error) {
-                if (abortController.signal.aborted) {
-                    console.log("Request aborted by the user");
-                } else {
-                    console.error("Get search images error: ", error);
-                    setData(null);
-                    setLoading(false);
-                }
-            }
-        };
-
-        getSearchImages();
-
-        return () => abortController.abort();
+        return () => signal.abort("Abort findBreed");
     }, [searchId]);
 
-    const tiles = useTiles({ data, component: BreedsTile });
+    const tiles = useTiles({ data: searchData, component: BreedsTile });
 
     return (
         <ContentWrapper>
@@ -109,7 +45,7 @@ const Search: FC = () => {
                     </Typography>
                 </div>
 
-                <GalleryGrid loading={loading} tiles={tiles} />
+                <GalleryGrid loading={searchLoading} tiles={tiles} />
             </SectionWrapper>
         </ContentWrapper>
     );

@@ -1,16 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import breedSlice from "./slices/breedSlice";
-import breedsSlice from "./slices/breedsSlice";
-import gallerySlice from "./slices/gallerySlice";
+import breedReducer from "./slices/breedSlice";
+import breedsReducer from "./slices/breedsSlice";
+import galleryReducer from "./slices/gallerySlice";
+import searchReducer from "./slices/searchSlice";
 import votesReducer from "./slices/votesSlice";
 
 const store = configureStore({
     reducer: {
         votes: votesReducer,
-        breeds: breedsSlice,
-        breed: breedSlice,
-        gallery: gallerySlice,
+        breeds: breedsReducer,
+        breed: breedReducer,
+        gallery: galleryReducer,
+        search: searchReducer,
     },
 });
 
