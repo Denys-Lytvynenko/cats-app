@@ -19,6 +19,7 @@ const Button: FC<ButtonProps> = ({
     fill,
     active,
     children,
+    title,
 }) => {
     const onClickHandler = () => {
         if (!onClick) return;
@@ -36,6 +37,8 @@ const Button: FC<ButtonProps> = ({
                 active ? "active" : "",
                 className
             )}
+            title={title}
+            aria-label={ariaLabel}
         >
             {children}
         </Link>
@@ -50,6 +53,8 @@ const Button: FC<ButtonProps> = ({
                 active ? "active" : "",
                 className
             )}
+            title={title}
+            aria-label={ariaLabel}
         >
             {children}
         </NavLink>
@@ -64,6 +69,7 @@ const Button: FC<ButtonProps> = ({
                 active ? "active" : "",
                 className
             )}
+            title={title}
             aria-label={ariaLabel}
             onClick={onClickHandler}
         >

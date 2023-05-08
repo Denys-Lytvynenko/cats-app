@@ -5,6 +5,7 @@ import { BreedsController } from "@api/breedsController";
 import { ImagesController } from "@api/imagesController";
 import { useTiles } from "@hooks/useTiles";
 import { UseTilesDataType } from "@hooks/useTiles/types";
+import { routes } from "../routes";
 
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
@@ -18,7 +19,7 @@ import "./styles.scss";
 const Search: FC = () => {
     const { searchId } = useParams();
     const [loading, setLoading] = useState<boolean>(true);
-    const [data, setData] = useState<UseTilesDataType[] | null>(null);
+    const [data, setData] = useState<UseTilesDataType | null>(null);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -40,30 +41,34 @@ const Search: FC = () => {
                             .includes(searchId.toLocaleLowerCase())
                     );
 
-                    const queryParams = new String().concat(
-                        filteredData[0].id
-                            ? `&breed_ids=${filteredData[0].id}`
-                            : ""
-                    );
+                    if (filteredData[0]) {
+                        const queryParams = new String().concat(
+                            filteredData[0]?.id
+                                ? `&breed_ids=${filteredData[0].id}`
+                                : ""
+                        );
 
-                    const images =
-                        await ImagesController.getInstance().getImages({
-                            limit: "100",
-                            page: "0",
-                            queryParams,
-                            signal: abortController.signal,
-                        });
+                        const images =
+                            await ImagesController.getInstance().getImages({
+                                limit: "100",
+                                page: "0",
+                                queryParams,
+                                signal: abortController.signal,
+                            });
 
-                    const searchData: UseTilesDataType[] = images.map(
-                        ({ breeds, id, url }) => ({
-                            id,
-                            image: url,
-                            name: breeds[0].name,
-                            href: id,
-                        })
-                    );
+                        const searchData: UseTilesDataType = images.map(
+                            ({ breeds, id, url }) => ({
+                                id,
+                                image: url,
+                                name: breeds[0].name,
+                                href: `${routes.breeds}/${id}`,
+                            })
+                        );
 
-                    setData(searchData);
+                        setData(searchData);
+                    } else {
+                        setData(null);
+                    }
                 } else {
                     setData(null);
                 }

@@ -5,6 +5,7 @@
     position: relative;
 
     &__wrapper {
+        border-radius: $borderRadius20;
         flex-grow: 1;
         overflow: hidden;
         position: relative;
@@ -32,6 +33,58 @@
         padding: 10px;
         position: absolute;
         transform: translate(-50%, 50%);
+
+        &-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            height: 100%;
+            outline: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(calc(-50% - 1px));
+            transition: $transition;
+            width: 35px;
+            z-index: 2;
+
+            svg {
+                fill: {
+                    transition: $transition;
+                }
+            }
+
+            &:hover {
+                background-color: rgba($color: $hoverColor, $alpha: 0.3);
+
+                svg {
+                    path {
+                        fill: $hoverColor;
+                    }
+                }
+            }
+
+            &:active {
+                background-color: rgba($color: $hoverColor, $alpha: 0.7);
+
+                svg {
+                    path {
+                        fill: $accentColor;
+                    }
+                }
+            }
+
+            &.prev {
+                left: 0;
+            }
+
+            &.next {
+                right: 0;
+
+                svg {
+                    transform: rotate(180deg);
+                }
+            }
+        }
     }
 
     &__button {

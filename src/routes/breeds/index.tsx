@@ -1,10 +1,12 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
 
-import { BreedsController } from "@api/breedsController";
-import { ImagesController } from "@api/imagesController";
 import { OptionsType } from "@components/Select/types";
 import { useTiles } from "@hooks/useTiles";
-import { UseTilesDataType } from "@hooks/useTiles/types";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import {
+    fetchBreedsImages,
+    fetchBreedsOptions,
+} from "@store/slices/breedsSlice";
 import { orderOptions } from "../gallery";
 
 import ContentWrapper from "@components/ContentWrapper";
@@ -20,8 +22,6 @@ import { ReactComponent as SortZAIcon } from "@assets/icons/sorting_z-a.svg";
 
 import "./styles.scss";
 
-const initialOptions: OptionsType = [{ name: "All breeds", value: "" }];
-
 const limitOptions: OptionsType = [
     { name: "Limit: 5", value: "5" },
     { name: "Limit: 10", value: "10" },
@@ -30,11 +30,14 @@ const limitOptions: OptionsType = [
 ];
 
 const Breeds: FC = () => {
-    const [breedsOptions, setBreedsOptions] =
-        useState<OptionsType>(initialOptions);
+    const { breedsImages, breedsImagesLoading, breedsOptions } = useAppSelector(
+        state => state.breeds
+    );
+
+    const dispatch = useAppDispatch();
 
     const [breedsValue, setBreedsValue] = useState<string>(
-        initialOptions[0].value
+        breedsOptions[0].value
     );
     const onBreedsChange = (event: ChangeEvent<HTMLSelectElement>) =>
         setBreedsValue(event.target.value);
@@ -48,111 +51,20 @@ const Breeds: FC = () => {
         orderValue === order ? setOrderValue("random") : setOrderValue(order);
     };
 
-    const [loading, setLoading] = useState<boolean>(true);
-    const [breeds, setBreeds] = useState<UseTilesDataType[] | null>(null);
-
     useEffect(() => {
-        const abortController = new AbortController();
-
-        const getBreedsImages = async () => {
-            try {
-                setLoading(true);
-
-                const queryParams = new String().concat(
-                    `&order=${orderValue}`,
-                    breedsValue ? `&breed_ids=${breedsValue}` : "",
-                    "&has_breeds=true"
-                );
-
-                const breedsImages =
-                    await ImagesController.getInstance().getImages({
-                        limit: limitValue,
-                        page: "0",
-                        queryParams,
-                        signal: abortController.signal,
-                    });
-
-                if (breedsImages) {
-                    const actualData: UseTilesDataType[] = breedsImages
-                        .filter(item => item.breeds.length)
-                        .map(({ id, url, breeds }) => ({
-                            id,
-                            image: url,
-                            href: id,
-                            name: breeds[0].name,
-                        }));
-
-                    setBreeds(actualData);
-                } else {
-                    setBreeds(null);
-                }
-
-                setLoading(false);
-            } catch (error) {
-                if (abortController.signal.aborted) {
-                    console.log("Request aborted by the user");
-                } else {
-                    console.error("Get breeds error: ", error);
-                    setLoading(false);
-                }
-            }
-        };
-
-        getBreedsImages();
-
-        return () => abortController.abort();
+        const signal = dispatch(
+            fetchBreedsImages({ orderValue, breedsValue, limitValue })
+        );
+        return () => signal.abort("Abort fetchBreedsImages");
     }, [limitValue, orderValue, breedsValue]);
 
     useEffect(() => {
-        const abortController = new AbortController();
+        const signal = dispatch(fetchBreedsOptions());
 
-        // Fetch breeds select options from the API
-        const getBreedsOptions = async () => {
-            try {
-                const allBreeds =
-                    await BreedsController.getInstance().getBreeds();
-
-                if (allBreeds) {
-                    const breedsOpt = allBreeds
-                        .map(({ id, name }) => ({
-                            name,
-                            value: id,
-                        }))
-                        .filter(item => item.name && item.value);
-
-                    breedsOpt.unshift(initialOptions[0]);
-
-                    // Remove duplicated options
-                    const filteredOpt = breedsOpt.filter(
-                        (item, index, self) =>
-                            index ===
-                            self.findIndex(
-                                t =>
-                                    t?.value === item?.value &&
-                                    t?.name === item?.name
-                            )
-                    );
-
-                    setBreedsOptions(filteredOpt);
-                } else {
-                    setBreedsOptions(initialOptions);
-                }
-            } catch (error) {
-                if (abortController.signal.aborted) {
-                    console.log("Request canceled by the user");
-                } else {
-                    console.error("Get breeds options error: ", error);
-                    setBreedsOptions(initialOptions);
-                }
-            }
-        };
-
-        getBreedsOptions();
-
-        return () => abortController.abort();
+        return () => signal.abort("Abort fetchBreedsOptions");
     }, []);
 
-    const tiles = useTiles({ data: breeds, component: BreedsTile });
+    const tiles = useTiles({ data: breedsImages, component: BreedsTile });
 
     return (
         <ContentWrapper>
@@ -192,7 +104,7 @@ const Breeds: FC = () => {
                     />
                 </SectionTop>
 
-                <GalleryGrid tiles={tiles} loading={loading} />
+                <GalleryGrid tiles={tiles} loading={breedsImagesLoading} />
             </SectionWrapper>
         </ContentWrapper>
     );
