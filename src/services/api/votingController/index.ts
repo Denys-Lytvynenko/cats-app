@@ -48,8 +48,8 @@ export class VotingController {
     /**
      * getVotes
      */
-    public getVotes(signal?: AbortSignal): Promise<GetVotesResponseType[]> {
-        return this.apiService.get<GetVotesResponseType[]>(
+    public getVotes(signal?: AbortSignal): Promise<GetVotesResponseType> {
+        return this.apiService.get<GetVotesResponseType>(
             `${this.baseUrl}?${this.sub_id}`,
             signal
         );

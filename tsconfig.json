@@ -23,7 +23,8 @@
             "@utils/*": ["utils/*"],
             "@hooks/*": ["hooks/*"],
             "@routes/*": ["routes/*"],
-            "@api/*": ["services/api/*"]
+            "@api/*": ["services/api/*"],
+            "@store/*": ["services/store/*"]
         }
     },
     "include": ["src"],

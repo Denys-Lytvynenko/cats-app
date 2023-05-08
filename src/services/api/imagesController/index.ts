@@ -47,7 +47,7 @@ export class ImagesController {
     public getSimilarImages(
         breed_id: string,
         limit: string,
-        signal: AbortSignal
+        signal?: AbortSignal
     ): Promise<BaseImageType[]> {
         return this.apiService.get<BaseImageType[]>(
             `${this.baseUrl}/search?breed_ids=${breed_id}&limit=${limit}`,
