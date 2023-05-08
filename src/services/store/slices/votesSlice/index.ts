@@ -35,6 +35,11 @@ type InitialStateType = {
         likes: UseTilesDataType;
         dislikes: UseTilesDataType;
     };
+    favourites: {
+        favourites: UseTilesDataType | null;
+        favouritesLoading: boolean;
+        favouritesError?: string;
+    };
 };
 
 const initialState: InitialStateType = {
@@ -63,6 +68,11 @@ const initialState: InitialStateType = {
         likes: [],
         dislikes: [],
     },
+    favourites: {
+        favourites: [],
+        favouritesLoading: true,
+        favouritesError: "",
+    },
 };
 
 export const fetchActionLogMessages = createAsyncThunk<
@@ -71,7 +81,7 @@ export const fetchActionLogMessages = createAsyncThunk<
         messages: LogMessageDataType | null;
     },
     string
->("votes/fetchFavourites", async currentBreed => {
+>("votes/fetchActionLogMessages", async currentBreed => {
     const favourites = await FavouritesController.getInstance().getFavourites();
     const votes = await VotingController.getInstance().getVotes();
 
@@ -188,6 +198,24 @@ export const fetchVotes = createAsyncThunk("votes/fetchVotes", async () => {
 
     return result;
 });
+
+export const fetchFavourites = createAsyncThunk(
+    "votes/fetchFavourites",
+    async () => {
+        const favourites =
+            await FavouritesController.getInstance().getFavourites();
+
+        if (favourites) {
+            const actualData: UseTilesDataType = favourites.map(
+                ({ image: { id, url } }) => ({ id, image: url })
+            );
+
+            return actualData;
+        } else {
+            return null;
+        }
+    }
+);
 
 const votesSlice = createSlice({
     name: "votes",
@@ -321,6 +349,26 @@ const votesSlice = createSlice({
                 state.voting.votes = [];
                 state.voting.likes = [];
                 state.voting.dislikes = [];
+            }
+        });
+
+        // fetchFavourites
+        builder.addCase(fetchFavourites.pending, state => {
+            state.favourites.favouritesLoading = true;
+        });
+
+        builder.addCase(fetchFavourites.fulfilled, (state, action) => {
+            state.favourites.favourites = action.payload;
+            state.favourites.favouritesError = "";
+            state.favourites.favouritesLoading = false;
+        });
+
+        builder.addCase(fetchFavourites.rejected, (state, action) => {
+            if (action.error.message !== "Abort fetchFavourites") {
+                state.favourites.favourites = null;
+                state.favourites.favouritesError =
+                    action.error.message || "Something went wrong";
+                state.favourites.favouritesLoading = false;
             }
         });
     },
