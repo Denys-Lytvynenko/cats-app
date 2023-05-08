@@ -1,8 +1,8 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 
-import { VotingController } from "@api/votingController";
 import { useTiles } from "@hooks/useTiles";
-import { UseTilesDataType } from "@hooks/useTiles/types";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { fetchVotes } from "@store/slices/votesSlice";
 
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
@@ -11,57 +11,23 @@ import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
 
 const Likes: FC = () => {
-    const [loading, setLoading] = useState<boolean>(true);
-    const [data, setData] = useState<UseTilesDataType | null>(null);
+    const { votesLoading, likes } = useAppSelector(state => state.votes.voting);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const abortController = new AbortController();
+        const signal = dispatch(fetchVotes());
 
-        const getLikes = async () => {
-            try {
-                setLoading(true);
-
-                const votes = await VotingController.getInstance().getVotes(
-                    abortController.signal
-                );
-
-                if (votes) {
-                    const likes = votes.filter(({ value }) => value === 10);
-
-                    const actualData: UseTilesDataType = likes.map(
-                        ({ image: { url } }) => ({ image: url })
-                    );
-
-                    setData(actualData);
-                } else {
-                    setData(null);
-                }
-
-                setLoading(false);
-            } catch (error) {
-                if (abortController.signal.aborted) {
-                    console.log("Request canceled by the user");
-                } else {
-                    console.error("Get likes error: ", error);
-                    setData(null);
-                    setLoading(false);
-                }
-            }
-        };
-
-        getLikes();
-
-        return () => abortController.abort();
+        return () => signal.abort("Abort fetchVotes");
     }, []);
 
-    const tiles = useTiles({ data, component: GalleryTile });
+    const tiles = useTiles({ data: likes, component: GalleryTile });
 
     return (
         <ContentWrapper>
             <SectionWrapper>
                 <SectionTop />
 
-                <GalleryGrid loading={loading} tiles={tiles} />
+                <GalleryGrid loading={votesLoading} tiles={tiles} />
             </SectionWrapper>
         </ContentWrapper>
     );
