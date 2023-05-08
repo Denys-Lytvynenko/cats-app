@@ -17,7 +17,7 @@ export interface VotingResponseType extends SetFavouritesResponseType {
 export interface VoteValueType {
     value: 10 | 5 | 1;
 }
-export interface GetVotesResponseType extends VoteValueType {
+export type GetVotesResponseType = ({
     country_code: string;
     created_at: Date;
     id: number;
@@ -27,4 +27,4 @@ export interface GetVotesResponseType extends VoteValueType {
         url: string;
     };
     sub_id: string;
-}
+} & VoteValueType)[];

@@ -8,7 +8,11 @@ import {
 import { ImagesController } from "@api/imagesController";
 import { RandomImageType } from "@api/imagesController/types";
 import { VotingController } from "@api/votingController";
-import { VotingResponseType } from "@api/votingController/types";
+import {
+    GetVotesResponseType,
+    VotingResponseType,
+} from "@api/votingController/types";
+import { UseTilesDataType } from "@hooks/useTiles/types";
 import { LogMessageDataType } from "@routes/voting/types";
 
 type InitialStateType = {
@@ -25,6 +29,12 @@ type InitialStateType = {
     };
     nextImage: boolean;
     updateFavourites: boolean;
+    voting: {
+        votes: GetVotesResponseType;
+        votesLoading: boolean;
+        likes: UseTilesDataType;
+        dislikes: UseTilesDataType;
+    };
 };
 
 const initialState: InitialStateType = {
@@ -47,6 +57,12 @@ const initialState: InitialStateType = {
     },
     nextImage: true,
     updateFavourites: true,
+    voting: {
+        votes: [],
+        votesLoading: true,
+        likes: [],
+        dislikes: [],
+    },
 };
 
 export const fetchActionLogMessages = createAsyncThunk<
@@ -143,6 +159,35 @@ export const deleteFavourite = createAsyncThunk<
 >("votes/deleteFavouriteBreed", isFavourite =>
     FavouritesController.getInstance().deleteFavourite(isFavourite)
 );
+
+export const fetchVotes = createAsyncThunk("votes/fetchVotes", async () => {
+    const votes = await VotingController.getInstance().getVotes();
+
+    let result: Pick<
+        InitialStateType["voting"],
+        "votes" | "likes" | "dislikes"
+    > = {
+        votes: [],
+        likes: [],
+        dislikes: [],
+    };
+
+    if (votes) {
+        result.votes = votes;
+
+        for (const item of votes) {
+            if (item.value === 10) {
+                result.likes.push({ image: item.image.url });
+            }
+
+            if (item.value === 1) {
+                result.dislikes.push({ image: item.image.url });
+            }
+        }
+    }
+
+    return result;
+});
 
 const votesSlice = createSlice({
     name: "votes",
@@ -256,6 +301,27 @@ const votesSlice = createSlice({
 
         builder.addCase(deleteFavourite.rejected, state => {
             state.actionLogMessages.messagesLoading = false;
+        });
+
+        // fetchVotes
+        builder.addCase(fetchVotes.pending, state => {
+            state.voting.votesLoading = true;
+        });
+
+        builder.addCase(fetchVotes.fulfilled, (state, action) => {
+            state.voting.votes = action.payload.votes;
+            state.voting.likes = action.payload.likes;
+            state.voting.dislikes = action.payload.dislikes;
+            state.voting.votesLoading = false;
+        });
+
+        builder.addCase(fetchVotes.rejected, (state, action) => {
+            if (action.error.message !== "Abort fetchVotes") {
+                state.voting.votesLoading = false;
+                state.voting.votes = [];
+                state.voting.likes = [];
+                state.voting.dislikes = [];
+            }
         });
     },
 });
