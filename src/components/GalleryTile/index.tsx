@@ -12,6 +12,9 @@ const GalleryTile: FC<GalleryTileProps> = ({
     name,
     href,
     overlayButton: OverlayButton,
+    isActiveButton,
+    isButtonDisabled,
+    onButtonClick,
     className,
 }) => (
     <figure className={cn("gallery__item", "tile", className)}>
@@ -19,7 +22,14 @@ const GalleryTile: FC<GalleryTileProps> = ({
 
         {OverlayButton && (
             <TileOverlay>
-                <OverlayButton href={href}>{name}</OverlayButton>
+                <OverlayButton
+                    href={href}
+                    active={isActiveButton}
+                    onClick={onButtonClick}
+                    disabled={isButtonDisabled}
+                >
+                    {name}
+                </OverlayButton>
             </TileOverlay>
         )}
     </figure>

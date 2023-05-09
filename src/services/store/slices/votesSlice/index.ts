@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { FavouritesController } from "@api/favouritesController";
 import {
     DeleteFavouriteResponse,
+    GetFavouritesResponse,
     SetFavouritesResponseType,
 } from "@api/favouritesController/types";
 import { ImagesController } from "@api/imagesController";
@@ -36,7 +37,8 @@ type InitialStateType = {
         dislikes: UseTilesDataType;
     };
     favourites: {
-        favourites: UseTilesDataType | null;
+        favourites: GetFavouritesResponse | null;
+        favouritesData: UseTilesDataType | null;
         favouritesLoading: boolean;
         favouritesError?: string;
     };
@@ -70,6 +72,7 @@ const initialState: InitialStateType = {
     },
     favourites: {
         favourites: [],
+        favouritesData: [],
         favouritesLoading: true,
         favouritesError: "",
     },
@@ -199,23 +202,25 @@ export const fetchVotes = createAsyncThunk("votes/fetchVotes", async () => {
     return result;
 });
 
-export const fetchFavourites = createAsyncThunk(
-    "votes/fetchFavourites",
-    async () => {
-        const favourites =
-            await FavouritesController.getInstance().getFavourites();
+export const fetchFavourites = createAsyncThunk<{
+    favourites: GetFavouritesResponse | null;
+    favouritesData: UseTilesDataType | null;
+}>("votes/fetchFavourites", async () => {
+    const favourites = await FavouritesController.getInstance().getFavourites();
 
-        if (favourites) {
-            const actualData: UseTilesDataType = favourites.map(
-                ({ image: { id, url } }) => ({ id, image: url })
-            );
+    if (favourites) {
+        const actualData: UseTilesDataType = favourites.map(
+            ({ image_id, image: { id: imageId, url } }) => ({
+                id: imageId || image_id,
+                image: url,
+            })
+        );
 
-            return actualData;
-        } else {
-            return null;
-        }
+        return { favourites, favouritesData: actualData };
+    } else {
+        return { favourites: null, favouritesData: null };
     }
-);
+});
 
 const votesSlice = createSlice({
     name: "votes",
@@ -358,7 +363,8 @@ const votesSlice = createSlice({
         });
 
         builder.addCase(fetchFavourites.fulfilled, (state, action) => {
-            state.favourites.favourites = action.payload;
+            state.favourites.favourites = action.payload.favourites;
+            state.favourites.favouritesData = action.payload.favouritesData;
             state.favourites.favouritesError = "";
             state.favourites.favouritesLoading = false;
         });
@@ -366,6 +372,7 @@ const votesSlice = createSlice({
         builder.addCase(fetchFavourites.rejected, (state, action) => {
             if (action.error.message !== "Abort fetchFavourites") {
                 state.favourites.favourites = null;
+                state.favourites.favouritesData = null;
                 state.favourites.favouritesError =
                     action.error.message || "Something went wrong";
                 state.favourites.favouritesLoading = false;

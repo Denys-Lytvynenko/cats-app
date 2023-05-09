@@ -8,11 +8,11 @@ import votesReducer from "./slices/votesSlice";
 
 const store = configureStore({
     reducer: {
-        votes: votesReducer,
-        breeds: breedsReducer,
         breed: breedReducer,
+        breeds: breedsReducer,
         gallery: galleryReducer,
         search: searchReducer,
+        votes: votesReducer,
     },
 });
 

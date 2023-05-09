@@ -11,7 +11,7 @@ import SectionWrapper from "@components/SectionWrapper";
 import GalleryRouteTile from "../gallery/GalleryRouteTile";
 
 const Favourites: FC = () => {
-    const { favourites, favouritesLoading } = useAppSelector(
+    const { favouritesData, favouritesLoading } = useAppSelector(
         state => state.votes.favourites
     );
     const dispatch = useAppDispatch();
@@ -22,7 +22,10 @@ const Favourites: FC = () => {
         return () => signal.abort("Abort fetchFavourites");
     }, []);
 
-    const tiles = useTiles({ data: favourites, component: GalleryRouteTile });
+    const tiles = useTiles({
+        data: favouritesData,
+        component: GalleryRouteTile,
+    });
 
     return (
         <ContentWrapper>
