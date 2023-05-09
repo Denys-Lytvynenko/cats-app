@@ -9,9 +9,20 @@
     line-height: 3rem;
     padding: 5px 30px;
     text-transform: uppercase;
+    transition: $transition;
 
     &.active {
         background-color: $accentColor;
         color: $white;
+    }
+}
+
+.dark-mode {
+    .section-name {
+        background-color: $hoverColorTransparent;
+
+        &.active {
+            background-color: $accentColor;
+        }
     }
 }

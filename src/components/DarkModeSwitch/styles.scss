@@ -11,6 +11,7 @@
         border-radius: 50%;
         height: 24px;
         width: 24px;
+        transition: $transition;
     }
 
     &__button {
@@ -40,7 +41,13 @@
 
 .dark-mode {
     .dark-mode-switch {
+        &__indicator {
+            background-color: $darkGray;
+        }
+
         &__button {
+            background-color: $hoverColorTransparent;
+
             &-indicator {
                 left: 4px;
             }

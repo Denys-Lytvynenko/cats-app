@@ -3,7 +3,7 @@
 .voting {
     &__button {
         @include flexCenter;
-        border: 4px solid $white;
+        border: 0;
         cursor: pointer;
         outline: none;
         padding: 25px;
@@ -16,13 +16,16 @@
 
         &:first-child {
             border-bottom-left-radius: $borderRadius20;
-            border-right: 0;
             border-top-left-radius: $borderRadius20;
+        }
+
+        &:nth-child(2) {
+            border-left: 4px solid $white;
+            border-right: 4px solid $white;
         }
 
         &:last-child {
             border-bottom-right-radius: $borderRadius20;
-            border-left: 0;
             border-top-right-radius: $borderRadius20;
         }
 
@@ -109,11 +112,25 @@
 
         &-group {
             align-items: center;
+            background-color: $white;
+            border-radius: 23px;
             bottom: 0;
             display: flex;
             left: 50%;
+            padding: 4px;
             position: absolute;
             transform: translate(-50%, 50%);
+            transition: $transition;
+        }
+    }
+}
+
+.dark-mode {
+    .voting {
+        &__button {
+            &-group {
+                background-color: $darkGray;
+            }
         }
     }
 }

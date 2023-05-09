@@ -52,3 +52,21 @@
         }
     }
 }
+
+.dark-mode {
+    .select {
+        &__input {
+            background-color: $black;
+            color: $white;
+
+            &:hover {
+                border-color: $hoverColorTransparent;
+            }
+
+            &.gray {
+                background-color: $messageGray;
+                color: $gray;
+            }
+        }
+    }
+}

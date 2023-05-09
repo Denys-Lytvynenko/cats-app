@@ -39,3 +39,24 @@
         transform: translateY(-50%);
     }
 }
+
+.dark-mode {
+    .search {
+        &__input {
+            background-color: $darkGray;
+            color: $white;
+
+            &:hover {
+                border-color: $hoverColorTransparent;
+            }
+        }
+
+        &__button {
+            background-color: $hoverColorTransparent;
+
+            &:hover {
+                background-color: $hoverColorTransparent;
+            }
+        }
+    }
+}

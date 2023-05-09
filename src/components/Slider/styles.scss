@@ -33,6 +33,7 @@
         padding: 10px;
         position: absolute;
         transform: translate(-50%, 50%);
+        transition: $transition;
 
         &-button {
             background-color: transparent;
@@ -101,6 +102,14 @@
         &:hover,
         &.active {
             background-color: $accentColor;
+        }
+    }
+}
+
+.dark-mode {
+    .slider {
+        &__navigation {
+            background-color: $darkGray;
         }
     }
 }

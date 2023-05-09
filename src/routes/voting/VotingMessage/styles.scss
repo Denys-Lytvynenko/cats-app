@@ -8,15 +8,27 @@
         display: flex;
         gap: 20px;
         padding: 15px;
+        transition: $transition;
 
         &-time {
-            font-size: 1.6rem;
+            @include flexCenter();
+            background-color: $white;
+            border-radius: 5px;
             flex-basis: 45px;
+            font-size: 1.6rem;
+            line-height: 2.4rem;
+            padding: 3px 10px;
+            transition: $transition;
         }
 
         &-text {
             flex-grow: 1;
             font-size: 1.6rem;
+            transition: $transition;
+
+            b {
+                transition: $transition;
+            }
         }
 
         &-reaction {
@@ -34,6 +46,27 @@
             &.dislike {
                 path {
                     fill: $yellow;
+                }
+            }
+        }
+    }
+}
+
+.dark-mode {
+    .voting {
+        &__message {
+            background-color: $messageGray;
+
+            &-time {
+                background-color: $black;
+                color: $white;
+            }
+
+            &-text {
+                color: $gray;
+
+                b {
+                    color: $white;
                 }
             }
         }

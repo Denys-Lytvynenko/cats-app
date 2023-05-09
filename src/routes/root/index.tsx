@@ -31,19 +31,24 @@ const Root: FC = () => {
                                 title="logo"
                             >
                                 <Logo />
+                                <Typography tag="h5">PetsPaw</Typography>
                             </Link>
 
                             <DarkModeSwitch />
                         </header>
+
                         <Typography tag="h1" className="app__title">
                             Hi intern!
                         </Typography>
+
                         <Typography tag="p" className="app__welcome-text">
                             Welcome to MI 2022 Front-end test
                         </Typography>
+
                         <Typography tag="h5" className="app__subtitle">
                             Lets start using The Cat API
                         </Typography>
+
                         <div className="cards">
                             <Card
                                 name="voting"
@@ -66,6 +71,7 @@ const Root: FC = () => {
                         </div>
                     </div>
                 </div>
+
                 <main className="content">
                     <Outlet />
                 </main>

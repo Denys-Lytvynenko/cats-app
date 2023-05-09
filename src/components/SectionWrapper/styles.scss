@@ -8,4 +8,11 @@
     flex-grow: 1;
     gap: 20px;
     padding: 20px;
+    transition: $transition;
+}
+
+.dark-mode {
+    .section-wrapper {
+        background-color: $darkGray;
+    }
 }
