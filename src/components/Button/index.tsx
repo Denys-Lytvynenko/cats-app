@@ -8,18 +8,19 @@ import { ButtonProps } from "./types";
 import "./styles.scss";
 
 const Button: FC<ButtonProps> = ({
-    type = "button",
-    buttonStyle = "text-button",
-    size,
-    onClick,
-    href,
-    className,
-    ariaLabel,
-    navigation,
-    fill,
     active,
+    ariaLabel,
+    buttonStyle = "text-button",
     children,
+    className,
+    disabled,
+    fill,
+    href,
+    navigation,
+    onClick,
+    size,
     title,
+    type = "button",
 }) => {
     const onClickHandler = () => {
         if (!onClick) return;
@@ -72,6 +73,7 @@ const Button: FC<ButtonProps> = ({
             title={title}
             aria-label={ariaLabel}
             onClick={onClickHandler}
+            disabled={disabled}
         >
             {children}
         </button>

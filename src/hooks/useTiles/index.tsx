@@ -1,7 +1,10 @@
 import { useMemo } from "react";
 
-import WrapperComponent from "./WrapperComponent";
 import { UseTilesProps } from "./types";
+
+import WrapperComponent from "./WrapperComponent";
+
+import EmptyImage from "@assets/icons/empty-image.svg";
 
 export const useTiles = ({
     data,
@@ -21,6 +24,18 @@ export const useTiles = ({
                         image={data[i].image}
                         name={data[i].name}
                         href={data[i].href}
+                        id={data[i].id}
+                        component={component}
+                    />
+                );
+            } else {
+                row.push(
+                    <WrapperComponent
+                        key={data[i].id + i.toString()}
+                        image={EmptyImage}
+                        name={data[i].name}
+                        href={data[i].href}
+                        id={data[i].id}
                         component={component}
                     />
                 );

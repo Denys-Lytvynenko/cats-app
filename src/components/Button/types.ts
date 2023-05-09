@@ -1,16 +1,17 @@
 import { ReactNode } from "react";
 
 export interface ButtonProps {
-    buttonStyle?: "text-button" | "icon-button" | "icon-text-button";
-    size?: "small" | "large";
-    type?: "button" | "reset" | "submit";
-    href?: string;
-    onClick?: () => void;
-    className?: string;
-    ariaLabel?: string;
-    fill?: boolean;
     active?: boolean;
-    navigation?: boolean;
+    ariaLabel?: string;
+    buttonStyle?: "text-button" | "icon-button" | "icon-text-button";
     children?: ReactNode;
+    className?: string;
+    disabled?: boolean;
+    fill?: boolean;
+    href?: string;
+    navigation?: boolean;
+    onClick?: () => void;
+    size?: "small" | "large";
     title?: string;
+    type?: "button" | "reset" | "submit";
 }

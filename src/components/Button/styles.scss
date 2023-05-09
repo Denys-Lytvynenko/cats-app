@@ -1,4 +1,4 @@
-@use "../../variables" as *;
+@use "variables" as *;
 
 .button {
     background-color: $white;
@@ -89,6 +89,15 @@
             path {
                 fill: $white;
             }
+        }
+    }
+
+    &:disabled {
+        background-color: $lightGray !important;
+        cursor: initial;
+
+        path {
+            fill: $gray !important;
         }
     }
 }
