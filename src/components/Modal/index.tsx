@@ -23,6 +23,7 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, className, children }) => (
                                     buttonStyle="icon-button"
                                     size="small"
                                     onClick={onClose}
+                                    className="modal__close-button"
                                 >
                                     <CloseIcon />
                                 </Button>

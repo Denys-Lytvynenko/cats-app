@@ -35,10 +35,23 @@
         border-radius: $borderRadius20;
         flex-grow: 1;
         padding: 20px;
+        transition: $transition;
 
         &-top {
             display: flex;
             justify-content: flex-end;
+        }
+    }
+}
+
+.dark-mode {
+    .modal {
+        &__inner {
+            background-color: $darkGray;
+        }
+
+        &__close-button {
+            background-color: $messageGray;
         }
     }
 }

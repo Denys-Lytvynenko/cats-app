@@ -1,9 +1,12 @@
 import { FC } from "react";
 import { Link, Outlet } from "react-router-dom";
 
+import { useAppSelector } from "@store/hooks";
+import { cn } from "@utils/classNames";
 import { routes } from "../routes";
 
 import Card from "@components/Card";
+import DarkModeSwitch from "@components/DarkModeSwitch";
 import Typography from "@components/Typography";
 
 import { ReactComponent as Logo } from "@assets/icons/logo.svg";
@@ -14,8 +17,10 @@ import voteImg from "@assets/images/vote-table.png";
 import "./styles.scss";
 
 const Root: FC = () => {
+    const isDarkMode = useAppSelector(state => state.darkMode.isDarkMode);
+
     return (
-        <div className="app">
+        <div className={cn("app", isDarkMode ? "dark-mode" : "")}>
             <div className="app__wrapper">
                 <div className="app__side-wrapper">
                     <div className="app__navigation">
@@ -26,18 +31,24 @@ const Root: FC = () => {
                                 title="logo"
                             >
                                 <Logo />
+                                <Typography tag="h5">PetsPaw</Typography>
                             </Link>
-                            {/* TODO add dark mode button */}
+
+                            <DarkModeSwitch />
                         </header>
+
                         <Typography tag="h1" className="app__title">
                             Hi intern!
                         </Typography>
+
                         <Typography tag="p" className="app__welcome-text">
                             Welcome to MI 2022 Front-end test
                         </Typography>
+
                         <Typography tag="h5" className="app__subtitle">
                             Lets start using The Cat API
                         </Typography>
+
                         <div className="cards">
                             <Card
                                 name="voting"
@@ -60,6 +71,7 @@ const Root: FC = () => {
                         </div>
                     </div>
                 </div>
+
                 <main className="content">
                     <Outlet />
                 </main>

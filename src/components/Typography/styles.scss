@@ -5,11 +5,11 @@
     margin: 0;
 
     &.h1,
-    .h2,
-    .h3,
-    .h4,
-    .h5,
-    .h6 {
+    &.h2,
+    &.h3,
+    &.h4,
+    &.h5,
+    &.h6 {
         color: $black;
     }
 
@@ -45,5 +45,22 @@
 
     &.black {
         color: $black;
+    }
+}
+
+.dark-mode {
+    .typography {
+        &.h1,
+        &.h2,
+        &.h3,
+        &.h4,
+        &.h5,
+        &.h6 {
+            color: $white;
+        }
+
+        &.black {
+            color: $white;
+        }
     }
 }

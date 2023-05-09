@@ -147,6 +147,7 @@ const Gallery: FC = () => {
                             onClick={onUpdate}
                             size="small"
                             ariaLabel="refresh"
+                            className="gallery__refresh-button"
                         >
                             <RefreshIcon />
                         </Button>
@@ -155,9 +156,7 @@ const Gallery: FC = () => {
 
                 <GalleryGrid loading={loading} tiles={tiles} />
 
-                <UploadModal isOpen={isOpenUploadModal} onClose={toggleModal}>
-                    Modal content
-                </UploadModal>
+                <UploadModal isOpen={isOpenUploadModal} onClose={toggleModal} />
             </SectionWrapper>
         </ContentWrapper>
     );

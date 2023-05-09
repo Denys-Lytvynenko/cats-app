@@ -6,13 +6,14 @@
     }
 
     &__filters {
-        background: $lightGray;
+        background-color: $lightGray;
         border-radius: $borderRadius20;
         column-gap: 20px;
         display: grid;
         grid-template: min-content min-content / 1fr 1fr;
         padding: 10px 20px 20px;
         row-gap: 10px;
+        transition: $transition;
 
         &-group {
             align-items: flex-end;
@@ -28,6 +29,22 @@
     &-route__tile {
         .tile-overlay__background {
             @include flexCenter;
+        }
+    }
+}
+
+.dark-mode {
+    .gallery {
+        &__upload-button {
+            background-color: $hoverColorTransparent;
+        }
+
+        &__filters {
+            background-color: $messageGray;
+        }
+
+        &__refresh-button {
+            background-color: $black;
         }
     }
 }

@@ -59,7 +59,12 @@
         }
 
         strong {
-            color: black;
+            color: $black;
+        }
+
+        &.error {
+            border-color: $accentColor;
+            background-color: $hoverColor;
         }
     }
 
@@ -85,5 +90,33 @@
 
     &__message {
         width: 100%;
+    }
+}
+
+.dark-mode {
+    .file-upload-form {
+        &__label {
+            background-color: $messageGray;
+            border-color: $hoverColorTransparent;
+
+            svg {
+                path {
+                    fill: #3d3d3d;
+                }
+            }
+
+            p {
+                text-shadow: none;
+            }
+
+            strong {
+                color: $white;
+            }
+
+            &.error {
+                border-color: $accentColor;
+                background-color: $hoverColorTransparent;
+            }
+        }
     }
 }

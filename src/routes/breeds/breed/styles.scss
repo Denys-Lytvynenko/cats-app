@@ -12,13 +12,14 @@
             background-color: $white;
             left: 50%;
             line-height: 1;
+            max-width: 90%;
             padding: 0 40px;
             position: absolute;
-            top: 0;
-            max-width: 90%;
             text-align: center;
-            width: max-content;
+            top: 0;
             transform: translate(-50%, -50%);
+            transition: $transition;
+            width: max-content;
         }
     }
 
@@ -48,5 +49,13 @@
     &__params-row {
         display: flex;
         gap: 5px;
+    }
+}
+
+.dark-mode {
+    .breed {
+        &__name {
+            background-color: $darkGray;
+        }
     }
 }

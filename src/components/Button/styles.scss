@@ -101,3 +101,35 @@
         }
     }
 }
+
+.dark-mode {
+    .button {
+        background-color: $darkGray;
+
+        &.fill {
+            background-color: $hoverColorTransparent;
+        }
+
+        &.icon-button {
+            &:hover {
+                background-color: #494443;
+            }
+
+            &:active,
+            &.active {
+                background-color: $accentColor;
+            }
+        }
+
+        &.text-button {
+            &:hover {
+                background-color: #494443;
+            }
+
+            &:active,
+            &.active {
+                background-color: $accentColor;
+            }
+        }
+    }
+}
