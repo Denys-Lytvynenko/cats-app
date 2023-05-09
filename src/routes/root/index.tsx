@@ -1,9 +1,12 @@
 import { FC } from "react";
 import { Link, Outlet } from "react-router-dom";
 
+import { useAppSelector } from "@store/hooks";
+import { cn } from "@utils/classNames";
 import { routes } from "../routes";
 
 import Card from "@components/Card";
+import DarkModeSwitch from "@components/DarkModeSwitch";
 import Typography from "@components/Typography";
 
 import { ReactComponent as Logo } from "@assets/icons/logo.svg";
@@ -14,8 +17,10 @@ import voteImg from "@assets/images/vote-table.png";
 import "./styles.scss";
 
 const Root: FC = () => {
+    const isDarkMode = useAppSelector(state => state.darkMode.isDarkMode);
+
     return (
-        <div className="app">
+        <div className={cn("app", isDarkMode ? "dark-mode" : "")}>
             <div className="app__wrapper">
                 <div className="app__side-wrapper">
                     <div className="app__navigation">
@@ -27,7 +32,8 @@ const Root: FC = () => {
                             >
                                 <Logo />
                             </Link>
-                            {/* TODO add dark mode button */}
+
+                            <DarkModeSwitch />
                         </header>
                         <Typography tag="h1" className="app__title">
                             Hi intern!

@@ -1,0 +1,49 @@
+@use "variables" as *;
+
+.dark-mode-switch {
+    align-items: center;
+    display: flex;
+    gap: 5px;
+
+    &__indicator {
+        @include flexCenter();
+        background-color: $white;
+        border-radius: 50%;
+        height: 24px;
+        width: 24px;
+    }
+
+    &__button {
+        align-items: center;
+        background-color: $hoverColor;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        height: 24px;
+        width: 44px;
+        padding: 4px;
+        transition: $transition;
+        position: relative;
+
+        &-indicator {
+            background-color: $accentColor;
+            border-radius: 50%;
+            height: 16px;
+            position: absolute;
+            left: 24px;
+            transition: $transition;
+            width: 16px;
+        }
+    }
+}
+
+.dark-mode {
+    .dark-mode-switch {
+        &__button {
+            &-indicator {
+                left: 4px;
+            }
+        }
+    }
+}

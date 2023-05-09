@@ -5,11 +5,13 @@ import breedsReducer from "./slices/breedsSlice";
 import galleryReducer from "./slices/gallerySlice";
 import searchReducer from "./slices/searchSlice";
 import votesReducer from "./slices/votesSlice";
+import darkModeSlice from "./slices/darkModeSlice";
 
 const store = configureStore({
     reducer: {
         breed: breedReducer,
         breeds: breedsReducer,
+        darkMode: darkModeSlice,
         gallery: galleryReducer,
         search: searchReducer,
         votes: votesReducer,
