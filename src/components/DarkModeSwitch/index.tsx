@@ -21,8 +21,6 @@ const DarkModeSwitch: FC = () => {
         }
     };
 
-    console.log("isDarkMode", isDarkMode);
-
     return (
         <div className="dark-mode-switch">
             <div className="dark-mode-switch__indicator">
