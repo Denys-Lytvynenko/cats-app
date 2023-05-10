@@ -1,7 +1,7 @@
 @use "variables" as *;
 
 .tile {
-    background-color: $gray;
+    background-color: $lightGray;
     border-radius: $borderRadius20;
     overflow: hidden;
     position: relative;
@@ -11,5 +11,11 @@
         object-fit: cover;
         pointer-events: none;
         width: 100%;
+    }
+}
+
+.dark-mode {
+    .tile {
+        background-color: $black;
     }
 }
