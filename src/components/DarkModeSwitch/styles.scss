@@ -22,10 +22,11 @@
         cursor: pointer;
         display: flex;
         height: 24px;
-        width: 44px;
+        outline: none;
         padding: 4px;
-        transition: $transition;
         position: relative;
+        transition: $transition;
+        width: 44px;
 
         &-indicator {
             background-color: $accentColor;

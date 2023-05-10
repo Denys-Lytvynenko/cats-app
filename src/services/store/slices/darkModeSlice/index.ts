@@ -4,23 +4,23 @@ type InitialState = {
     isDarkMode: boolean;
 };
 
+const getCurrentTheme = () =>
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
 const initialState: InitialState = {
-    isDarkMode: false,
+    isDarkMode: getCurrentTheme(),
 };
 
 const dartModeSlice = createSlice({
     name: "darkMode",
     initialState,
     reducers: {
-        turnDarkModeOn: state => {
-            state.isDarkMode = true;
-        },
-        turnDarkModeOff: state => {
-            state.isDarkMode = false;
+        switchDarkMode: (state, action) => {
+            state.isDarkMode = action.payload;
         },
     },
 });
 
-export const { turnDarkModeOn, turnDarkModeOff } = dartModeSlice.actions;
+export const { switchDarkMode } = dartModeSlice.actions;
 
 export default dartModeSlice.reducer;
