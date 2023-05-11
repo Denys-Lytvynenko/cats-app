@@ -39,6 +39,10 @@
                 flex-grow: 1;
             }
         }
+
+        select {
+            color: $black;
+        }
     }
 
     &-route__tile {
