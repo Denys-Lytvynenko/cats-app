@@ -19,12 +19,12 @@
             content: url("@assets/icons/chevron.svg");
             display: block;
             height: 12px;
+            pointer-events: none;
             position: absolute;
             right: 8px;
             top: 50%;
             transform: translate(-50%, -50%);
             width: 12px;
-            pointer-events: none;
         }
     }
     &__input {
