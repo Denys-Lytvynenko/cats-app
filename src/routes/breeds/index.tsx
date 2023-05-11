@@ -69,7 +69,7 @@ const Breeds: FC = () => {
     return (
         <ContentWrapper>
             <SectionWrapper className="breeds">
-                <SectionTop>
+                <SectionTop className="breeds__section-top">
                     <Select
                         name="breeds-type"
                         title="breeds type select"
@@ -87,6 +87,7 @@ const Breeds: FC = () => {
                         value={limitValue}
                         onChange={onLimitChange}
                         options={limitOptions}
+                        className="breeds__limit-select"
                     />
 
                     <SortingButton

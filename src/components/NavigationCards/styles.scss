@@ -1,0 +1,20 @@
+@use "variables" as *;
+
+.cards {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+
+    @include phone {
+        width: 100%;
+        flex-direction: column;
+
+        .card__image {
+            display: none;
+        }
+
+        .card {
+            width: 100%;
+        }
+    }
+}

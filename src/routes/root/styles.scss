@@ -46,6 +46,10 @@
         flex-basis: 50%;
         justify-content: center;
         z-index: 1;
+
+        @include laptop {
+            flex-grow: 1;
+        }
     }
 
     &__navigation {
@@ -56,15 +60,13 @@
         top: 0;
     }
 
-    .cards {
-        display: flex;
-        gap: 16px;
-        margin-top: 20px;
-    }
-
     .content {
         display: flex;
         flex-basis: 50%;
+
+        @include laptop {
+            flex-grow: 1;
+        }
     }
 }
 

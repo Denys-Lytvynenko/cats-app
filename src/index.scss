@@ -22,6 +22,16 @@ body {
     margin: 0;
 }
 
+body.scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+
 figure {
     margin: 0;
 }
@@ -78,6 +88,7 @@ textarea {
 button,
 select {
     text-transform: none;
+    outline: none;
 }
 
 button::-moz-focus-inner,

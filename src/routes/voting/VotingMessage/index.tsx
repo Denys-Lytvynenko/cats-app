@@ -2,6 +2,7 @@ import { FC, useMemo } from "react";
 
 import { cn } from "@utils/classNames";
 import { VotingMessageProps } from "./types";
+import { useAppSelector } from "@store/hooks";
 
 import { ReactComponent as DislikeIcon } from "@assets/icons/dislikes.svg";
 import { ReactComponent as HeardIcon } from "@assets/icons/heard.svg";
@@ -22,6 +23,8 @@ const VotingMessage: FC<VotingMessageProps> = ({
     reaction,
     className,
 }) => {
+    const isTablet = useAppSelector(state => state.mobile.isTablet);
+
     const message = useMemo(() => {
         switch (reaction) {
             case "like":
@@ -62,13 +65,15 @@ const VotingMessage: FC<VotingMessageProps> = ({
 
     return (
         <div className={cn("voting__message", className)}>
-            <div className="voting__message-time">{formattedTime}</div>
-
-            {message}
-
-            <div className={cn("voting__message-reaction", reaction)}>
-                {reactionIcons[reaction]}
+            <div className="voting__message-inner">
+                <div className="voting__message-time">{formattedTime}</div>
+                {!isTablet && message}
+                <div className={cn("voting__message-reaction", reaction)}>
+                    {reactionIcons[reaction]}
+                </div>
             </div>
+
+            {isTablet && message}
         </div>
     );
 };

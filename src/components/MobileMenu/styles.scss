@@ -1,0 +1,43 @@
+@use "variables" as *;
+
+.mobile-menu {
+    margin-right: auto;
+    z-index: 10;
+
+    &__wrapper {
+        align-items: center;
+        background-color: $lightGray;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 100vh;
+        left: -100%;
+        opacity: 0;
+        padding: $contentOuterSpace;
+        position: absolute;
+        top: 0;
+        transition: $transition;
+        visibility: none;
+        width: 100vw;
+
+        &.active {
+            left: 0;
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    &__top-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+    }
+}
+
+.dark-mode {
+    .mobile-menu {
+        &__wrapper {
+            background-color: $black;
+        }
+    }
+}

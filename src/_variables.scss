@@ -24,7 +24,7 @@ $transition: all 0.3s ease;
 
 // distances
 $contentOuterSpace: 30px;
-
+$contentOuterSpaceMobile: 20px;
 $aspectRatio: 1.77777;
 
 // @mixins
@@ -39,4 +39,53 @@ $aspectRatio: 1.77777;
     align-items: center;
     display: flex;
     justify-content: center;
+}
+
+// Media query mixins
+@mixin quarterHD {
+    @media (max-width: 2560px) {
+        @content;
+    }
+}
+
+@mixin fullHD {
+    @media (max-width: 1920px) {
+        @content;
+    }
+}
+
+@mixin wideExtendedHD {
+    @media (max-width: 1680px) {
+        @content;
+    }
+}
+
+@mixin extendedHD {
+    @media (max-width: 1440px) {
+        @content;
+    }
+}
+
+@mixin readyHD {
+    @media (max-width: 1366px) {
+        @content;
+    }
+}
+
+@mixin laptop {
+    @media (max-width: 1200px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin phone {
+    @media (max-width: 500px) {
+        @content;
+    }
 }

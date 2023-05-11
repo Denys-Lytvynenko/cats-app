@@ -21,19 +21,21 @@ const Slider: FC<SliderProps> = ({ images }) => {
     const slidesContainerRef = useRef<HTMLDivElement>(null);
 
     const [slideWidth, setSlideWidth] = useState<number | undefined>(0);
-    const [sliderHeight, setSliderHeight] = useState<number | undefined>(0);
+    const [sliderHeight, setSliderHeight] = useState<number>(0);
     const [sliderContainerWidth, setSliderContainerWidth] = useState<number>(0);
     const [currentSlide, setCurrentSlide] = useState<number>(0);
 
     // Set slider size
     const sizeHandler = () => {
-        setSlideWidth(prev => sliderRef.current?.offsetWidth);
-        setSliderHeight(prev => slidesContainerRef.current?.offsetHeight);
-        setSliderContainerWidth(
-            prev => slidesContainerRef.current?.offsetWidth!
-        );
+        setSlideWidth(sliderRef.current?.offsetWidth);
+        setSliderHeight(slideWidth ? slideWidth / 1.7777 : 0);
+        setSliderContainerWidth(slidesContainerRef.current?.offsetWidth!);
     };
-    useLayoutEffect(sizeHandler, [slideWidth]);
+
+    useLayoutEffect(() => {
+        sizeHandler();
+        return () => sizeHandler();
+    }, [slideWidth, sliderHeight]);
 
     useEffect(() => {
         addEventListener("resize", sizeHandler);
@@ -47,10 +49,10 @@ const Slider: FC<SliderProps> = ({ images }) => {
                 src={img}
                 key={index}
                 className="slider__slide"
-                style={{ width: slideWidth }}
+                style={{ width: slideWidth, height: sliderHeight }}
             />
         ));
-    }, [images, slideWidth]);
+    }, [images, slideWidth, sliderHeight]);
 
     const controls = useMemo(() => {
         return images.map((img, index) => (
