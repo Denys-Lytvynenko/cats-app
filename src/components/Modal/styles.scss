@@ -8,6 +8,9 @@
     top: 0;
     width: 100vw;
     z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transition: $transition;
 
     &__wrapper {
         flex-grow: 1;
@@ -18,6 +21,10 @@
         background-color: rgba(29, 29, 29, 0.6);
         height: 100%;
         width: 100%;
+        @include tablet {
+            visibility: hidden;
+            opacity: 0;
+        }
     }
 
     &__content {
@@ -25,9 +32,15 @@
         height: 100%;
         padding: $contentOuterSpace $contentOuterSpace $contentOuterSpace 0;
         position: absolute;
-        right: 0;
+        right: -100%;
         top: 0;
         width: 50%;
+        transition: $transition;
+        @include tablet {
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+        }
     }
 
     &__inner {
@@ -36,10 +49,21 @@
         flex-grow: 1;
         padding: 20px;
         transition: $transition;
+        @include tablet {
+            border-radius: 0;
+        }
 
         &-top {
             display: flex;
             justify-content: flex-end;
+        }
+    }
+
+    &.active {
+        visibility: visible;
+        opacity: 1;
+        .modal__content {
+            right: 0;
         }
     }
 }

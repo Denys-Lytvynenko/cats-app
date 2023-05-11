@@ -41,7 +41,8 @@ const limitOptions: OptionsType = [
 
 const Gallery: FC = () => {
     const { loading, data } = useAppSelector(state => state.gallery);
-    const { breedsOptions } = useAppSelector(state => state.breeds);
+    const breedsOptions = useAppSelector(state => state.breeds.breedsOptions);
+    const isTablet = useAppSelector(state => state.mobile.isTablet);
 
     const dispatch = useAppDispatch();
 
@@ -67,7 +68,17 @@ const Gallery: FC = () => {
     const onUpdate = () => setUpdate(prev => !prev);
 
     const [isOpenUploadModal, setIsOpenUploadModal] = useState<boolean>(false);
-    const toggleModal = () => setIsOpenUploadModal(prev => !prev);
+    const toggleModal = () => {
+        setIsOpenUploadModal(prev => !prev);
+
+        if (isOpenUploadModal) {
+            document.body.classList.add("scroll");
+            document.body.classList.remove("no-scroll");
+        } else {
+            document.body.classList.add("no-scroll");
+            document.body.classList.remove("scroll");
+        }
+    };
 
     useEffect(() => {
         const signal = dispatch(
@@ -94,6 +105,19 @@ const Gallery: FC = () => {
         <ContentWrapper>
             <SectionWrapper>
                 <SectionTop>
+                    {!isTablet && (
+                        <Button
+                            buttonStyle="icon-text-button"
+                            className="gallery__upload-button"
+                            onClick={toggleModal}
+                        >
+                            <UploadIcon />
+                            Upload
+                        </Button>
+                    )}
+                </SectionTop>
+
+                {isTablet && (
                     <Button
                         buttonStyle="icon-text-button"
                         className="gallery__upload-button"
@@ -102,7 +126,7 @@ const Gallery: FC = () => {
                         <UploadIcon />
                         Upload
                     </Button>
-                </SectionTop>
+                )}
 
                 <div className="gallery__filters">
                     <Select

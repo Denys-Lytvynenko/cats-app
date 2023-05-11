@@ -3,6 +3,9 @@
 .gallery {
     &__upload-button {
         margin-left: auto;
+        @include tablet {
+            width: 100%;
+        }
     }
 
     &__filters {
@@ -14,11 +17,23 @@
         padding: 10px 20px 20px;
         row-gap: 10px;
         transition: $transition;
+        @include tablet {
+            display: flex;
+            flex-direction: column;
+        }
 
         &-group {
             align-items: flex-end;
             display: flex;
             gap: 10px;
+
+            @include tablet {
+                flex-direction: column;
+
+                > * {
+                    width: 100%;
+                }
+            }
 
             .select {
                 flex-grow: 1;

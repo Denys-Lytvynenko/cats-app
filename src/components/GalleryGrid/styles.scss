@@ -28,9 +28,18 @@
                 "tile5 tile5 tile1"
                 "tile5 tile5 tile4";
         }
+
+        @include tablet {
+            display: flex;
+            flex-direction: column;
+        }
     }
 
     &__item {
+        @include tablet {
+            aspect-ratio: 1.48;
+        }
+
         &:first-child {
             grid-area: tile1;
         }

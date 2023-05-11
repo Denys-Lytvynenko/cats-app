@@ -47,69 +47,84 @@ const Breed: FC = () => {
                         <Slider images={sliderImages || [cat]} />
 
                         <div className="breed__info-block">
-                            <Typography tag="h2" className="breed__name">
-                                {description?.name}
-                            </Typography>
+                            {description?.name && (
+                                <Typography tag="h2" className="breed__name">
+                                    {description.name}
+                                </Typography>
+                            )}
 
-                            <Typography tag="p" className="breed__description">
-                                {description?.description}
-                            </Typography>
+                            {description?.description && (
+                                <Typography
+                                    tag="p"
+                                    className="breed__description"
+                                >
+                                    {description.description}
+                                </Typography>
+                            )}
 
                             <div className="breed__info">
+                                {description?.temperament && (
+                                    <div className="breed__info-column">
+                                        <Typography
+                                            tag="p"
+                                            color="black"
+                                            className="breed__row-name"
+                                        >
+                                            Temperament:
+                                        </Typography>
+
+                                        <Typography tag="p">
+                                            {description?.temperament}
+                                        </Typography>
+                                    </div>
+                                )}
+
                                 <div className="breed__info-column">
-                                    <Typography
-                                        tag="p"
-                                        color="black"
-                                        className="breed__row-name"
-                                    >
-                                        Temperament:
-                                    </Typography>
+                                    {description?.origin && (
+                                        <div className="breed__params-row">
+                                            <Typography
+                                                tag="p"
+                                                color="black"
+                                                className="breed__row-name"
+                                            >
+                                                Origin:
+                                            </Typography>
 
-                                    <Typography tag="p">
-                                        {description?.temperament}
-                                    </Typography>
-                                </div>
+                                            <Typography tag="p">
+                                                {description.origin}
+                                            </Typography>
+                                        </div>
+                                    )}
 
-                                <div className="breed__info-column">
-                                    <div className="breed__params-row">
-                                        <Typography
-                                            tag="p"
-                                            color="black"
-                                            className="breed__row-name"
-                                        >
-                                            Origin:
-                                        </Typography>
+                                    {description?.weight.metric && (
+                                        <div className="breed__params-row">
+                                            <Typography
+                                                tag="p"
+                                                color="black"
+                                                className="breed__row-name"
+                                            >
+                                                Weight:
+                                            </Typography>
+                                            <Typography tag="p">
+                                                {description.weight.metric}
+                                            </Typography>
+                                        </div>
+                                    )}
 
-                                        <Typography tag="p">
-                                            {description?.origin}
-                                        </Typography>
-                                    </div>
-
-                                    <div className="breed__params-row">
-                                        <Typography
-                                            tag="p"
-                                            color="black"
-                                            className="breed__row-name"
-                                        >
-                                            Weight:
-                                        </Typography>
-                                        <Typography tag="p">
-                                            {description?.weight.metric}
-                                        </Typography>
-                                    </div>
-
-                                    <div className="breed__params-row">
-                                        <Typography
-                                            tag="p"
-                                            color="black"
-                                            className="breed__row-name"
-                                        >
-                                            Life span:
-                                        </Typography>
-                                        <Typography tag="p">
-                                            {description?.life_span}
-                                        </Typography>
-                                    </div>
+                                    {description?.life_span && (
+                                        <div className="breed__params-row">
+                                            <Typography
+                                                tag="p"
+                                                color="black"
+                                                className="breed__row-name"
+                                            >
+                                                Life span:
+                                            </Typography>
+                                            <Typography tag="p">
+                                                {description.life_span}
+                                            </Typography>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

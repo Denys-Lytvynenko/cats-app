@@ -8,6 +8,9 @@
         outline: none;
         padding: 25px;
         transition: $transition;
+        @include tablet {
+            padding: 15px;
+        }
 
         path {
             fill: $white;
@@ -17,6 +20,10 @@
         &:first-child {
             border-bottom-left-radius: $borderRadius20;
             border-top-left-radius: $borderRadius20;
+            @include tablet {
+                border-bottom-left-radius: $borderRadius10;
+                border-top-left-radius: $borderRadius10;
+            }
         }
 
         &:nth-child(2) {
@@ -27,6 +34,10 @@
         &:last-child {
             border-bottom-right-radius: $borderRadius20;
             border-top-right-radius: $borderRadius20;
+            @include tablet {
+                border-bottom-right-radius: $borderRadius10;
+                border-top-right-radius: $borderRadius10;
+            }
         }
 
         &.likes {
@@ -121,6 +132,9 @@
             position: absolute;
             transform: translate(-50%, 50%);
             transition: $transition;
+            @include tablet {
+                border-radius: 13px;
+            }
         }
     }
 }

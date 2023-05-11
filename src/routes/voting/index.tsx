@@ -22,6 +22,7 @@ import VotingMessage from "./VotingMessage";
 import "./styles.scss";
 
 const Voting: FC = () => {
+    const isTablet = useAppSelector(state => state.mobile.isTablet);
     const [messagesBlockRef, height] = useBlockHeight(52);
 
     const {
@@ -83,7 +84,7 @@ const Voting: FC = () => {
 
                 <div
                     ref={messagesBlockRef}
-                    style={{ height }}
+                    style={{ height: isTablet ? "100%" : height }}
                     className="voting__messages-wrapper"
                 >
                     {messagesLoading ? (

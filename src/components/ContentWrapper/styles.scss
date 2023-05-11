@@ -7,12 +7,26 @@
         flex-grow: 1;
         gap: 10px;
         padding: $contentOuterSpace $contentOuterSpace $contentOuterSpace 0;
+
+        @include laptop {
+            padding: $contentOuterSpace;
+        }
+
+        @include tablet {
+            padding: $contentOuterSpaceMobile;
+        }
     }
 
     &__navigation {
         align-items: center;
         display: flex;
         gap: 10px;
+
+        &-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
     }
 
     &__search {

@@ -13,19 +13,16 @@ export const useBlockHeight = (
 
     const [height, setHeight] = useState(0);
 
-    useLayoutEffect(() => {
+    const changeHeight = () => {
         setHeight(
             window.innerHeight - (ref.current?.offsetTop! + offsetBottom)
         );
+    };
+    useLayoutEffect(() => {
+        changeHeight();
     }, []);
 
     useEffect(() => {
-        const changeHeight = () => {
-            setHeight(
-                window.innerHeight - (ref.current?.offsetTop! + offsetBottom)
-            );
-        };
-
         addEventListener("resize", changeHeight);
 
         return () => removeEventListener("resize", changeHeight);

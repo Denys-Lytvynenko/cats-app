@@ -4,6 +4,7 @@ import breedReducer from "./slices/breedSlice";
 import breedsReducer from "./slices/breedsSlice";
 import darkModeSlice from "./slices/darkModeSlice";
 import galleryReducer from "./slices/gallerySlice";
+import mobileSlice from "./slices/mobileSlice";
 import searchReducer from "./slices/searchSlice";
 import votesReducer from "./slices/votesSlice";
 
@@ -13,6 +14,7 @@ const store = configureStore({
         breeds: breedsReducer,
         darkMode: darkModeSlice,
         gallery: galleryReducer,
+        mobile: mobileSlice,
         search: searchReducer,
         votes: votesReducer,
     },
