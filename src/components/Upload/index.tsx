@@ -1,4 +1,11 @@
-import { ChangeEvent, DragEvent, FC, useEffect, useState } from "react";
+import {
+    ChangeEvent,
+    DragEvent,
+    FC,
+    FormEvent,
+    useEffect,
+    useState,
+} from "react";
 
 import { cn } from "@utils/classNames";
 import { convertToBase64 } from "@utils/convertToBase64";
@@ -57,6 +64,12 @@ const Upload: FC<UploadProps> = () => {
         convertToBase64(file[0]).then(file => setImagePreview(file as string));
     }, [file]);
 
+    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        console.log(file);
+    };
+
     return (
         <div className="file-upload-form__wrapper">
             <form
@@ -65,49 +78,55 @@ const Upload: FC<UploadProps> = () => {
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
-                onSubmit={e => e.preventDefault()}
+                onSubmit={onSubmit}
             >
-                <input
-                    type="file"
-                    id="file-upload-form__input"
-                    className="file-upload-form__input"
-                    accept="image/png, .jpg"
-                    onChange={handleChange}
-                />
+                <div className="file-upload-form__input-wrapper">
+                    <input
+                        type="file"
+                        id="file-upload-form__input"
+                        className="file-upload-form__input"
+                        accept="image/png, .jpg"
+                        onChange={handleChange}
+                    />
 
-                <label
-                    htmlFor="file-upload-form__input"
-                    className={cn(
-                        "file-upload-form__label",
-                        dragActive ? "active" : ""
-                    )}
-                >
-                    {imagePreview && file && (
-                        <Image
-                            src={imagePreview}
-                            alt={file[0].name}
-                            className="file-upload-form__image"
-                        />
-                    )}
+                    <label
+                        htmlFor="file-upload-form__input"
+                        className={cn(
+                            "file-upload-form__label",
+                            dragActive ? "active" : ""
+                        )}
+                    >
+                        {imagePreview && file && (
+                            <Image
+                                src={imagePreview}
+                                alt={file[0].name}
+                                className="file-upload-form__image"
+                            />
+                        )}
 
-                    {!imagePreview && (
-                        <>
-                            <UploadIcon />
+                        {!imagePreview && (
+                            <>
+                                <UploadIcon />
 
-                            <Typography tag="p">
-                                <strong>Drag</strong> here your file or{" "}
-                                <strong>Click</strong> here to upload
-                            </Typography>
-                        </>
-                    )}
-                </label>
+                                <Typography tag="p">
+                                    <strong>Drag</strong> here your file or{" "}
+                                    <strong>Click</strong> here to upload
+                                </Typography>
+                            </>
+                        )}
+                    </label>
+                </div>
+
+                <Typography tag="p" className="file-upload-form__filename">
+                    {file ? file[0].name : "No file selected"}
+                </Typography>
+
+                {file && message.status !== "failure" && (
+                    <Button type="submit" active>
+                        Upload photo
+                    </Button>
+                )}
             </form>
-
-            <Typography tag="p" className="file-upload-form__filename">
-                {file ? file[0].name : "No file selected"}
-            </Typography>
-
-            {file && <Button active>Upload photo</Button>}
 
             {message.status && message.text && (
                 <FileUploadMessage
