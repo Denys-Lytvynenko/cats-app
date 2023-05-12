@@ -1,5 +1,10 @@
 import { ApiService } from "..";
-import { BaseImageType, GetImagesProps, RandomImageType } from "./types";
+import {
+    BaseImageType,
+    GetImagesProps,
+    RandomImageType,
+    UploadImageResponse,
+} from "./types";
 
 export class ImagesController {
     private static instance: ImagesController;
@@ -68,5 +73,36 @@ export class ImagesController {
             `${this.baseUrl}/search?limit=${limit}&page=${page}${queryParams}`,
             signal
         );
+    }
+
+    /**
+     * uploadImage
+     */
+    public uploadImage(data: FormData): Promise<UploadImageResponse> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await fetch(
+                    `${import.meta.env.VITE_API_URL}/${this.baseUrl}/upload`,
+                    {
+                        method: "POST",
+                        headers: {
+                            Accept: "application/json",
+                            "x-api-key": import.meta.env.VITE_API_KEY,
+                        },
+                        body: data,
+                    }
+                );
+
+                if (!response.ok) {
+                    throw response;
+                }
+
+                const actualData = await response.json();
+
+                resolve(actualData);
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 }

@@ -7,6 +7,7 @@ import {
     useState,
 } from "react";
 
+import { ImagesController } from "@api/imagesController";
 import { cn } from "@utils/classNames";
 import { convertToBase64 } from "@utils/convertToBase64";
 import { IMessage, UploadProps } from "./types";
@@ -16,14 +17,34 @@ import Image from "../Image";
 import FileUploadMessage from "../Message";
 import Typography from "../Typography";
 
+import { ReactComponent as ButtonLoaderIcon } from "@assets/icons/button-loader.svg";
 import { ReactComponent as UploadIcon } from "@assets/icons/upload-file.svg";
 
 import "./styles.scss";
 
+const validateFile = (file: File) => {
+    let message: IMessage = {};
+
+    // check file type
+    if (!["image/jpeg", "image/png"].includes(file.type)) {
+        message.status = "failure";
+        message.text = "Only jpeg, png images are allowed.";
+    }
+
+    // check file size (< 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+        message.status = "failure";
+        message.text = "File must be less than 2MB.";
+    }
+
+    return message;
+};
+
 const Upload: FC<UploadProps> = () => {
     const [dragActive, setDragActive] = useState<boolean>(false);
-    const [file, setFile] = useState<FileList>();
+    const [file, setFile] = useState<File>();
     const [imagePreview, setImagePreview] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
     const [message, setMessage] = useState<IMessage>({
         status: undefined,
         text: "",
@@ -46,28 +67,90 @@ const Upload: FC<UploadProps> = () => {
 
         setDragActive(false);
 
+        const validationMessage = validateFile(e.dataTransfer.files[0]);
+
+        if (validationMessage.status === "failure") {
+            setMessage(validationMessage);
+            setFile(undefined);
+            setImagePreview("");
+            return;
+        } else {
+            setMessage({});
+        }
+
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            setFile(e.dataTransfer.files);
+            setFile(e.dataTransfer.files[0]);
         }
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
+
         if (e.target.files && e.target.files[0]) {
-            setFile(e.target.files);
+            const validationMessage = validateFile(e.target.files[0]);
+
+            if (validationMessage.status === "failure") {
+                setMessage(validationMessage);
+                setFile(undefined);
+                setImagePreview("");
+                return;
+            } else {
+                setMessage({});
+            }
+
+            setFile(e.target.files[0]);
         }
     };
 
     useEffect(() => {
         if (!file) return;
 
-        convertToBase64(file[0]).then(file => setImagePreview(file as string));
+        convertToBase64(file).then(filePrev =>
+            setImagePreview(filePrev as string)
+        );
     }, [file]);
 
-    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        console.log(file);
+        if (file) {
+            try {
+                setLoading(true);
+                const validationMessage = validateFile(file);
+                if (validationMessage.status === "failure") {
+                    setMessage(validationMessage);
+                    setLoading(false);
+                    return;
+                } else {
+                    setMessage({});
+                }
+
+                const formData = new FormData();
+                formData.append("file", file);
+                formData.append("sub_id", import.meta.env.VITE_SUB_ID);
+
+                const response =
+                    await ImagesController.getInstance().uploadImage(formData);
+
+                if (!!response && response.approved) {
+                    setMessage({
+                        status: "success",
+                        text: "Thanks for the Upload - Cat found!",
+                    });
+                    setImagePreview("");
+                    setFile(undefined);
+                }
+            } catch (error: any) {
+                const parseError = await error.text();
+                if (parseError.includes("correct animal not found")) {
+                    setMessage({ status: "failure", text: parseError });
+                }
+
+                console.error(`Error on upload image: ${error}`);
+            } finally {
+                setLoading(false);
+            }
+        }
     };
 
     return (
@@ -84,8 +167,9 @@ const Upload: FC<UploadProps> = () => {
                     <input
                         type="file"
                         id="file-upload-form__input"
+                        name="file"
                         className="file-upload-form__input"
-                        accept="image/png, .jpg"
+                        accept="image/png, .jpg, .gif"
                         onChange={handleChange}
                     />
 
@@ -93,13 +177,15 @@ const Upload: FC<UploadProps> = () => {
                         htmlFor="file-upload-form__input"
                         className={cn(
                             "file-upload-form__label",
-                            dragActive ? "active" : ""
+                            dragActive || message.status === "failure"
+                                ? "active"
+                                : ""
                         )}
                     >
                         {imagePreview && file && (
                             <Image
                                 src={imagePreview}
-                                alt={file[0].name}
+                                alt={file.name}
                                 className="file-upload-form__image"
                             />
                         )}
@@ -118,12 +204,28 @@ const Upload: FC<UploadProps> = () => {
                 </div>
 
                 <Typography tag="p" className="file-upload-form__filename">
-                    {file ? file[0].name : "No file selected"}
+                    {file ? file.name : "No file selected"}
                 </Typography>
 
                 {file && message.status !== "failure" && (
-                    <Button type="submit" active>
-                        Upload photo
+                    <Button
+                        type="submit"
+                        buttonStyle="icon-text-button"
+                        active={loading}
+                        disabled={loading}
+                        className={cn(
+                            "file-upload-form__submit-button",
+                            loading ? "loading" : ""
+                        )}
+                    >
+                        {!loading ? (
+                            "Upload photo"
+                        ) : (
+                            <>
+                                <ButtonLoaderIcon />
+                                Uploading
+                            </>
+                        )}
                     </Button>
                 )}
             </form>

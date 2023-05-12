@@ -17,3 +17,14 @@ export interface GetImagesProps {
     queryParams?: string;
     signal?: AbortSignal;
 }
+
+export interface UploadImageResponse {
+    id: string;
+    url: string;
+    sub_id: string;
+    width: number;
+    height: number;
+    original_filename: string;
+    pending: number;
+    approved: number;
+}

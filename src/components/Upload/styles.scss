@@ -5,6 +5,9 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    @include readyHD {
+        gap: 10px;
+    }
 
     &__wrapper {
         align-items: center;
@@ -12,6 +15,10 @@
         flex-direction: column;
         gap: 20px;
         margin-top: 40px;
+        @include readyHD {
+            margin-top: 10px;
+            gap: 10px;
+        }
     }
 
     &__input-wrapper {
@@ -36,8 +43,15 @@
         transition: $transition;
         position: relative;
         padding: 20px 41px;
-        @include tablet {
+        @include laptop {
             padding: 10px 20px;
+        }
+
+        svg {
+            @include laptop {
+                width: 100px;
+                height: 100px;
+            }
         }
 
         &.active {
@@ -97,6 +111,25 @@
 
     &__filename {
         text-align: center;
+    }
+
+    &__submit-button.button {
+        background-color: $hoverColor;
+
+        svg {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+        }
+
+        &.loading {
+            color: $white;
+            background-color: $accentColor;
+        }
+
+        &:disabled {
+            background-color: $accentColor !important;
+        }
     }
 
     &__message {
