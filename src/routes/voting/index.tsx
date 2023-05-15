@@ -62,25 +62,6 @@ const Voting: FC = () => {
         }
     };
 
-    // useEffect(() => {
-    //     async function deleteBreeds() {
-    //         const votes = await VotingController.getInstance().getVotes();
-
-    //         votes.forEach(breed => {
-    //             fetch(`https://api.thecatapi.com/v1/votes/${breed.id}`, {
-    //                 headers: {
-    //                     Accept: "application/json",
-    //                     "Content-Type": "application/json",
-    //                     "Access-Control-Allow-Headers": "Accept, Content-Type",
-    //                     "x-api-key": import.meta.env.VITE_API_KEY,
-    //                 },
-    //                 method: "DELETE",
-    //             });
-    //         });
-    //     }
-
-    //     deleteBreeds();
-    // }, []);
     return (
         <ContentWrapper>
             <SectionWrapper>

@@ -35,6 +35,7 @@ type InitialStateType = {
         votesLoading: boolean;
         likes: UseTilesDataType;
         dislikes: UseTilesDataType;
+        updateVotes: boolean;
     };
     favourites: {
         favourites: GetFavouritesResponse | null;
@@ -69,6 +70,7 @@ const initialState: InitialStateType = {
         votesLoading: true,
         likes: [],
         dislikes: [],
+        updateVotes: false,
     },
     favourites: {
         favourites: [],
@@ -173,6 +175,13 @@ export const deleteFavourite = createAsyncThunk<
     FavouritesController.getInstance().deleteFavourite(isFavourite)
 );
 
+export const deleteLikeDislike = createAsyncThunk<
+    DeleteFavouriteResponse,
+    string
+>("votes/deleteLikeDislike", breed_id =>
+    VotingController.getInstance().deleteLikeDislike(breed_id)
+);
+
 export const fetchVotes = createAsyncThunk("votes/fetchVotes", async () => {
     const votes = await VotingController.getInstance().getVotes();
 
@@ -190,11 +199,17 @@ export const fetchVotes = createAsyncThunk("votes/fetchVotes", async () => {
 
         for (const item of votes) {
             if (item.value === 10) {
-                result.likes.push({ image: item.image.url });
+                result.likes.push({
+                    image: item.image.url,
+                    id: item.id.toString(),
+                });
             }
 
             if (item.value === 1) {
-                result.dislikes.push({ image: item.image.url });
+                result.dislikes.push({
+                    image: item.image.url,
+                    id: item.id.toString(),
+                });
             }
         }
     }
@@ -334,6 +349,13 @@ const votesSlice = createSlice({
 
         builder.addCase(deleteFavourite.rejected, state => {
             state.actionLogMessages.messagesLoading = false;
+        });
+
+        // deleteLikeDislike
+        builder.addCase(deleteLikeDislike.fulfilled, (state, action) => {
+            if (action.payload.message === "SUCCESS") {
+                state.voting.updateVotes = !state.voting.updateVotes;
+            }
         });
 
         // fetchVotes

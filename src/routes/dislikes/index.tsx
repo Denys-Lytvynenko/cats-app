@@ -6,12 +6,12 @@ import { fetchVotes } from "@store/slices/votesSlice";
 
 import ContentWrapper from "@components/ContentWrapper";
 import GalleryGrid from "@components/GalleryGrid";
-import GalleryTile from "@components/GalleryTile";
 import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
+import LikesTile from "../likes/LikesTile";
 
 const Dislikes: FC = () => {
-    const { votesLoading, dislikes } = useAppSelector(
+    const { votesLoading, dislikes, updateVotes } = useAppSelector(
         state => state.votes.voting
     );
     const dispatch = useAppDispatch();
@@ -20,9 +20,9 @@ const Dislikes: FC = () => {
         const signal = dispatch(fetchVotes());
 
         return () => signal.abort("Abort fetchVotes");
-    }, []);
+    }, [updateVotes]);
 
-    const tiles = useTiles({ data: dislikes, component: GalleryTile });
+    const tiles = useTiles({ data: dislikes, component: LikesTile });
 
     return (
         <ContentWrapper>

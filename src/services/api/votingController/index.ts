@@ -1,4 +1,5 @@
 import { ApiService } from "..";
+import { DeleteFavouriteResponse } from "../favouritesController/types";
 import {
     GetVotesResponseType,
     VotingDataType,
@@ -53,5 +54,14 @@ export class VotingController {
             `${this.baseUrl}?${this.sub_id}`,
             signal
         );
+    }
+
+    /**
+     * deleteLikeDislike
+     */
+    public deleteLikeDislike(
+        breed_id: string
+    ): Promise<DeleteFavouriteResponse> {
+        return this.apiService.delete(`${this.baseUrl}/${breed_id}`);
     }
 }
