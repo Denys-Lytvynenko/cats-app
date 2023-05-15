@@ -49,6 +49,7 @@
         flex-grow: 1;
         padding: 20px;
         transition: $transition;
+        overflow-y: auto;
         @include tablet {
             border-radius: 0;
         }

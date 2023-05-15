@@ -2,6 +2,7 @@ import { FC, useEffect, useLayoutEffect } from "react";
 import { Link, Outlet, useMatch } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { switchDarkMode } from "@store/slices/darkModeSlice";
 import { setIsMobile, setScreenSize } from "@store/slices/mobileSlice";
 import { cn } from "@utils/classNames";
 import { routes } from "../routes";
@@ -21,6 +22,7 @@ const Root: FC = () => {
 
     const isHome = useMatch(routes.home);
 
+    // Detect screen size
     const onResize = () => {
         dispatch(setScreenSize(document.body.clientWidth));
 
@@ -39,6 +41,18 @@ const Root: FC = () => {
         addEventListener("resize", onResize);
 
         return () => removeEventListener("resize", onResize);
+    }, []);
+
+    // Auto detect dark mode
+    useEffect(() => {
+        const darkThemeMQ = window.matchMedia("(prefers-color-scheme: dark)");
+        const mqListener = (e: MediaQueryListEvent) => {
+            dispatch(switchDarkMode(e.matches));
+        };
+
+        darkThemeMQ.addEventListener("change", mqListener);
+
+        return () => darkThemeMQ.removeEventListener("change", mqListener);
     }, []);
 
     return (

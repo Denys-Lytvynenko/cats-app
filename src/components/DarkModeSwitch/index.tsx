@@ -21,16 +21,6 @@ const DarkModeSwitch: FC = () => {
         }
     };
 
-    useEffect(() => {
-        const darkThemeMQ = window.matchMedia("(prefers-color-scheme: dark)");
-        const mqListener = (e: MediaQueryListEvent) =>
-            dispatch(switchDarkMode(e.matches));
-
-        darkThemeMQ.addEventListener("change", mqListener);
-
-        return () => darkThemeMQ.removeEventListener("change", mqListener);
-    }, []);
-
     return (
         <div className="dark-mode-switch">
             <div className="dark-mode-switch__indicator">

@@ -19,7 +19,16 @@
         transition: $transition;
         visibility: none;
         width: 100vw;
+        @include tablet {
+            gap: 10px;
+        }
+        @include phone {
+            gap: 20px;
+        }
 
+        .cards {
+            margin-top: 0;
+        }
         &.active {
             left: 0;
             opacity: 1;
