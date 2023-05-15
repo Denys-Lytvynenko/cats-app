@@ -12,6 +12,7 @@ const LikesTileButton: FC<ButtonProps> = props => (
         buttonStyle="icon-button"
         size="small"
         className="gallery__button"
+        title="Delete vote"
     >
         <CloseIcon />
     </Button>

@@ -4,6 +4,7 @@ import {
     FC,
     FormEvent,
     useEffect,
+    useRef,
     useState,
 } from "react";
 
@@ -41,6 +42,8 @@ const validateFile = (file: File) => {
 };
 
 const Upload: FC<UploadProps> = () => {
+    const uploadFormRef = useRef<HTMLFormElement>(null);
+
     const [dragActive, setDragActive] = useState<boolean>(false);
     const [file, setFile] = useState<File>();
     const [imagePreview, setImagePreview] = useState<string>("");
@@ -139,6 +142,7 @@ const Upload: FC<UploadProps> = () => {
                     });
                     setImagePreview("");
                     setFile(undefined);
+                    uploadFormRef.current?.reset();
                 }
             } catch (error: any) {
                 const parseError = await error.text();
@@ -156,6 +160,7 @@ const Upload: FC<UploadProps> = () => {
     return (
         <div className="file-upload-form__wrapper">
             <form
+                ref={uploadFormRef}
                 className="file-upload-form"
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}

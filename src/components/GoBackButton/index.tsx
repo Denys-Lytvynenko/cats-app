@@ -19,6 +19,7 @@ const GoBackButton: FC<GoBackButtonProps> = ({ className }) => {
             ariaLabel="back button"
             fill
             className={className}
+            title="Go back button"
         >
             <ArrowLeft />
         </Button>

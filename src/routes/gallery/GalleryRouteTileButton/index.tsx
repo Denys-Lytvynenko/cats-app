@@ -12,6 +12,7 @@ const GalleryRouteTileButton: FC<GalleryRouteTileButtonProps> = props => (
         buttonStyle="icon-button"
         size="small"
         className="gallery__button"
+        title={props.active ? "Delete favourite" : "Make favourite"}
     >
         <HeardIcon />
     </Button>

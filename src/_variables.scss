@@ -89,3 +89,21 @@ $aspectRatio: 1.77777;
         @content;
     }
 }
+
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 8px;
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    padding: 1px;
+    border-radius: 3px;
+    background: $gray;
+}
+
+* {
+    scrollbar-color: transparent;
+    scrollbar-track-color: $gray;
+    scrollbar-width: thin;
+}

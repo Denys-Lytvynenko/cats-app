@@ -116,6 +116,7 @@ const Gallery: FC = () => {
                         buttonStyle="icon-text-button"
                         className="gallery__upload-button"
                         onClick={toggleModal}
+                        title="Upload modal button"
                     >
                         <UploadIcon />
                         Upload
@@ -166,6 +167,7 @@ const Gallery: FC = () => {
                             size="small"
                             ariaLabel="refresh"
                             className="gallery__refresh-button"
+                            title="Update"
                         >
                             <RefreshIcon />
                         </Button>

@@ -23,6 +23,7 @@ const VotingButtonsGroup: FC<VotingButtonsGroupProps> = ({
             aria-label="likes button"
             onClick={onLikeClick}
             disabled={disabled}
+            title="like breed button"
         >
             <LikesIcon />
         </button>
@@ -33,6 +34,7 @@ const VotingButtonsGroup: FC<VotingButtonsGroupProps> = ({
             aria-label="favourites button"
             onClick={onFavouriteClick}
             disabled={disabled}
+            title="favourite breed button"
         >
             {isFavourite ? <FavouritesActiveIcon /> : <FavouritesIcon />}
         </button>
@@ -43,6 +45,7 @@ const VotingButtonsGroup: FC<VotingButtonsGroupProps> = ({
             aria-label="dislikes button"
             onClick={onDislikeClick}
             disabled={disabled}
+            title="dislike breed button"
         >
             <DislikesIcon />
         </button>
