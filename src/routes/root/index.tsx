@@ -17,6 +17,7 @@ import "./styles.scss";
 const Root: FC = () => {
     const isDarkMode = useAppSelector(state => state.darkMode.isDarkMode);
     const isMobile = useAppSelector(state => state.mobile.isMobile);
+    const isMenuOpened = useAppSelector(state => state.mobile.isMenuOpened);
     const dispatch = useAppDispatch();
 
     const isHome = useMatch(routes.home);
@@ -40,6 +41,14 @@ const Root: FC = () => {
 
         return () => removeEventListener("resize", onResize);
     }, []);
+
+    useEffect(() => {
+        if (!isMenuOpened) {
+            document.body.style.overflow = "auto";
+        } else {
+            document.body.style.overflow = "hidden";
+        }
+    }, [isMenuOpened]);
 
     return (
         <div className={cn("app", isDarkMode ? "dark-mode" : "")}>

@@ -105,7 +105,11 @@ const Breeds: FC = () => {
                     />
                 </SectionTop>
 
-                <GalleryGrid tiles={tiles} loading={breedsImagesLoading} />
+                <GalleryGrid
+                    tiles={tiles}
+                    loading={breedsImagesLoading}
+                    className="breeds__gallery-grid"
+                />
             </SectionWrapper>
         </ContentWrapper>
     );

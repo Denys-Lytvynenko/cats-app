@@ -35,4 +35,11 @@
             flex-grow: 1;
         }
     }
+
+    &__gallery-grid {
+        height: calc(100vh - 230px);
+        @include tablet {
+            height: calc(100vh - 379px);
+        }
+    }
 }

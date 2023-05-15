@@ -29,7 +29,11 @@ const Dislikes: FC = () => {
             <SectionWrapper>
                 <SectionTop />
 
-                <GalleryGrid loading={votesLoading} tiles={tiles} />
+                <GalleryGrid
+                    loading={votesLoading}
+                    tiles={tiles}
+                    className="favourites__gallery-grid"
+                />
             </SectionWrapper>
         </ContentWrapper>
     );

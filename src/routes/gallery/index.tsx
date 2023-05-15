@@ -5,6 +5,7 @@ import { useTiles } from "@hooks/useTiles";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { fetchBreedsOptions } from "@store/slices/breedsSlice";
 import { fetchGalleryImages } from "@store/slices/gallerySlice";
+import { setMenuOpen } from "@store/slices/mobileSlice";
 
 import Button from "@components/Button";
 import ContentWrapper from "@components/ContentWrapper";
@@ -70,14 +71,7 @@ const Gallery: FC = () => {
     const [isOpenUploadModal, setIsOpenUploadModal] = useState<boolean>(false);
     const toggleModal = () => {
         setIsOpenUploadModal(prev => !prev);
-
-        if (isOpenUploadModal) {
-            document.body.classList.add("scroll");
-            document.body.classList.remove("no-scroll");
-        } else {
-            document.body.classList.add("no-scroll");
-            document.body.classList.remove("scroll");
-        }
+        dispatch(setMenuOpen(!isOpenUploadModal));
     };
 
     useEffect(() => {
@@ -178,7 +172,11 @@ const Gallery: FC = () => {
                     </div>
                 </div>
 
-                <GalleryGrid loading={loading} tiles={tiles} />
+                <GalleryGrid
+                    loading={loading}
+                    tiles={tiles}
+                    className="gallery__gallery-grid"
+                />
 
                 <UploadModal isOpen={isOpenUploadModal} onClose={toggleModal} />
             </SectionWrapper>

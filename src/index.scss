@@ -22,16 +22,6 @@ body {
     margin: 0;
 }
 
-body.scroll {
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-}
-
-body.no-scroll {
-    overflow: hidden;
-}
-
 figure {
     margin: 0;
 }

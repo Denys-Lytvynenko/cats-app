@@ -10,6 +10,8 @@ import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
 import GalleryRouteTile from "../gallery/GalleryRouteTile";
 
+import "./styles.scss";
+
 const Favourites: FC = () => {
     const { favouritesData, favouritesLoading } = useAppSelector(
         state => state.votes.favourites
@@ -32,7 +34,11 @@ const Favourites: FC = () => {
             <SectionWrapper>
                 <SectionTop />
 
-                <GalleryGrid loading={favouritesLoading} tiles={tiles} />
+                <GalleryGrid
+                    loading={favouritesLoading}
+                    tiles={tiles}
+                    className="favourites__gallery-grid"
+                />
             </SectionWrapper>
         </ContentWrapper>
     );

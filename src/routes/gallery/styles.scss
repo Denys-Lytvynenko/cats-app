@@ -45,6 +45,16 @@
         }
     }
 
+    &__gallery-grid {
+        height: calc(100vh - 405px);
+        @include tablet {
+            height: calc(100vh - 698px);
+        }
+        @include phone {
+            height: auto;
+        }
+    }
+
     &-route__tile {
         .tile-overlay__background {
             @include flexCenter;

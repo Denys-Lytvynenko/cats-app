@@ -1,5 +1,7 @@
 import { FC, useEffect, useState } from "react";
 
+import { useAppDispatch } from "@store/hooks";
+import { setMenuOpen } from "@store/slices/mobileSlice";
 import { cn } from "@utils/classNames";
 
 import Button from "../Button";
@@ -12,23 +14,16 @@ import "./styles.scss";
 
 const MobileMenu: FC = () => {
     const [menuOpened, setMenuOpened] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
 
     const onClick = () => {
         setMenuOpened(prev => !prev);
-
-        if (menuOpened) {
-            document.body.classList.add("scroll");
-            document.body.classList.remove("no-scroll");
-        } else {
-            document.body.classList.remove("scroll");
-            document.body.classList.add("no-scroll");
-        }
+        dispatch(setMenuOpen(!menuOpened));
     };
 
     useEffect(() => {
         return () => {
-            document.body.classList.add("scroll");
-            document.body.classList.remove("no-scroll");
+            dispatch(setMenuOpen(menuOpened));
         };
     }, []);
 
