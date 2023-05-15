@@ -114,7 +114,12 @@
     }
 
     &__submit-button.button {
-        background-color: $hoverColor;
+        background-color: $accentColor;
+        color: $white;
+        &:hover {
+            background-color: $hoverColor;
+            color: $accentColor;
+        }
 
         svg {
             width: 16px;
@@ -122,7 +127,8 @@
             margin: 0;
         }
 
-        &.loading {
+        &.loading,
+        &:active {
             color: $white;
             background-color: $accentColor;
         }
