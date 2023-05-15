@@ -1,5 +1,6 @@
 import {
     FC,
+    TouchEvent,
     useEffect,
     useLayoutEffect,
     useMemo,
@@ -21,21 +22,23 @@ const Slider: FC<SliderProps> = ({ images }) => {
     const slidesContainerRef = useRef<HTMLDivElement>(null);
 
     const [slideWidth, setSlideWidth] = useState<number | undefined>(0);
-    const [sliderHeight, setSliderHeight] = useState<number>(0);
     const [sliderContainerWidth, setSliderContainerWidth] = useState<number>(0);
     const [currentSlide, setCurrentSlide] = useState<number>(0);
 
     // Set slider size
     const sizeHandler = () => {
         setSlideWidth(sliderRef.current?.offsetWidth);
-        setSliderHeight(slideWidth ? slideWidth / 1.7777 : 0);
-        setSliderContainerWidth(slidesContainerRef.current?.offsetWidth!);
+        setSliderContainerWidth(
+            slidesContainerRef.current?.offsetWidth
+                ? slidesContainerRef.current?.offsetWidth
+                : 0
+        );
     };
 
     useLayoutEffect(() => {
         sizeHandler();
         return () => sizeHandler();
-    }, [slideWidth, sliderHeight]);
+    }, [slideWidth]);
 
     useEffect(() => {
         addEventListener("resize", sizeHandler);
@@ -43,19 +46,24 @@ const Slider: FC<SliderProps> = ({ images }) => {
         return () => removeEventListener("resize", sizeHandler);
     }, []);
 
+    // Create slides
     const slides = useMemo(() => {
         return images.map((img, index) => (
             <Image
                 src={img}
                 key={index}
                 className="slider__slide"
-                style={{ width: slideWidth, height: sliderHeight }}
+                style={{
+                    width: slideWidth,
+                    height: `calc(${slideWidth}px / 1.7777)`,
+                }}
             />
         ));
-    }, [images, slideWidth, sliderHeight]);
+    }, [images, slideWidth]);
 
+    // Change slides on click on control and prev/next buttons
     const controls = useMemo(() => {
-        return images.map((img, index) => (
+        return images.map((_, index) => (
             <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
@@ -79,13 +87,41 @@ const Slider: FC<SliderProps> = ({ images }) => {
     const goPrev = () => !ifFirstSlide && setCurrentSlide(prev => prev - 1);
     const goNext = () => !isLastSlide && setCurrentSlide(prev => prev + 1);
 
+    // Change slides on swipe
+    const [touchStart, setTouchStart] = useState<number | null>(null);
+    const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+    const minSwipeDistance = useRef(100);
+
+    const onTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+        setTouchEnd(null);
+        setTouchStart(event.targetTouches[0].clientX);
+    };
+
+    const onTouchMove = (event: TouchEvent<HTMLDivElement>) =>
+        setTouchEnd(event.targetTouches[0].clientX);
+
+    const onTouchEnd = () => {
+        if (!touchStart || !touchEnd) return;
+        const swipeDistance = touchStart - touchEnd;
+        console.log("min", minSwipeDistance);
+        console.log("dis", swipeDistance);
+
+        if (swipeDistance > minSwipeDistance.current) {
+            goNext();
+        } else if (swipeDistance < -minSwipeDistance.current) {
+            goPrev();
+        }
+    };
+
     return (
-        <div
-            className="slider"
-            ref={sliderRef}
-            style={{ height: sliderHeight }}
-        >
-            <div className="slider__wrapper">
+        <div className="slider" ref={sliderRef}>
+            <div
+                className="slider__wrapper"
+                style={{
+                    height: `calc(${slideWidth}px / 1.7777)`,
+                }}
+            >
                 {!ifFirstSlide && (
                     <button
                         className="slider__navigation-button prev"
@@ -100,6 +136,9 @@ const Slider: FC<SliderProps> = ({ images }) => {
                     className="slider__slides-container"
                     ref={slidesContainerRef}
                     style={{ left }}
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
                 >
                     {slides}
                 </div>
