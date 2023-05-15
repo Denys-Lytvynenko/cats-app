@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 
-import { useAppDispatch } from "@store/hooks";
-import { setMenuOpen } from "@store/slices/mobileSlice";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { setLockScroll } from "@store/slices/mobileSlice";
 import { cn } from "@utils/classNames";
 
 import Button from "../Button";
@@ -18,14 +18,16 @@ const MobileMenu: FC = () => {
 
     const onClick = () => {
         setMenuOpened(prev => !prev);
-        dispatch(setMenuOpen(!menuOpened));
+        dispatch(setLockScroll(!menuOpened));
     };
 
     useEffect(() => {
         return () => {
-            dispatch(setMenuOpen(menuOpened));
+            if (menuOpened) {
+                dispatch(setLockScroll(!menuOpened));
+            }
         };
-    }, []);
+    }, [menuOpened]);
 
     return (
         <div className="mobile-menu">

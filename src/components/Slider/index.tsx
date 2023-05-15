@@ -104,8 +104,6 @@ const Slider: FC<SliderProps> = ({ images }) => {
     const onTouchEnd = () => {
         if (!touchStart || !touchEnd) return;
         const swipeDistance = touchStart - touchEnd;
-        console.log("min", minSwipeDistance);
-        console.log("dis", swipeDistance);
 
         if (swipeDistance > minSwipeDistance.current) {
             goNext();

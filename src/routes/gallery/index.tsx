@@ -5,7 +5,7 @@ import { useTiles } from "@hooks/useTiles";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { fetchBreedsOptions } from "@store/slices/breedsSlice";
 import { fetchGalleryImages } from "@store/slices/gallerySlice";
-import { setMenuOpen } from "@store/slices/mobileSlice";
+import { setLockScroll } from "@store/slices/mobileSlice";
 
 import Button from "@components/Button";
 import ContentWrapper from "@components/ContentWrapper";
@@ -71,7 +71,7 @@ const Gallery: FC = () => {
     const [isOpenUploadModal, setIsOpenUploadModal] = useState<boolean>(false);
     const toggleModal = () => {
         setIsOpenUploadModal(prev => !prev);
-        dispatch(setMenuOpen(!isOpenUploadModal));
+        dispatch(setLockScroll(!isOpenUploadModal));
     };
 
     useEffect(() => {

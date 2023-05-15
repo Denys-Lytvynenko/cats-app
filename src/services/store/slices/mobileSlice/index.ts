@@ -4,14 +4,12 @@ type InitialState = {
     isMobile: boolean;
     screenSize: number;
     isTablet: boolean;
-    isMenuOpened: boolean;
 };
 
 const initialState: InitialState = {
     isMobile: false,
     screenSize: 0,
     isTablet: false,
-    isMenuOpened: false,
 };
 
 const mobileSlice = createSlice({
@@ -29,11 +27,16 @@ const mobileSlice = createSlice({
                 state.isTablet = false;
             }
         },
-        setMenuOpen: (state, action) => {
-            state.isMenuOpened = action.payload;
+        setLockScroll: (state, action) => {
+            if (action.payload) {
+                document.body.style.overflow = "hidden";
+            } else {
+                document.body.style.overflow = "auto";
+            }
         },
     },
 });
 
-export const { setIsMobile, setScreenSize, setMenuOpen } = mobileSlice.actions;
+export const { setIsMobile, setScreenSize, setLockScroll } =
+    mobileSlice.actions;
 export default mobileSlice.reducer;
