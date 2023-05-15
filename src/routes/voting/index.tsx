@@ -20,6 +20,7 @@ import VotingButtonsGroup from "./VotingButtonsGroup";
 import VotingMessage from "./VotingMessage";
 
 import "./styles.scss";
+import ItemNotFound from "../../components/ItemNotFound";
 
 const Voting: FC = () => {
     const isTablet = useAppSelector(state => state.mobile.isTablet);
@@ -61,6 +62,25 @@ const Voting: FC = () => {
         }
     };
 
+    // useEffect(() => {
+    //     async function deleteBreeds() {
+    //         const votes = await VotingController.getInstance().getVotes();
+
+    //         votes.forEach(breed => {
+    //             fetch(`https://api.thecatapi.com/v1/votes/${breed.id}`, {
+    //                 headers: {
+    //                     Accept: "application/json",
+    //                     "Content-Type": "application/json",
+    //                     "Access-Control-Allow-Headers": "Accept, Content-Type",
+    //                     "x-api-key": import.meta.env.VITE_API_KEY,
+    //                 },
+    //                 method: "DELETE",
+    //             });
+    //         });
+    //     }
+
+    //     deleteBreeds();
+    // }, []);
     return (
         <ContentWrapper>
             <SectionWrapper>
@@ -89,7 +109,7 @@ const Voting: FC = () => {
                 >
                     {messagesLoading ? (
                         <Loader />
-                    ) : (
+                    ) : messages?.length ? (
                         messages?.map(({ id, created_at, image_id, value }) => (
                             <VotingMessage
                                 key={id}
@@ -104,6 +124,8 @@ const Voting: FC = () => {
                                 }
                             />
                         ))
+                    ) : (
+                        <ItemNotFound />
                     )}
                 </div>
             </SectionWrapper>
