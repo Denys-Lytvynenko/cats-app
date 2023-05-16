@@ -46,7 +46,7 @@
     }
 
     &__gallery-grid {
-        height: calc(100vh - 405px);
+        height: calc(100vh - 406px);
         @include tablet {
             height: calc(100vh - 698px);
         }

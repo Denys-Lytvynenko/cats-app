@@ -13,6 +13,7 @@ import {
 
 import ContentWrapper from "@components/ContentWrapper";
 import Image from "@components/Image";
+import ItemNotFound from "@components/ItemNotFound";
 import Loader from "@components/Loader";
 import SectionTop from "@components/SectionTop";
 import SectionWrapper from "@components/SectionWrapper";
@@ -20,7 +21,6 @@ import VotingButtonsGroup from "./VotingButtonsGroup";
 import VotingMessage from "./VotingMessage";
 
 import "./styles.scss";
-import ItemNotFound from "../../components/ItemNotFound";
 
 const Voting: FC = () => {
     const isTablet = useAppSelector(state => state.mobile.isTablet);

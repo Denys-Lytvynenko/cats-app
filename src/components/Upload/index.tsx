@@ -157,6 +157,15 @@ const Upload: FC<UploadProps> = () => {
         }
     };
 
+    useEffect(() => {
+        if (document.body.style.overflow === "auto") {
+            uploadFormRef.current?.reset();
+            setFile(undefined);
+            setImagePreview("");
+            setMessage({});
+        }
+    }, [document.body.style.overflow]);
+
     return (
         <div className="file-upload-form__wrapper">
             <form

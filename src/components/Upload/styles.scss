@@ -160,6 +160,16 @@
                 }
             }
 
+            &.active {
+                background-color: $hoverColorTransparent;
+                border-color: $accentColor;
+                svg {
+                    path {
+                        fill: $accentColor;
+                    }
+                }
+            }
+
             p {
                 text-shadow: none;
             }

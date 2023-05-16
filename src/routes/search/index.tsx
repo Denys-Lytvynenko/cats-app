@@ -45,7 +45,11 @@ const Search: FC = () => {
                     </Typography>
                 </div>
 
-                <GalleryGrid loading={searchLoading} tiles={tiles} />
+                <GalleryGrid
+                    loading={searchLoading}
+                    tiles={tiles}
+                    className="search__gallery-grid"
+                />
             </SectionWrapper>
         </ContentWrapper>
     );

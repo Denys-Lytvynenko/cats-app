@@ -9,4 +9,11 @@
     &__keyword {
         font-weight: 600;
     }
+
+    &__gallery-grid {
+        height: calc(100vh - 280px);
+        @include tablet {
+            height: calc(100vh - 330px);
+        }
+    }
 }

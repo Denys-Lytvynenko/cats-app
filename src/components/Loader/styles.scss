@@ -4,5 +4,7 @@
     @include flexCenter;
     height: 100%;
     width: 100%;
-    padding: 50px;
+    @include phone {
+        padding: 50px;
+    }
 }
