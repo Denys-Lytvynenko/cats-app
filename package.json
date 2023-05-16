@@ -9,7 +9,7 @@
         "preview": "vite preview",
         "test": "vitest --run --reporter verbose",
         "predeploy": "tsc && vite build",
-        "deploy": "gh-pages -d build"
+        "deploy": "gh-pages -d dist"
     },
     "dependencies": {
         "@reduxjs/toolkit": "^1.9.3",
