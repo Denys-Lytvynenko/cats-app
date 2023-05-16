@@ -7,7 +7,9 @@
         "dev": "vite --host",
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "test": "vitest --run --reporter verbose"
+        "test": "vitest --run --reporter verbose",
+        "predeploy": "tsc && vite build",
+        "deploy": "gh-pages -d build"
     },
     "dependencies": {
         "@reduxjs/toolkit": "^1.9.3",
@@ -23,6 +25,7 @@
         "@types/react-dom": "^18.0.8",
         "@types/react-redux": "^7.1.25",
         "@vitejs/plugin-react": "^2.2.0",
+        "gh-pages": "^5.0.0",
         "sass": "^1.58.3",
         "typescript": "^4.6.4",
         "vite": "^3.2.3",
