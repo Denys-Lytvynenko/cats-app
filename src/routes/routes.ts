@@ -1,4 +1,4 @@
-const { name: root } = await import("../../package.json");
+const root = import("../../package.json").then(({ name }) => name);
 
 export const routes = {
     root: `/${root}`,
