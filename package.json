@@ -31,5 +31,5 @@
         "vite": "^3.2.3",
         "vitest": "^0.29.1"
     },
-    "homepage": "http://{github-username}.github.io/{repo-name}"
+    "homepage": "http://denys-lytvynenko.github.io/cats-app"
 }
