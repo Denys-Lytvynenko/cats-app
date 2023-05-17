@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 
 import { routes } from "@routes/routes";
 import store from "./services/store";
@@ -22,9 +22,9 @@ import "./index.scss";
 
 const rootElement = document.getElementById("root") as HTMLElement;
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
-        path: routes.root,
+        path: routes.home,
         element: <Root />,
         errorElement: <ErrorPage />,
         children: [

@@ -28,5 +28,5 @@
         "vite": "^3.2.3",
         "vitest": "^0.29.1"
     },
-    "homepage": "https://denys-lytvynenko.github.io/cats-app"
+    "homepage": "https://denys-lytvynenko.github.io/cats-app/#"
 }
