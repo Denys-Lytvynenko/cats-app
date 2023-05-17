@@ -1,4 +1,5 @@
 export const routes = {
+    root: "/",
     home: "/cats-app",
     voting: "/voting",
     breeds: "/breeds",

@@ -24,7 +24,7 @@ const rootElement = document.getElementById("root") as HTMLElement;
 
 const router = createBrowserRouter([
     {
-        path: routes.home,
+        path: routes.root,
         element: <Root />,
         errorElement: <ErrorPage />,
         children: [
